@@ -1,0 +1,63 @@
+{
+    "type": "object",
+    "title": "Safety Requirements Review",
+    "required": [],
+    "properties": {
+        "notes": {
+            "type": "string",
+            "title": "Note"
+        },
+        "safety_q1": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "1. Programmatic Record of Environmental Compliance (REC) available?"
+        },
+        "safety_q2": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "2. Involves Army-provided infectious agents?"
+        },
+        "safety_q3": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "3. Involves Biological Select Agents or Toxins (BSAT)?"
+        },
+        "safety_q4": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "4. Involves specific chemical agents?"
+        },
+        "safety_q5": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "5. Involves pesticides outside of established lab?"
+        },
+        "safety_q6": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "6. Potential likelihood of significant negative effects on public health, safety, or environment?"
+        },
+        "programmatic_rec": {
+            "type": "string",
+            "title": "Selected Programmatic REC"
+        }
+    }
+}

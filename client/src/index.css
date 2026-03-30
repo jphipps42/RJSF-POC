@@ -1,0 +1,23 @@
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f4f8fc;
+  color: #0a2540;
+}
+
+#root {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  text-align: left;
+}
+
+/* Override RJSF form styles to better match POC */
+.MuiFormControl-root {
+  margin-bottom: 8px !important;
+}
+
+/* Radio button inline layout */
+.MuiFormGroup-root {
+  flex-direction: row !important;
+}

@@ -1,0 +1,2199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pre-Award / Negotiations Review</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<div id="authUI" style="display: none;">
+  <div style="max-width: 400px; margin: 100px auto; padding: 30px; background: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+    <h2 style="margin-bottom: 20px; text-align: center;">EGS Prototype</h2>
+    <div id="authTabs" style="display: flex; margin-bottom: 20px; border-bottom: 2px solid #e0e0e0;">
+      <button id="loginTab" class="auth-tab active" style="flex: 1; padding: 10px; border: none; background: none; cursor: pointer; font-weight: bold; border-bottom: 2px solid #007bff; margin-bottom: -2px;">Login</button>
+      <button id="signupTab" class="auth-tab" style="flex: 1; padding: 10px; border: none; background: none; cursor: pointer;">Sign Up</button>
+    </div>
+    <div id="loginForm">
+      <input type="email" id="loginEmail" placeholder="Email" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+      <input type="password" id="loginPassword" placeholder="Password" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+      <button id="loginBtn" style="width: 100%; padding: 10px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Login</button>
+      <div id="loginError" style="color: red; margin-top: 10px; display: none;"></div>
+    </div>
+    <div id="signupForm" style="display: none;">
+      <input type="email" id="signupEmail" placeholder="Email" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+      <input type="password" id="signupPassword" placeholder="Password (min 6 characters)" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+      <input type="password" id="signupPasswordConfirm" placeholder="Confirm Password" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+      <button id="signupBtn" style="width: 100%; padding: 10px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Sign Up</button>
+      <div id="signupError" style="color: red; margin-top: 10px; display: none;"></div>
+      <div id="signupSuccess" style="color: green; margin-top: 10px; display: none;">Account created! Please login.</div>
+    </div>
+  </div>
+</div>
+
+<div id="appContent" style="display: none;">
+<header class="global-header">
+  <img src="public/egs-banner.png" alt="EGS Platform" class="header-banner" />
+  <div style="position: absolute; top: 10px; right: 20px; display: flex; align-items: center; gap: 15px;">
+    <span id="userEmail" style="color: #666; font-size: 14px;"></span>
+    <button id="logoutBtn" style="padding: 5px 15px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">Logout</button>
+  </div>
+</header>
+
+<nav class="top-nav">
+  <ul>
+    <li>Summary</li>
+    <li>Details</li>
+    <li>Tools</li>
+    <li>Research Classifications</li>
+    <li class="active">PreAward Review</li>
+    <li>Agreement Details</li>
+    <li>Regulatory Details</li>
+    <li>Deliverables and Progress Reports</li>
+    <li>Closeout</li>
+    <li>Document Management</li>
+  </ul>
+</nav>
+
+<section class="page-context">
+  <div>
+    <div class="breadcrumb">Award Management → Negotiation</div>
+
+  </div>
+  <button class="link-action">Return to Search</button>
+</section>
+
+
+<section class="status-bar">
+  <div class="status-indicator">
+    <span class="status-label" style="background-color: #FFD700; padding: 3px; border-radius: 0px;">Under Negotiation/Pre-Award Review</span>
+  </div>
+  <div class="quick-search">
+    <label for="quick-search-input" class="quick-search-label">Quick Search</label>
+    <input type="text" id="quick-search-input" placeholder="Enter Log Number or Award" class="quick-search-input">
+    <button class="quick-search-button">🔍</button>
+  </div>
+</section>
+
+<style>
+  .status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px;
+    background-color: #f9f9f9;
+    border: 0px solid #ddd;
+    margin-top: 10px;
+  }
+
+  .status-indicator {
+    display: flex;
+    align-items: center;
+  }
+
+  .status-label {
+    font-weight: bold;
+    color: #000;
+  }
+
+  .quick-search {
+    display: flex;
+    align-items: center;
+  }
+
+  .quick-search-label {
+    margin-right: 10px;
+    font-weight: bold;
+  }
+
+  .quick-search-input {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-right: 5px;
+  }
+
+  .quick-search-button {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+
+  .quick-search-button:hover {
+    background-color: #0056b3;
+  }
+</style>
+
+
+
+<!-- SUMMARY STRIP -->
+<section class="page-summary">
+  <div class="summary-container">
+    <div class="summary-left">
+      <div class="summary-item">
+        <span class="label">Log Number:</span>
+        <span class="value">TE020005</span>
+      </div>
+      <div class="summary-item">
+        <span class="label">Award Number:</span>
+        <span class="value">12369</span>
+      </div>
+      <div class="summary-item">
+        <span class="label">Award Mechanism:</span>
+        <span class="value">Investigator-Initiated Research with Optional Nested Post-doctoral Traineeship(s)</span>
+      </div>
+      <div class="summary-item">
+        <span class="label">Funding Opportunity:</span>
+        <span class="value"></span>
+      </div>
+    </div>
+
+    <div class="summary-center">
+      <div class="summary-item">
+        <span class="label">Principal Investigator:</span>
+        <span class="value"><a href="#">Bill Jones</a></span>
+      </div>
+      <div class="summary-item">
+        <span class="label">Performing Organization:</span>
+        <span class="value">Activ Surgical Robotics (Omniboros)</span>
+      </div>
+      <div class="summary-item">
+        <span class="label">Contracting Organization:</span>
+        <span class="value">10493279 CANADA INC</span>
+      </div>
+      <div class="summary-item">
+        <span class="label">Period of Performance:</span>
+        <span class="value">9/1/2015 to 8/31/2018</span>
+      </div>
+      <div class="summary-item">
+        <span class="label">Award Amount:</span>
+        <span class="value">$500,001.00</span>
+      </div>
+    </div>
+
+    <div class="summary-right">
+      <div class="summary-item">
+        <span class="label">Program Office:</span>
+        <span class="value">Congressionally Directed Medical Research Programs</span>
+      </div>
+      <div class="summary-item">
+        <span class="label">Program:</span>
+        <span class="value">Test Data Program</span>
+      </div>
+      <div class="summary-item">
+        <span class="label">Science Officer:</span>
+        <span class="value">Pending Assignment</span>
+      </div>
+      <div class="summary-item">
+        <span class="label">GOR/COR:</span>
+        <span class="value">Naba Bora</span>
+      </div>
+    </div>
+  </div>
+</section>
+<main class="main-content">
+
+<!-- ================= LEFT PANEL ================= -->
+<div class="left-panel">
+<div class="left-panel-content">
+
+<!-- NEW TOP SECTION -->
+<div class="left-panel-section">
+  
+  <h3 class="left-panel-section-header">
+    Overview
+  </h3>
+
+  <div class="left-panel-section-body">
+    <div class="info-row">
+      <span class="label">PI Budget:</span>
+      <span class="value">$1,448,199.00</span>
+    </div>
+    <div class="info-row">
+      <span class="label">Final Recommended Budget:</span>
+      <span class="value">$1,448,199.00</span>
+    </div>
+    <hr class="divider" /> <!-- Divider line added here -->
+    <div class="info-row">
+      <span class="label">Program Manager:</span>
+      <span class="value">Naba Bora</span>
+    </div>
+
+    <div class="info-row">
+      <span class="label">Contract/Grants Specialist:</span>
+      <span class="value">Pending Assignment</span>
+    </div>
+    <div class="info-row">
+      <span class="label">Branch Chief:</span>
+      <span class="value">Pending Assignment</span>
+    </div>
+<hr class="divider" /> <!-- Divider line added here -->
+
+
+    <div class="info-row">
+      <span class="label">PI Notification Date:</span>
+      <span class="value"></span>
+    </div>
+    <div class="info-row">
+      <span class="label">Safety Checklist Submitted:</span>
+      <span class="value">04/04/2024</span>
+    </div>
+    <div class="info-row">
+      <span class="label">Animal Research Checklist Submitted:</span>
+      <span class="value"></span>
+    </div>
+    <div class="info-row">
+      <span class="label">Human Research Checklist Submitted:</span>
+      <span class="value"></span>
+    </div>
+    <div class="info-row">
+      <span class="label">Acquisition Checklist Submitted to Finance:</span>
+      <span class="value"></span>
+    </div>
+
+<hr class="divider" /> <!-- Divider line added here -->
+
+<div class="info-row">
+  <span class="label">Prime Award (Intra/Extra):</span>
+  <span class="value">
+    <select id="primeAwardSelect" style="width: auto;">
+      <option value="extramural">Extramural Only</option>
+      <option value="intramural">Intragovernmental Only</option>
+      <option value="extramural_intramural">Extramural w/Intragovernmental Component</option>
+      <option value="intramural_extramural">Intragovernmental w/Extramural Component</option>
+    </select>
+  </span>
+</div>
+
+<!-- New Section: Project Personnel Table -->
+<div class="project-personnel">
+  <span class="label">Project Personnel</span>
+  <table style="width: 100%; border-collapse: collapse; border-radius: 10px; overflow: hidden;">
+    <thead style="background-color: #c8ddf3;">
+      <tr>
+        <th style="border: 1px solid #93c5fd; padding: 10px;">Organization</th>
+        <th style="border: 1px solid #93c5fd; padding: 10px;">Country</th>
+        <th style="border: 1px solid #93c5fd; padding: 10px;">Project Role</th>
+        <th style="border: 1px solid #93c5fd; padding: 10px;">Name</th>
+        <th style="border: 1px solid #93c5fd; padding: 10px;">Subcontract</th>
+        <th style="border: 1px solid #93c5fd; padding: 10px;">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="border: 1px solid #93c5fd; padding: 10px;">Johns Hopkins University</td>
+        <td style="border: 1px solid #93c5fd; padding: 10px;">USA</td>
+        <td style="border: 1px solid #93c5fd; padding: 10px;">PI/PD</td>
+        <td style="border: 1px solid #93c5fd; padding: 10px;">John Smith</td>
+        <td style="border: 1px solid #93c5fd; padding: 10px; text-align: center;">
+          <input type="checkbox" name="subcontract_1">
+        </td>
+        <td style="border: 1px solid #93c5fd; padding: 10px; text-align: center;">
+          <button type="button" class="secondary-btn" style="padding: 5px 10px; font-size: 14px;">Edit</button>
+          <button type="button" class="secondary-btn create-record-btn" style="padding: 5px 10px; font-size: 14px; margin-left: 5px; display: none;">Create Record</button>
+        </td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #93c5fd; padding: 10px;">Walter Reed Medical</td>
+        <td style="border: 1px solid #93c5fd; padding: 10px;">USA</td>
+        <td style="border: 1px solid #93c5fd; padding: 10px;">Co-Investigator</td>
+        <td style="border: 1px solid #93c5fd; padding: 10px;">Walter White</td>
+        <td style="border: 1px solid #93c5fd; padding: 10px; text-align: center;">
+          <input type="checkbox" name="subcontract_2">
+        </td>
+        <td style="border: 1px solid #93c5fd; padding: 10px; text-align: center;">
+          <button type="button" class="secondary-btn" style="padding: 5px 10px; font-size: 14px;">Edit</button>
+          <button type="button" class="secondary-btn create-record-btn" style="padding: 5px 10px; font-size: 14px; margin-left: 5px; display: none;">Create Record</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="button-row">
+    <button type="button" class="secondary-btn">Add Personnel</button>
+  </div>
+</div>
+  </div>
+<style>
+  .divider {
+    border: 0;
+    border-top: 1px solid #ddd;
+    margin: 10px 0;
+  }
+</style>
+
+<!-- EXISTING SECTIONS CONTINUE BELOW -->
+<!-- do not move or rename existing sections -->
+
+
+<h3 class="panel-title">Pre-Award / Negotiations Review</h3>
+
+<!-- =================================================
+     SAFETY (UPDATED LAYOUT)
+================================================= -->
+<div class="section"
+id="safetySection"
+data-section="safety">
+
+  <div class="section-header">
+    <span class="section-title">A. Safety Requirements Review</span>
+  
+  <div class="section-status-wrap">
+    <span class="section-date hidden"></span>
+    <span class="section-status status-not-started">Not Started</span>
+  </div> <!-- END section-status-wrap -->
+ </div> <!-- END section-header -->
+<div class="section-body">
+
+<!-- Q1 -->
+<div class="question">
+  <div class="decision-row">
+    <p><strong>1.</strong> Programmatic Record of Environmental Compliance (REC) available?</p>
+    <div class="decision-actions">
+      <label><input type="radio" name="safety_q1" value="yes"> Yes</label>
+      <label><input type="radio" name="safety_q1" value="no"> No</label>
+    </div>
+  </div>
+
+  <div class="question-actions">
+    <button
+      type="button"
+      id="openProgrammaticRecBtn"
+      class="secondary-btn">
+      Programmatic REC
+    </button>
+    <text> Validation: if Yes ensure REC is selected and if REC is selected, ensure answer is not no</text>
+  </div>
+</div>
+
+
+    <!-- Q2 -->
+    <div class="question">
+      <div class="decision-row">
+        <p><strong>2.</strong> Involves Army-provided infectious agents?</p>
+        <div class="decision-actions">
+          <label><input type="radio" name="safety_q2" value="yes"> Yes</label>
+          <label><input type="radio" name="safety_q2" value="no"> No</label>
+        </div>
+      </div>
+    </div>
+
+<!-- Q3 -->
+<div class="question">
+  <div class="decision-row">
+    <p><strong>3.</strong> Involves Biological Select Agents or Toxins (BSAT)?</p>
+    <div class="decision-actions">
+      <label><input type="radio" name="safety_q3" value="yes"> Yes</label>
+      <label><input type="radio" name="safety_q3" value="no"> No</label>
+    </div>
+  </div>
+
+  <div class="question-actions">
+    <button
+      type="button"
+      id="openBsatBtn"
+      class="secondary-btn">
+      BSAT Reference
+    </button>
+  </div>
+</div>
+
+
+<!-- Q4 -->
+<div class="question">
+  <div class="decision-row">
+    <p><strong>4.</strong> Involves specific chemical agents?</p>
+    <div class="decision-actions">
+      <label><input type="radio" name="safety_q4" value="yes"> Yes</label>
+      <label><input type="radio" name="safety_q4" value="no"> No</label>
+    </div>
+  </div>
+
+  <div class="question-actions">
+    <button
+      type="button"
+      id="openChemicalAgentsBtn"
+      class="secondary-btn">
+      Chemical Agents
+    </button>
+  </div>
+</div>
+
+
+    <!-- Q5 -->
+    <div class="question">
+      <div class="decision-row">
+        <p><strong>5.</strong> Involves pesticides outside of established lab?</p>
+        <div class="decision-actions">
+          <label><input type="radio" name="safety_q5" value="yes"> Yes</label>
+          <label><input type="radio" name="safety_q5" value="no"> No</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="question">
+      <div class="decision-row">
+        <p><strong>6.</strong> Potential likelihood of significant negative effects on public health, safety, or environment?</p>
+        <div class="decision-actions">
+          <label><input type="radio" name="safety_q6" value="yes"> Yes</label>
+          <label><input type="radio" name="safety_q6" value="no"> No</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="comments">
+      <label>Note</label>
+      <textarea></textarea>
+    </div>
+
+    <div class="actions">
+      <button
+        type="button"
+        class="save-btn"
+        id="saveSafety">
+        Save Draft
+      </button>
+    
+      <button
+        type="button"
+        class="submit-btn"
+        id="submitSafety"
+        disabled>
+        Submit to Safety Office
+      </button>
+    </div>
+    
+
+  </div>
+</div>
+
+<!-- =================================================
+     ANIMAL REVIEW (MODIFIED)
+================================================= -->
+<div class="section" 
+id="animalSection"
+data-section="animal">
+  <div class="section-header">
+    <span class="section-title">B. Animal Research Review Requirements</span>
+     <div class="section-status-wrap">
+      <span class="section-date hidden"></span>
+    <span class="section-status status-not-started">Not Started</span>
+  </div>
+</div>
+
+  <div class="section-body">
+
+<!-- Q1 -->
+<div class="question">
+  <div class="decision-row">
+    <p><strong>1.</strong> Animals used?</p>
+    <div class="decision-actions">
+      <label><input type="radio" name="animal_q1" value="yes" onclick="toggleQuestions(true)"> Yes</label>
+      <label><input type="radio" name="animal_q1" value="no" onclick="toggleQuestions(false)"> No</label>
+    </div>
+  </div>
+  <!-- Button to open the modal -->
+  <div class="question-actions">
+    <button type="button" class="secondary-btn" onclick="openModal('animalSpeciesModal')">
+      Select Animal Species
+    </button>
+  </div>
+</div>
+
+    <!-- Q2 -->
+    <div class="question">
+      <div class="decision-row">
+        <p><strong>2.</strong> Will any DOD-funded animal studies be performed at a site outside the US?</p>
+        <div class="decision-actions">
+          <label><input type="radio" name="animal_q2" value="yes" disabled> Yes</label>
+          <label><input type="radio" name="animal_q2" value="no" disabled> No</label>
+        </div>
+</div>
+            <ul class="info-list">
+        <li><span class="exception"></span>If yes, please provide details in note below</li>
+      </ul>
+
+    </div>
+    <!-- Q3 -->
+    <div class="question">
+      <div class="decision-row">
+        <p><strong>3.</strong>Will any DOD-funded animal studies be performed at a site in a foreign country of concern (FCOC)?</p>
+        <div class="decision-actions">
+          <label><input type="radio" name="animal_q3" value="yes" disabled> Yes</label>
+          <label><input type="radio" name="animal_q3" value="no" disabled> No</label>
+	  <label><input type="radio" name="animal_q3" value="unknown" disabled> Unknown</label>
+        </div>
+</div>
+            <ul class="info-list">
+        <li><span class="exception"></span>*If yes or unknown, please ensure you provide details to DHACA in the “Other” box of your negotiation notes and alert RISG</li>
+      </ul>
+
+    </div>
+
+
+
+    <!-- Q5 (TEXT INPUT – unchanged) -->
+    <div class="question">
+      <p><strong>5.</strong> Estimated Animal Research Start (if known)</p>
+      <input class="text-input" disabled />
+      <div class="info-note">Example: Animal research will start right away</div>
+    </div>
+
+    <!-- NOTES -->
+    <div class="comments">
+      <label>Notes</label>
+      <textarea disabled placeholder="if Q3 is Yes or unknown, prepopulate with specific text"></textarea>
+    </div>
+
+<!-- ACTIONS -->
+<div class="actions">
+  <button
+    type="button"
+    class="save-btn"
+    id="saveAnimal">
+    Save
+  </button>
+
+  <button
+    type="button"
+    class="submit-btn"
+    id="submitAnimal"
+    disabled>
+    Submit to Animal Research Regulatory Office
+  </button>
+</div>
+
+
+  </div>
+</div>
+
+<script>
+  function toggleQuestions(enable) {
+    const inputs = document.querySelectorAll('[name="animal_q2"], [name="animal_q3"], .text-input, textarea');
+    inputs.forEach(input => {
+      input.disabled = !enable;
+    });
+  }
+</script>
+<!-- =================================================
+     HUMAN REVIEW (UNCHANGED)
+================================================= -->
+<div class="section" 
+id="humanSection"
+data-section="human">
+  <div class="section-header">
+    <span class="section-title">C. Human Research Review Requirements</span>
+    <div class="section-status-wrap">
+      <span class="section-date hidden"></span>
+    <span class="section-status status-not-started">Not Started</span>
+  </div>
+</div>
+
+  <div class="section-body">
+
+<!-- ================= SUBSECTION 1 ================= -->
+<div class="subsection">
+  <div class="subsection-header">
+    <span class="subsection-title">
+      a. Human Research that DOES NOT Require Regulatory Agency Review
+    </span>
+    <span class="subsection-status-indicator status-not-started"></span>
+  </div>
+  <div class="subsection-body">
+  
+  
+<div style="display:flex; align-items:center; gap:20px;">
+  <p style="margin:0;">
+    Does the project involve any of the following?
+  </p>
+
+
+
+  <label style="display:flex; align-items:center; gap:6px;">
+    <input type="checkbox" name="HAS_choice_a" value="no">
+    No - All responses below will be defaulted to NO
+  </label>
+</div>
+    <br><br>
+    <div class="question">
+      <div class="decision-row">
+        <p><strong>1.</strong> Commercially available human cell lines, including cadaveric and HEK293 cells</p>
+        <div class="decision-actions">
+          <label><input type="radio" name="human_s1_q1" value="yes"> Yes</label>
+          <label><input type="radio" name="human_s1_q1" value="no"> No</label>
+        </div>
+      </div>
+      <ul class="info-list">
+        <li><span class="exception">Exception:</span> commercially available human embryonic cell lines other than HEK293 require review and should not be indicated here</li>
+      </ul>
+    </div>
+
+    <div class="question">
+      <div class="decision-row">
+        <p><strong>2.</strong> Commercially available human organoids</p>
+        <div class="decision-actions">
+          <label><input type="radio" name="human_s1_q2" value="yes"> Yes</label>
+          <label><input type="radio" name="human_s1_q2" value="no"> No</label>
+        </div>
+      </div>
+      <ul class="info-list">
+        <li><span class="exception">Exception:</span> commercially available organoids derived from human embryonic or fetal tissues require review and should not be indicated here</li>
+      </ul>
+    </div>
+
+    <div class="question">
+      <div class="decision-row">
+        <p><strong>3.</strong> Commercially available POOLED human products (e.g., serum, plasma, RBCs, urine, CSF, etc. collected from multiple donors and pooled together into one specimen)</p>
+        <div class="decision-actions">
+          <label><input type="radio" name="human_s1_q3" value="yes"> Yes</label>
+          <label><input type="radio" name="human_s1_q3" value="no"> No</label>
+        </div>
+      </div>
+      <ul class="info-list">
+        <li><span class="info-note">Note:</span> Commercially available single donor products require review and should not be indicated here</li>
+      </ul>
+    </div>
+
+    <div class="question">
+      <div class="decision-row">
+        <p><strong>4.</strong> Established, existing patient-derived xenograft (PDX) models</p>
+        <div class="decision-actions">
+          <label><input type="radio" name="human_s1_q4" value="yes"> Yes</label>
+          <label><input type="radio" name="human_s1_q4" value="no"> No</label>
+        </div>
+      </div>
+      <ul class="info-list">
+        <li><span class="info-note">Note:</span> Use of PDX in animals will require Animal Regulatory Agency review</li>
+      </ul>
+    </div>
+
+    <div class="question">
+      <div class="decision-row">
+        <p><strong>5.</strong> Commercial services</p>
+        <div class="decision-actions">
+          <label><input type="radio" name="human_s1_q5" value="yes"> Yes</label>
+          <label><input type="radio" name="human_s1_q5" value="no"> No</label>
+        </div>
+      </div>
+      <ul class="info-list">
+        <li><span class="info-note">Example:</span> When a non-DOD organization receives DOD funds to perform analyses as a commercial service (i.e., fee for service) to another organization</li>
+        <li><span class="info-note">Example:</span> a commercial lab providing routine diagnostic support to a DOD-funded clinical trial</li>
+      </ul>
+    </div>
+
+    <div class="comments">
+      <label>Note</label>
+      <textarea name="human_s1_notes"></textarea>
+    </div>
+
+    <div class="subsection-actions">
+      <button
+        type="button"
+        class="save-btn subsection-save"
+        data-section="human"
+        data-subsection="A">
+        Save Subsection
+      </button>
+    </div>
+  </div>
+</div>
+
+
+    <!-- ================= SUBSECTION 2 ================= -->
+    <div class="subsection">
+      <div class="subsection-header">
+        <span class="subsection-title">b. Human Anatomical Substances</span>
+
+<span class="subsection-status-indicator status-not-started"></span>
+      </div>
+      <div class="subsection-body">
+
+
+<div style="display:flex; align-items:center; gap:20px;">
+  <p style="margin:0;">
+    Does the project involve any of the following?
+  </p>
+
+
+  <label style="display:flex; align-items:center; gap:6px;">
+    <input type="checkbox" name="HAS_choice_a" value="no">
+    No - All responses below will be defaulted to NO
+  </label>
+</div>
+    <br><br>
+
+
+
+
+        
+        <div class="question">
+          <div class="decision-row">
+            <p><strong>1.</strong> Collecting human specimens <u>prospectively for research purposes</u></p>
+            <div class="decision-actions">
+              <label><input type="radio" name="human_has_q1" value="yes"> Yes</label>
+              <label><input type="radio" name="human_has_q1" value="no"> No</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="decision-row">
+            <p><strong>2.</strong> Human cell lines that <u>cannot be purchased from a vendor</u></p>
+            <div class="decision-actions">
+              <label><input type="radio" name="human_has_q2" value="yes"> Yes</label>
+              <label><input type="radio" name="human_has_q2" value="no"> No</label>
+            </div>
+          </div>
+
+      <ul class="info-list">
+        <li><span class="info-note">Note:</span>This includes human cell lines that may be published or otherwise freely available, but are not commercially available</li>
+      </ul>
+        </div>
+
+        <div class="question">
+          <div class="decision-row">
+            <p><strong>3.</strong> Commercially available human anatomical substances (non-pooled)</p>
+            <div class="decision-actions">
+              <label><input type="radio" name="human_has_q3" value="yes"> Yes</label>
+              <label><input type="radio" name="human_has_q3" value="no"> No</label>
+            </div>
+          </div>
+
+      <ul class="info-list">
+        <li><span class="info-note">Example:</span> Tissue samples, PBMCs, primary cells, blood, saliva, etc. from a <u>single donor</u></li>
+
+      </ul>
+
+        </div>
+
+
+        <div class="question">
+          <div class="decision-row">
+            <p><strong>4.</strong> Creation of new patient-derived xenograft (PDX) models from human tissue samples</p>
+            <div class="decision-actions">
+              <label><input type="radio" name="human_has_q4" value="yes"> Yes</label>
+              <label><input type="radio" name="human_has_q4" value="no"> No</label>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="question">
+          <div class="decision-row">
+            <p><strong>5.</strong> Using human specimens obtained through</p>
+            <div class="decision-actions">
+              <label><input type="radio" name="human_has_q5" value="yes"> Yes</label>
+              <label><input type="radio" name="human_has_q5" value="no"> No</label>
+            </div>
+          </div>
+      <ul class="info-list">
+        <li><span class="info-note"></span> - Clinical trials or research studies, including existing publicly available specimen banks</li>
+        <li><span class="info-note"></span> - Collaboration with other investigators or institutions</li>
+        <li><span class="info-note"></span> - Established institutional clinical repositories, biobanks, or tumor banks
+          </li>
+        <li><span class="info-note"></span> - Medical facility clinical departments/services (e.g., excess or discarded surgical materials obtained from clinical laboratories, including pathology, or clinical care areas, such as operating suites)
+          </li>
+      </ul>
+
+
+        </div>
+
+        <div class="question">
+          <div class="decision-row">
+            <p><strong>6.</strong> Cadavers or post-mortem human specimens</p>
+            <div class="decision-actions">
+              <label><input type="radio" name="human_has_q6" value="yes"> Yes</label>
+              <label><input type="radio" name="human_has_q6" value="no"> No</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="decision-row">
+            <p><strong>7.</strong> Unique or regulated sample types, e.g., human embryonic stem cell lines</p>
+            <div class="decision-actions">
+              <label><input type="radio" name="human_has_q7" value="yes"> Yes</label>
+              <label><input type="radio" name="human_has_q7" value="no"> No</label>
+            </div>
+          </div>
+      <ul class="info-list">
+        <li><span class="exception">Exception:</span> Use of HEK293 cells does NOT require OHRO review</li>
+      </ul>
+
+
+        </div>
+
+        <div class="comments">
+          <label>Note</label>
+          <textarea placeholder="Validation: Note required for any Yes Answers"></textarea>
+        </div>
+
+<div class="subsection-actions">
+  <button
+    type="button"
+    class="save-btn subsection-save"
+    data-section="human"
+    data-subsection="A">
+    Save Subsection
+  </button>
+</div>
+
+
+
+
+      </div>
+    </div>
+
+
+<!-- ================= SUBSECTION 3: HUMAN DATA – SECONDARY USE ================= -->
+<div class="subsection">
+  <div class="subsection-header">
+    <span class="subsection-title">c. Human Data – Secondary Use</span>
+
+<span class="subsection-status-indicator status-not-started"></span>
+  </div>
+
+  <div class="subsection-body">
+
+    <div class="question">
+      <div class="decision-row">
+        <p><strong>1.</strong> Does the project involve secondary use of human data?</p>
+        <div class="decision-actions">
+          <label><input type="radio" name="human_ds_q1" value="yes"> Yes</label>
+          <label><input type="radio" name="human_ds_q1" value="no"> No</label>
+        </div>
+      </div>
+
+      <!-- Explanatory text -->
+      <div class="info-note">
+        Examples may include:
+      </div>
+
+      <ul class="info-list">
+        <li>
+          Data obtained from clinical trials or other research studies not performed under this DOD award
+        </li>
+        <li>
+          Established data repositories or publicly available datasets
+        </li>
+        <li>
+          --E.g., The Cancer Genome Atlas (TCGA), ORIEN, published clinical trial results,
+          publicly available sequencing databases, etc.
+        </li>
+        <li>
+          Data obtained from medical records
+        </li>
+      </ul>
+
+    </div>
+
+    <div class="comments">
+      <label>Note</label>
+            <textarea placeholder="Validation: Note required for any Yes Answers"></textarea>
+    </div>
+
+<div class="subsection-actions">
+  <button
+    type="button"
+    class="save-btn subsection-save"
+    data-section="human"
+    data-subsection="A">
+    Save Subsection
+  </button>
+</div>
+
+
+
+  </div>
+</div>
+
+    <!-- ================= SUBSECTION 4 HUMAN SUBJECTS ================= -->
+    <div class="subsection">
+      <div class="subsection-header">
+        <span class="subsection-title">d. Human Subjects</span>
+
+<span class="subsection-status-indicator status-not-started"></span>
+      </div>
+
+ <div class="subsection-body">
+ <p>Does the project involve:</p>
+    <div class="question">
+        <div class="decision-row">
+            <p><strong>1.</strong> Interaction/intervention with human subjects?</p>
+            <div class="decision-actions">
+                <label><input type="radio" name="human_hs_q1" value="yes" onclick="toggleNextQuestion(true)"> Yes</label>
+                <label><input type="radio" name="human_hs_q1" value="no" onclick="toggleNextQuestion(false)"> No</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="question" id="question-2">
+        <div class="decision-row">
+            <p><strong>2.</strong> A Clinical trial? (link)</p>
+            <div class="decision-actions">
+                <label><input type="radio" name="human_hs_q2" value="yes" onclick="toggleNextQuestion(true)""> Yes</label>
+                <label><input type="radio" name="human_hs_q2" value="no" disabled> No</label>
+            </div>
+        </div>
+
+        <div class="decision-row">
+            <p>a. Is it FDA regulated? (disabled if No)</p>
+            <div class="decision-actions">
+                <label><input type="radio" name="ct_fda_q1" value="yes" onclick="toggleNextQuestion(true)"> Yes</label>
+                <label><input type="radio" name="ct_fda_q1" value="no" onclick="toggleNextQuestion(false)"> No</label>
+            </div>
+        </div>
+
+      <div class="decision-row">
+            <p>b. Will any clinical trial sites be located outside the US? (disabled if No)</p>
+            <div class="decision-actions">
+                <label><input type="radio" name="ct_nonus_q1" value="yes" onclick="toggleNextQuestion(true)"> Yes</label>
+                <label><input type="radio" name="ct_nonus_q1" value="no" onclick="toggleNextQuestion(false)"> No</label>
+            </div>
+        </div>
+      <button class="link-file-btn">Clinical Trial Module</button>
+    </div>
+
+
+
+        <div class="comments">
+          <label>Note</label>
+           <textarea placeholder="Validation: Note required for any Yes Answers"></textarea>
+        </div>
+
+<div class="subsection-actions">
+  <button
+    type="button"
+    class="save-btn subsection-save"
+    data-section="human"
+    data-subsection="A">
+    Save Subsection
+  </button>
+</div>
+
+      </div>
+    </div>
+
+    <!-- ================= SUBSECTION 5 ================= -->
+    <div class="subsection">
+      <div class="subsection-header">
+        <span class="subsection-title">e. Other/Special Topics</span>
+
+<span class="subsection-status-indicator status-not-started"></span>
+      </div>
+
+      <div class="subsection-body">
+ <p>Does the project involve</p>
+        <div class="question">
+          <div class="decision-row">
+            <p><strong>1.</strong> Situations requiring additional Human Reserch Regulatory Agency/DOD review and/or additional coordination not listed above, Special Topics may include:</p>
+            <div class="decision-actions">
+              <label><input type="radio" name="human_ost_q1" value="yes"> Yes</label>
+              <label><input type="radio" name="human_ost_q1" value="no"> No</label>
+            </div>
+          </div>
+     <ul class="info-list">
+        <li>
+          Planned emergency research involving Exception from Informed Consent (EFIC)
+        </li>
+        <li>
+          Large scale genomic data from DOD-affiliated personnel
+        </li>
+        <li>Fetal tissue research (not including embryonic cell lines)
+        </li>
+        <li>Sensitive use of human cadavers
+        </li>
+ <li style="color: red;">IF YES PROMPTLY NOTIFY REGULATORY OFFICE DIRECTOR/DEPUTY DIRECTOR AND PLAN FOR ADDITIONAL TIME FOR REVIEW
+        </li>
+       
+      </ul>
+          
+        </div>
+
+        <div class="comments">
+          <label>Note</label>
+               <textarea placeholder="Validation: Note required for any Yes Answers"></textarea>
+        </div>
+
+
+<div class="subsection-actions">
+  <button
+    type="button"
+    class="save-btn subsection-save"
+    data-section="human"
+    data-subsection="A">
+    Save Subsection
+  </button>
+</div>
+
+
+      </div>
+    </div>
+
+<!-- ================= SUBSECTION 6 ================= -->
+<div class="subsection">
+  <div class="subsection-header">
+    <span class="subsection-title">f. Estimated Start</span>
+<span class="subsection-status-indicator status-not-started"></span>
+  </div>
+
+  <div class="subsection-body">
+    <div class="question">
+      <p>
+        <strong>1.</strong> Estimated Human Research Start Date (if known):
+      </p>
+
+      <input
+        type="text"
+        class="text-input"
+      />
+
+      <div class="info-note">
+        (Example: Estimated Start of first Human Research Protocol, Human Subject Research projected in year 2)
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- SECTION ACTIONS (inside Human Review section-body) -->
+<div class="actions">
+  <button
+    type="button"
+    class="save-btn"
+    id="saveHuman">
+    Save
+  </button>
+
+  <button
+    type="button"
+    class="submit-btn"
+    id="submitHuman"
+    disabled>
+    Submit to Human Research Regulatory Agency
+  </button>
+</div>
+
+
+  </div> <!-- end Human Review section-body -->
+</div> <!-- end Human Review section -->
+
+<!-- =================================================
+     ACQUISITION REVIEW (Top-level accordion section)
+     - Subsections A–G as nested accordions
+     - A–D: comment textboxes
+     - E: Y/N/Unclear + comment box (required when Unclear — enforced in JS below)
+     - F: Yes/No + comment box
+     - G: Special Requirements button opens modal with grouped checkbox values
+================================================= -->
+<div class="section" 
+id="acquisitionSection"
+data-section="acquisition" id="acqSection">
+  <div class="section-header">
+    <span class="section-title">D. Acquisition/Contracting Review</span>
+    
+<div class="section-status-wrap">
+    <span class="section-date hidden"></span>
+
+<span class="section-status status-not-started">Not Started</span>
+  </div>
+</div>
+  <div class="section-body">
+
+<!-- ================= 1 ================= -->
+<div class="subsection" data-subsection="acqA">
+  <div class="subsection-header">
+    <span class="subsection-title">1. Budget Review</span>
+    <span class="subsection-status-indicator status-not-started"></span>
+  </div>
+  <div class="subsection-body">
+
+
+    <!-- New Questions Section with Bordered Box -->
+
+      <div class="question">
+        <p><strong>a. Personnel</strong></p>
+        <text>i. Are the type/qualifications of proposed personnel appropriate?</text>
+        <div class="decision-actions">
+            <label><input type="radio" name="persq_q1" value="yes"> Yes</label>
+            <label><input type="radio" name="persq_q1" value="no"> No</label>
+        </div>
+       
+        <text>ii. Is the level of effort of proposed personnel appropriate?</text>
+                <div class="decision-actions">
+            <label><input type="radio" name="pers_q1" value="yes"> Yes</label>
+            <label><input type="radio" name="pers_q1" value="no"> No</label>
+        </div>
+           <div class="comments">
+        <label>Note</label>
+             <textarea placeholder="Validation: Note required for any No Answers"></textarea>
+    </div>
+
+      </div>
+
+ <!-- Start of Final Corrected Equipment Section -->
+<div class="question" id="equipment-section">
+    <p><strong>b. Equipment</strong></p>
+    
+    <!-- Question A: No radio button is checked in the HTML -->
+    <div class="decision-row">
+        <text>i. Are any equipment costs included in the proposed budget? (if No will disable rest of questions)</text>
+        <div class="decision-actions">
+            <label><input type="radio" name="equipt_q1" value="yes"> Yes</label>
+            <label><input type="radio" name="equipt_q1" value="no"> No</label>
+        </div>
+    </div>
+
+    <!-- Questions B-E: Start disabled. Class changed for easier selection. -->
+    <text>ii. Is the equipment necessary to conduct the project?</text>
+                   <div class="decision-actions">
+            <label><input type="radio" name="equ1_q1" value="yes"> Yes</label>
+            <label><input type="radio" name="equ1_q1" value="no"> No</label>
+        </div>
+  
+    <text>iii. In general, does the cost appear to be appropriate?</text>
+                   <div class="decision-actions">
+            <label><input type="radio" name="equ2_q1" value="yes"> Yes</label>
+            <label><input type="radio" name="equ2_q1" value="no"> No</label>
+        </div>
+      
+
+    <!-- Comment Box: Starts disabled. Class changed for easier selection. -->
+    <div class="comments">
+        <label>Note</label>
+            <textarea placeholder="Validation: Note required for any NO Answers to ii or iii"></textarea>
+    </div>
+</div>
+<!-- End of Final Corrected Equipment Section -->
+    
+<div class="question" id="travel">
+        <p><strong>c. Travel</strong></p>
+        <div class="decision-row">
+            <text><strong>i.</strong> Are funds for travel included in the proposed budget?
+            </text>
+            <div class="decision-actions">
+              <label><input type="radio" name="travel_q1" value="yes"> Yes</label>
+              <label><input type="radio" name="travel_q1" value="no"> No</label>
+            </div>
+        </div>
+        <div class="decision-row">
+            <text><strong>ii.</strong> Are the number and type(s) of trip(s), along with personnel traveling appropriate for the project?
+            </text>
+            <div class="decision-actions">
+              <label><input type="radio" name="travel_q2" value="yes"> Yes</label>
+              <label><input type="radio" name="travel_q2" value="no"> No</label>
+            </div>
+        </div>
+     <div class="comments" >
+           <label>Note</label>
+          <textarea placeholder="Validation: Note required for a No Answer to question ii"></textarea>
+</div>
+ 
+<div class="question">
+        <p><strong>d. Materials, Supplies, Consumables</strong></p>
+        <div class="decision-row">
+            <text><strong>i.</strong> Are funds for materials, supplies and consumables included in the proposed budget?
+            </text>
+            <div class="decision-actions">
+              <label><input type="radio" name="mat1_q1" value="yes"> Yes</label>
+              <label><input type="radio" name="mat1_q1" value="no"> No</label>
+            </div>
+        </div>
+
+  
+        <text>ii. Are the types and quantities of proposed items appropriate/necessary to conduct the project?</p>
+            <div class="decision-actions">
+              <label><input type="radio" name="mat2_q1" value="yes"> Yes</label>
+              <label><input type="radio" name="mat2_q1" value="no"> No</label>
+            </div>
+  
+        <text>iii. Do the costs appear to be appropriate?</p>
+            <div class="decision-actions">
+              <label><input type="radio" name="mat3_q1" value="yes"> Yes</label>
+              <label><input type="radio" name="mat3_q1" value="no"> No</label>
+            </div>
+  
+        <div class="comments">
+          <label>Note</label>
+              <textarea placeholder="Validation: Note required for a No Answer to question ii or iii"></textarea>
+        </div>
+</div>
+
+<div class="question">
+        <p><strong>e. Consultant/Collaborator</strong></p>
+
+    <div class="decision-row">
+            <text><strong>i.</strong> Are funds for consultant(s)/colaborator(s) included in the proposed budget?
+            </text>
+            <div class="decision-actions">
+              <label><input type="radio" name="collab1_q1" value="yes"> Yes</label>
+              <label><input type="radio" name="collab1_q1" value="no"> No</label>
+            </div>
+        </div>
+  
+        <text>ii. Is the proposed consultant(s)/collaborator(s) necessary?</text>
+                  <div class="decision-actions">
+              <label><input type="radio" name="collab2_q2" value="yes"> Yes</label>
+              <label><input type="radio" name="collab2_q2" value="no"> No</label>
+            </div>
+
+        <text>iii. Are the duties sufficiently described?</p>
+                    <div class="decision-actions">
+              <label><input type="radio" name="collab3_q3" value="yes"> Yes</label>
+              <label><input type="radio" name="collab3_q3" value="no"> No</label>
+            </div>
+ 
+        <text>iv. Do the costs/fees appear to be appropriate?</text>
+                    <div class="decision-actions">
+              <label><input type="radio" name="collab4_q4" value="yes"> Yes</label>
+              <label><input type="radio" name="collab4_q4" value="no"> No</label>
+            </div>
+        <div class="comments">
+          <label>Note</label>
+               <textarea placeholder="Validation: Note required for a No Answer to question ii, iii and iv"></textarea>
+        </div>
+</div>
+
+<div class="question">
+        <p><strong>f. 3rd Party (Subawards/Consortium/Contractual)</strong></p>
+ 
+           
+      <div class="project-personnel">
+  <span class="label">Subcontracts</span>
+  <table style="width: 100%; border-collapse: collapse; border-radius: 10px; overflow: hidden;">
+    <thead style="background-color: #c8ddf3;">
+      <tr>
+        <th style="border: 1px solid #93c5fd; padding: 10px;">Organization</th>
+        <th style="border: 1px solid #93c5fd; padding: 10px;">Project Role</th>
+        <th style="border: 1px solid #93c5fd; padding: 10px;">Name</th>
+  
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+        <td style="border: 1px solid #93c5fd; padding: 10px;">Walter Reed Medical</td>
+        <td style="border: 1px solid #93c5fd; padding: 10px;">Co-Investigator</td>
+        <td style="border: 1px solid #93c5fd; padding: 10px;">Walter White</td>
+  
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+      <br>
+      <div class="decision-row">  
+      
+      <text>i. Are funds for a 3rd party included in the proposed budget?</text>
+            <div class="decision-actions">
+              <label><input type="radio" name="sub_q1" value="yes"> Yes</label>
+              <label><input type="radio" name="sub_q1" value="no"> No</label>
+            </div>
+       </div>
+        <text>ii. Is the 3rd party providing value added to the project?</text>
+            <div class="decision-actions">
+              <label><input type="radio" name="sub_q2" value="yes"> Yes</label>
+              <label><input type="radio" name="sub_q2" value="no"> No</label>
+            </div>
+        <text>iii. Is the work to be performed by the site sufficiently described?</text>
+          <div class="decision-actions">
+              <label><input type="radio" name="sub_q3" value="yes"> Yes</label>
+              <label><input type="radio" name="sub_q3" value="no"> No</label>
+            </div>
+        <text>iv. Are there any concerns with the associated budget?</text>
+          <div class="decision-actions">
+              <label><input type="radio" name="sub_q4" value="yes"> Yes</label>
+              <label><input type="radio" name="sub_q4" value="no"> No</label>
+            </div>
+        <div class="comments">
+          <label>Note</label>
+                 <textarea placeholder="Validation: Note required for a No Answer to question ii, iii and iv"></textarea>
+        </div>
+</div>
+
+<div class="question">
+        <p><strong>g. Other Direct Costs</strong></p>
+
+    <div class="decision-row">
+            <text><strong>i.</strong> Are funds for Other Direct Costs included in the proposed budget?
+            </text>
+            <div class="decision-actions">
+              <label><input type="radio" name="od1_q1" value="yes"> Yes</label>
+              <label><input type="radio" name="od1_q1" value="no"> No</label>
+            </div>
+        </div>
+
+
+  
+        <text>ii. Are the costs necessary and/or fully justified?</text>
+                  <div class="decision-actions">
+              <label><input type="radio" name="od2_q2" value="yes"> Yes</label>
+              <label><input type="radio" name="od2_q2" value="no"> No</label>
+            </div>
+  
+        <text>iii. Is the breakdown sufficient?</text>
+           <div class="decision-actions">
+              <label><input type="radio" name="od3_q3" value="yes"> Yes</label>
+              <label><input type="radio" name="od3_q3" value="no"> No</label>
+            </div>
+        <div class="comments">
+          <label>Note</label>
+                <textarea placeholder="Validation: Note required for a No Answer to question ii or iii"></textarea>
+        </div>
+</div>
+
+<div class="question">
+    <div class="decision-row">
+            <p><strong>h. Do you have any other budget-related concerns?</strong> 
+            </p>
+            <div class="decision-actions">
+              <label><input type="radio" name="additionalconcerns_q1" value="yes"> Yes</label>
+              <label><input type="radio" name="additionalconcerns_q1" value="no"> No</label>
+            </div>
+        </div>
+        <div class="comments">
+          <label>Note</label>
+          <textarea placeholder="Validation: Note required for a Yes Answer"></textarea>
+        </div>
+ </div>
+
+<div>
+  </div>
+</div>
+    <!-- End of New Questions Section -->
+</div> 
+  
+    <!-- ================= 2 ================= -->
+    <div class="subsection" data-subsection="acqB">
+      <div class="subsection-header">
+        <span class="subsection-title">2. Peer and Programmatic Review Recommendations</span>
+<span class="subsection-status-indicator status-not-started"></span>
+
+      </div>
+      <div class="subsection-body">
+        <div class="question">
+          <p><strong>Note (Required)</strong></p>
+          <textarea name="acq_b_comments" placeholder="Enter peer and programmatic review recommendation comments..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= 3 ================= -->
+    <div class="subsection" data-subsection="acqC">
+      <div class="subsection-header">
+        <span class="subsection-title">3. Statement of Work Related Concerns</span>
+<span class="subsection-status-indicator status-not-started"></span>
+      </div>
+      <div class="subsection-body">
+        <div class="question">
+          <p><strong>Note (Required)</strong></p>
+          <textarea name="acq_c_comments" placeholder="Enter statement of work related concerns..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= 4 ================= -->
+    <div class="subsection" data-subsection="acqD">
+      <div class="subsection-header">
+        <span class="subsection-title">4. Current and Pending Support (CPS)</span>
+
+<span class="subsection-status-indicator status-not-started"></span>
+      </div>
+      <div class="subsection-body">
+
+
+
+        
+        <div class="question">
+    <div class="decision-row">
+            <p><strong>a. Has an updated and certified CPS support documetn been received for all key personnel?</strong> 
+            </p>
+            <div class="decision-actions">
+              <label><input type="radio" name="CPS_q1" value="yes"> Yes</label>
+              <label><input type="radio" name="CPS_q1" value="no"> No</label>
+            </div>
+        </div>
+          
+          <p><strong>Note (Required)</strong></p>
+          <textarea name="acq_d_comments" placeholder="Enter previous/current/pending support comments..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= 5 ================= -->
+    <div class="subsection" data-subsection="acqE">
+      <div class="subsection-header">
+        <span class="subsection-title">5. Inclusion Enrollment Report (IER)</span>
+
+<span class="subsection-status-indicator status-not-started"></span>
+      </div>
+      <div class="subsection-body">
+        <div class="question">
+          <div class="decision-row">
+            <p><strong>a. Is the IER requirement applicable  for this project?</strong></p>
+            <div class="decision-actions">
+              <label><input type="radio" name="acq_e_choice" value="yes"> Yes </label>
+              <label><input type="radio" name="acq_e_choice" value="no"> No</label>
+              <label><input type="radio" name="acq_e_choice" value="unclear"> Unclear</label>
+            </div>
+          </div>
+        
+          <div class="comments">
+            <label>Note (required if Unclear)</label>
+            <textarea name="acq_e_comment" id="acqEComment" placeholder="Enter comment..."></textarea>
+
+          </div>
+         <div class="decision-row stacked">
+            <p><strong>b. Was a Planned IER Report Included with the proposal (disable if a=No)</strong></p>
+            <div class="decision-actions">
+              <label><input type="radio" name="acq_e_choice_b" value="yes"> Yes [if a is unclear-Determination of IER Report adequacy should be made following confirmation of applicability]</label>
+              <label><input type="radio" name="acq_e_choice_c" value="no"> No [if a is unclear-Acquisition of a Planned IER Report may be necessary during award negotiations if the requirement is ultimately deemed applicable]</label>
+              <label><input type="radio" name="acq_e_choice_d" value="yes"> Yes [if a is yes-Nothing further is required]</label>
+              <label><input type="radio" name="acq_e_choice_e" value="yes"> Yes [if a is yes-But, revisions are requried (please speicify required revisions in note)]</label>
+              <label><input type="radio" name="acq_e_choice_f" value="yes"> No [if a is no-A planned IER form should be requested during negotiations]</label>
+            
+            
+            
+            </div>
+         <div class="comments">
+            <label>Note</label>
+            <textarea name="acq_e_comment" id="acqEComment" placeholder="Enter comment..."></textarea>
+
+          </div>
+
+          </div>
+
+
+          
+        </div>
+      </div>
+    </div>
+<!-- ================= 6 ================= -->
+<div class="subsection" data-subsection="acqF">
+  <div class="subsection-header">
+    <span class="subsection-title">6. Data Management Plan</span>
+    <span class="subsection-status-indicator status-not-started"></span>
+  </div>
+  <div class="subsection-body">
+    <div class="question">
+      <div class="decision-row">
+        <p><strong>a. Has an acceptable Data Management Palan been received for this project?</strong></p>
+        <div class="decision-actions">
+          <label><input type="radio" name="acq_f_choice" value="yes"> Yes</label>
+          <label><input type="radio" name="acq_f_choice" value="no"> No</label>
+          </div>
+       </div>
+
+      <button class="link-file-btn">Link Approved DMP File</button>
+      <div class="comments">
+        <label>Note</label>
+        <textarea name="acq_f_comment" id="acqFComment" placeholder="Please request a completed Data Management Plan wiht the PAIR (displays if No)"></textarea>
+           </div>
+
+        </div>
+      </div>
+    
+  </div>
+    <!-- ================= 7 ================= 
+    <div class="subsection" data-subsection="acqG">
+      <div class="subsection-header">
+        <span class="subsection-title">7. DoD Intramural Subaward/Collaborator?</span>
+<span class="subsection-status-indicator status-not-started"></span>
+
+      </div>
+      <div class="subsection-body">
+        <div class="question">
+          <div class="decision-row">
+            <p><strong>Selection</strong></p>
+            <div class="decision-actions">
+              <label><input type="radio" name="acq_f_choice" value="yes"> Yes</label>
+              <label><input type="radio" name="acq_f_choice" value="no"> No</label>
+            </div>
+          </div>
+
+          <div class="comments">
+            <label>Comment</label>
+            <textarea name="acq_f_comment" placeholder="Enter comment..."></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+-->
+    <!-- ================= 8 ================= -->
+    <div class="subsection" data-subsection="acqH">
+      <div class="subsection-header">
+        <span class="subsection-title">7. Special Requirements</span>
+
+<span class="subsection-status-indicator status-not-started"></span>
+      </div>
+      <div class="subsection-body">
+
+        <div class="question">
+          <div class="decision-row">
+            <p><strong>Please make selections from the list</strong></p>
+            <div class="decision-actions">
+<button
+  type="button"
+  id="openSpecialReqBtn"
+  class="primary-action">
+  Special Requirements
+</button>
+
+            </div>
+          </div>
+
+          <!-- Selected values render here -->
+          <div class="info-note" style="margin-top:10px;">Selected:</div>
+          <div id="specialReqSelected" class="selected-list">
+            <div class="info-note">None selected.</div>
+          </div>
+
+          <div class="comments">
+            <label>Note (optional)</label>
+            <textarea name="acq_g_comment" placeholder="Enter comment..."></textarea>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SECTION ACTIONS -->
+    <div class="actions">
+      <button class="save-btn">Save Draft</button>
+      <button class="submit-btn">Submit to Finance for processing</button>
+    </div>
+  </div>
+</div>
+  </div>
+</div>
+<!-- =================================================
+     FINAL RECOMMENDATION TO AWARD (NEW SECTION E)
+================================================= -->
+<div class="left-panel-section">
+<h3 class="panel-title">Final Recommendation to Award</h3>
+
+<div class="section" id="finalRecommendationSection" data-section="finalRecommendation">
+  <div class="section-header">
+    <span class="section-title">Checklist</span>
+    <div class="section-status-wrap">
+      <span class="section-date hidden"></span>
+      <!--<span class="section-status status-not-started">Not Started</span>-->
+    </div>
+  </div>
+  <div class="section-body">
+    <!-- Final Budget -->
+    <div class="question">
+      <p>Final Budget</p>
+      <button class="link-file-btn">Link Budget File(s)</button>
+    </div>
+
+    <!-- Final Budget Justification -->
+    <div class="question">
+      <p>Final Budget Justification</p>
+      <button class="link-file-btn">Link Budget File(s)</button>
+    </div>
+
+    <!-- Final SOW -->
+    <div class="question">
+      <p>Final SOW</p>
+      <button class="link-file-btn">Link Final SOW</button>
+    </div>
+
+    <!-- Approved Data Management Plan -->
+    <div class="question">
+      <p>Approved Data Management Plan</p>
+      <button class="link-file-btn">Link Approved DMP File</button>
+    </div>
+
+    <!-- Updated Current/Pending Support -->
+    <div class="question">
+      <p>Updated Current/Pending Support</p>
+      <button class="link-file-btn">Link UCPS file(s)</button>
+    </div>
+
+    <!-- Scientific Overlap -->
+    <div class="question">
+      <p>Was scientific overlap identified during negotiations?></p>
+      <div class="decision-actions">
+        <label><input type="radio" name="scientificOverlap" value="yes"> Yes</label>
+        <label><input type="radio" name="scientificOverlap" value="no"> No</label>
+      </div>
+
+   <!-- Overlap Mitigation -->
+    <div>
+      <p>Overlap mitigation: link any relevant files supporting the mitigation of the overlap (displays if yes)</p>
+      <button class="link-file-btn">Link File(s)</button>
+    </div>
+      
+    </div>
+
+ 
+
+    <!-- Foreign Involvement -->
+    <div class="question">
+      <p>Was this project reported to RISG for any type of foreign involvement during negotiations?</p>
+      <div class="decision-actions">
+        <label><input type="radio" name="foreignInvolvement" value="yes"> Yes</label>
+        <label><input type="radio" name="foreignInvolvement" value="no"> No</label>
+      </div>
+
+    <div>
+      <p>Does this project have RISG approval to proceed? (disabled if No)</p>
+      <div class="decision-actions">
+        <label><input type="radio" name="risgApproval" value="yes"> Yes</label>
+        <label><input type="radio" name="risgApproval" value="no"> No</label>
+      </div>
+    </div>
+
+      
+    </div>
+
+
+
+    <!-- SO Recommendation -->
+    <div class="question">
+      <p><strong>SO Recommendation</strong></p>
+      <select>
+        <option value="">Select Recommendation</option>
+        <option value="approval">SO Recommend Approval to Award</option>
+        <option value="disapproval">SO Recommend Disapproval</option>
+      </select>
+      <textarea placeholder="Enter comments...RISG approval=Yes requied to send to GOR/CORe"></textarea>
+      <div class="actions">
+        <button class="save-btn">Save</button>
+        <button class="submit-btn">Send to GOR/COR</button>
+      </div>
+    </div>
+
+    <!-- GOR/COR Recommendation -->
+    <div class="question">
+      <p><strong>GOR/COR Recommendation</strong></p>
+      <select>
+        <option value="">Select Recommendation</option>
+        <option value="approval">GOR/COR Recommend Approval</option>
+        <option value="disapproval">GOR/COR Recommend Disapproval</option>
+      </select>
+      <textarea placeholder="Enter comments...RISG approval=Yes requried to submit"></textarea>
+      <div class="actions">
+        <button class="save-btn">Save</button>
+        <button class="submit-btn">Submit Recommendation to DHACA R&D</button>
+      </div>
+    </div>
+  </div>
+</div>
+ </div> 
+
+<div class="left-panel-section">
+<h3 class="panel-title">SO/GOR Notes</h3>
+            <div class="comments">
+            <label>Note</label>
+            <textarea name="acq_g_comment" placeholder="Enter comment..."></textarea>
+                      <button class="save-btn">Save</button>
+          </div>
+</div>
+
+<div class="left-panel-section">
+<h3 class="panel-title">Change Log</h3>
+            <div class="comments">
+            <label>Note</label>
+            <textarea name="acq_g_comment" placeholder="Enter comment..."></textarea>
+            <button class="save-btn">Save</button>
+                      <button class="save-btn">Submit</button>
+          </div>
+</div>
+  
+</div>
+
+
+
+  
+<!-- END left-panel-content -->
+
+<!-- Reset Button at Bottom of Left Panel -->
+<div style="padding: 20px; border-top: 1px solid #ddd; margin-top: auto;">
+  <button
+    type="button"
+    id="resetChecklistBtn"
+    style="width: 25%; padding: 10px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 12px;">
+    Reset Checklist (Admin Only)
+  </button>
+</div>
+
+  </div>  
+  
+  <!-- END left-panel -->
+
+  <!----------------- MODALS GO HERE -------------------------------->
+<!-- Programmatic REC Modal -->
+<div class="modal" id="programmaticRecModal" aria-hidden="true">
+  <div class="modal-content">
+
+    <!-- MODAL HEADER -->
+    <div class="modal-header">
+      <h3>Programmatic REC Documents</h3>
+    </div>
+
+    <!-- MODAL BODY -->
+    <div class="modal-body">
+
+      <!-- YEAR FILTER -->
+      <div class="modal-filter">
+        <label for="recYearFilter">Filter by Year</label>
+        <select id="recYearFilter">
+          <option value="all">All Years</option>
+          <option value="2022">FY 2022</option>
+          <option value="2023">FY 2023</option>
+          <option value="2024">FY 2024</option>
+        </select>
+      </div>
+
+      <!-- DOCUMENT LIST -->
+      <ul class="modal-list" id="recList">
+        <li data-year="2022">
+          <label>
+            <input type="radio" name="programmatic_rec" value="ALS RP FY22">
+            FY22 ALSRP_Programmatic REC_Oct_1 2022 signed.pdf
+          </label>
+        </li>
+        <li data-year="2022">
+          <label>
+            <input type="radio" name="programmatic_rec" value="ARP FY22">
+            FY22 ARP_Programmatic REC_Oct_1 2022 signed.pdf
+          </label>
+        </li>
+        <li data-year="2022">
+          <label>
+            <input type="radio" name="programmatic_rec" value="ASU DRP FY22">
+            FY22 ASUDRP_Programmatic REC_Oct_1 2022 signed.pdf
+          </label>
+        </li>
+        <li data-year="2022">
+          <label>
+            <input type="radio" name="programmatic_rec" value="BCRP FY22">
+            FY22 BCRP_Programmatic REC_Oct_1 2022 signed.pdf
+          </label>
+        </li>
+      </ul>
+
+    </div>
+
+    <!-- MODAL ACTIONS -->
+    <div class="modal-actions">
+      <button type="button" class="close-modal secondary-btn">Cancel</button>
+      <button type="button" class="primary-action">Select</button>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- Create Subaward Modal -->
+<div class="modal" id="createSubawardModal" aria-hidden="true">
+  <div class="modal-content">
+
+    <!-- MODAL HEADER -->
+    <div class="modal-header">
+      <h3>Create Subaward</h3>
+    </div>
+
+    <!-- MODAL BODY -->
+    <div class="modal-body">
+
+      <!-- SUBAWARD NAME -->
+      <div class="modal-field">
+        <label for="subawardName">Subaward Name</label>
+        <input type="text" id="subawardName" name="subawardName" placeholder="Enter Subaward Name">
+      </div>
+
+      <!-- SUBAWARD AMOUNT -->
+      <div class="modal-field">
+        <label for="subawardAmount">Subaward Amount</label>
+        <input type="number" id="subawardAmount" name="subawardAmount" placeholder="Enter Amount">
+      </div>
+
+      <!-- START DATE -->
+      <div class="modal-field">
+        <label for="startDate">Start Date</label>
+        <input type="date" id="startDate" name="startDate">
+      </div>
+
+      <!-- END DATE -->
+      <div class="modal-field">
+        <label for="endDate">End Date</label>
+        <input type="date" id="endDate" name="endDate">
+      </div>
+
+      <!-- DESCRIPTION -->
+      <div class="modal-field">
+        <label for="description">Description</label>
+        <textarea id="description" name="description" placeholder="Enter Description"></textarea>
+      </div>
+
+    </div>
+
+    <!-- MODAL ACTIONS -->
+    <div class="modal-actions">
+      <button type="button" class="close-modal secondary-btn">Cancel</button>
+      <button type="button" class="primary-action">Create</button>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- Chemical Agents Modal -->
+<div class="modal" id="chemicalAgentsModal" aria-hidden="true">
+<div class="modal-content">
+
+  <!-- Modal Header -->
+  <div class="modal-header">
+    <h3>Chemical Agents</h3>
+ 
+  </div>
+
+  <!-- Modal Body -->
+  <div class="modal-body">
+    <!-- KEEP YOUR EXISTING CHEMICAL AGENT CONTENT HERE -->
+    <!-- Example: -->
+    <p>
+    The following are examples of chemical agents that may require additional
+    review or approval. Select or reference any that apply to your research.
+  </p>
+  
+  <ul class="modal-list">
+    <li>Sarin (GB)</li>
+    <li>VX nerve agent</li>
+    <li>Sulfur Mustard (HD)</li>
+    <li>Nitrogen Mustard (HN)</li>
+    <li>Lewisite</li>
+    <li>Ricin</li>
+    <li>Saxitoxin</li>
+    <li>Phosgene</li>
+    <li>Chlorine (toxic industrial chemical)</li>
+    <li>Hydrogen Cyanide</li>
+  </ul>
+  
+  <p class="info-note">
+    This list is not exhaustive. Investigators are responsible for identifying
+    and disclosing any hazardous chemical agents associated with the proposed work.
+  </p>
+  
+
+
+    <!--
+    <p>Select any applicable chemical agents:</p>
+    <ul>
+      <li>Agent A</li>
+      <li>Agent B</li>
+    </ul>
+    -->
+  </div>
+
+  <!-- Modal Actions -->
+  <div class="modal-actions">
+    <button
+      type="button"
+      class="close-modal secondary-btn">
+      Close
+    </button>
+  </div>
+
+</div>
+</div>
+
+<style>
+  h4 {
+    margin-bottom: 5px; /* Reduce space below the <h4> */
+  }
+
+  label {
+    margin-top: 0; /* Reduce space above the labels */
+  }
+
+  .modal-body input[type="checkbox"] {
+    margin: 0; /* Ensure no extra space around checkboxes */
+  }
+</style>
+
+<!-- ================= Special Requirements Modal ================= -->
+<div class="modal" id="specialReqModal" aria-hidden="true">
+  <div class="modal-content">
+
+    <!-- MODAL HEADER -->
+    <div class="modal-header">
+      <h3>Special Requirements</h3>
+    </div>
+
+    <!-- MODAL BODY -->
+    <div class="modal-body">
+
+      <h4>Agreement Details</h4>
+          <label><input type="checkbox" value="Cooperative Agreement"> Cooperative Agreement</label><br>
+          <label><input type="checkbox" value="Option Years"> Option Years</label><br>
+
+      <h4>Additional Requirements</h4>
+      <text style="font-style: italic;">Regulatory:</text><br>
+       <label><input type="checkbox" value="ClinicalTrials.gov submission"> ClinicalTrials.gov submission</label><br>
+       <label><input type="checkbox" value="FDA regulator requirement"> FDA Regulatory Requirement</label><br>
+      <label><input type="checkbox" value="Payment restrictions"> Payment Restrictions for Human Use Approval</label><br>
+      
+      <br>
+      <text style="font-style: italic;">Program Specific:</text><br>
+      <label><input type="checkbox" value="Participation in IPR Meetings"> Participation in IPR Meetings</label><br>
+      <label><input type="checkbox" value="Participation in Milestone Meetings"> Participation in Milestone Meetings</label><br>
+      <br>
+      <text style="font-style: italic;">External Data Submission:</text><br>
+      <label><input type="checkbox" value="Federal TBI Registry submission (FITBIR)"> Federal TBI Registry submission (FITBIR)</label><br>
+      <label><input type="checkbox" value="Database for Autism"> National Database for Autism Research</label><br>
+      <label><input type="checkbox" value="Mental Health Data"> National Institute of Mental Health Data Archive</label><br>
+      <br>
+      <text style="font-style: italic;">Personnel:</text><br>
+       <label><input type="checkbox" value="Additional Key Personnel"> Additional Key Personnel</label><br>
+      <label><input type="checkbox" value="Minimum Effort PI"> Minimum Effort for the PI</label><br>
+
+      <h4>Deliverables</h4>
+      <label><input type="checkbox" value="Annual Inclusion Enrollment Reporting"> Annual Inclusion Enrollment Reporting</label><br>
+      <label><input type="checkbox" value="Annual Quad Charts"> Annual Quad Charts</label><br>
+      <label><input type="checkbox" value="Award Expiration Transition Plan"> Award Expiration Transition Plan</label><br>
+      <label><input type="checkbox" value="Quarterly Reports"> Quarterly Reports*</label><br>
+      <label><input type="checkbox" value="Quarterly Quad Chart"> Quarterly Quad Chart*</label><br>
+      <label><input type="checkbox" value="Semi Annual Reports"> Semi Annual Reports*</label><br>
+      <label><input type="checkbox" value="Semi Annual Quad Chart"> Semi Annual Quad Chart*</label><br>
+      <label><input type="checkbox" value="Annual Reports"> Annual Reports (prechecked for grants)</label><br>
+      <label><input type="checkbox" value="Final Report"> Final Report (prechecked for all)</label><br>
+
+ <p class="info-note">
+    *Justification required in notes
+  </p>
+
+    </div><!-- END modal-body -->
+
+    <!-- MODAL ACTIONS -->
+    <div class="modal-actions">
+      <button type="button" class="secondary-btn" id="cancelSpecialReqBtn">Cancel</button>
+      <button type="button" class="primary-action" id="saveSpecialReqBtn">Save</button>
+    </div>
+
+  </div><!-- END modal-content -->
+</div><!-- END modal -->
+
+<!-- Submit Confirmation Modal -->
+<div class="modal" id="submitConfirmModal" aria-hidden="true">
+  <div class="modal-content">
+
+    <!-- MODAL HEADER (matches others) -->
+    <div class="modal-header">
+      <h3 id="confirmModalTitle">Confirm Submission</h3>
+    </div>
+
+    <!-- MODAL BODY (styled like others) -->
+    <div class="modal-body">
+
+      <div class="confirmation-message">
+        <p id="confirmModalMessage"></p>
+      </div>
+
+      <div class="confirmation-warning">
+        <strong>Note:</strong> Once submitted, changes may be restricted.
+      </div>
+
+    </div>
+    <!-- MODAL ACTIONS (same layout as others) -->
+    <div class="modal-actions">
+      <button
+        type="button"
+        class="secondary-btn"
+        id="cancelSubmitBtn">
+        Cancel
+      </button>
+
+      <button
+        type="button"
+        class="primary-action"
+        id="confirmSubmitModalBtn">
+        Yes, Submit
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- Animal Species Modal -->
+<div class="modal" id="animalSpeciesModal" aria-hidden="true">
+  <div class="modal-content">
+
+    <!-- MODAL HEADER -->
+    <div class="modal-header">
+      <h3>Select Animal Species for AL250022</h3>
+      <!-- Universal Close Button -->
+      <button type="button" class="close-modal" aria-label="Close">×</button>
+    </div>
+
+    <!-- MODAL BODY -->
+    <div class="modal-body">
+      <label><input type="checkbox" value="Rodents (mouse/rat/hamster)"> Rodents (mouse/rat/hamster)</label><br>
+      <label><input type="checkbox" value="Non-Human Primates (NHP)"> Non-Human Primates (NHP)</label><br>
+      <label><input type="checkbox" value="Pigs"> Pigs</label><br>
+      <label><input type="checkbox" value="Rabbits"> Rabbits</label><br>
+      <label><input type="checkbox" value="Dogs"> Dogs</label><br>
+      <label><input type="checkbox" value="Service animals"> Service animals</label><br>
+      <label><input type="checkbox" value="Cats"> Cats</label><br>
+      <label><input type="checkbox" value="Marine mammals"> Marine mammals</label><br>
+      <label><input type="checkbox" value="Other"> Other*</label><br>
+      <p><em>* Please specify in note to Animal Regulatory Agency</em></p>
+    </div><!-- END modal-body -->
+
+    <!-- MODAL ACTIONS -->
+    <div class="modal-actions">
+<button type="button" class="secondary-btn" id="cancelSpecialReqBtn">Cancel</button>
+<button type="button" class="primary-action" id="saveAnimalSpeciesBtn">Save</button>
+    </div>
+
+  </div><!-- END modal-content -->
+</div><!-- END modal -->
+
+
+<!-- Save Confirmation Modal -->
+<div class="modal" id="saveConfirmModal" aria-hidden="true">
+  <div class="modal-content" style="max-width: 400px;">
+    <div class="modal-header">
+      <h3>Section Saved</h3>
+      <button type="button" class="close-modal" aria-label="Close">×</button>
+    </div>
+    <div class="modal-body">
+      <div style="text-align: center; padding: 20px;">
+        <div style="font-size: 48px; color: #28a745; margin-bottom: 15px;">✓</div>
+        <p id="saveConfirmMessage" style="font-size: 16px; margin: 0;">Your progress has been saved successfully.</p>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="primary-action close-modal">OK</button>
+    </div>
+  </div>
+</div>
+
+<!-- Submit Confirmation Question Modal -->
+<div class="modal" id="submitConfirmQuestion" aria-hidden="true">
+  <div class="modal-content" style="max-width: 450px;">
+    <div class="modal-header">
+      <h3>Confirm Submission</h3>
+      <button type="button" class="close-modal" aria-label="Close">×</button>
+    </div>
+    <div class="modal-body">
+      <div style="padding: 20px;">
+        <p id="submitQuestionMessage" style="font-size: 16px; margin: 0;">Submit this section? This will lock the section.</p>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="secondary-btn close-modal">Cancel</button>
+      <button type="button" class="primary-action" id="confirmSubmitBtn">Submit</button>
+    </div>
+  </div>
+</div>
+
+<!-- Submit Success Modal -->
+<div class="modal" id="submitSuccessModal" aria-hidden="true">
+  <div class="modal-content" style="max-width: 400px;">
+    <div class="modal-header">
+      <h3>Section Submitted</h3>
+      <button type="button" class="close-modal" aria-label="Close">×</button>
+    </div>
+    <div class="modal-body">
+      <div style="text-align: center; padding: 20px;">
+        <div style="font-size: 48px; color: #007bff; margin-bottom: 15px;">✓</div>
+        <p id="submitSuccessMessage" style="font-size: 16px; margin: 0;">This section has been submitted and locked successfully.</p>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="primary-action close-modal">OK</button>
+    </div>
+  </div>
+</div>
+
+<!-- Reset Checklist Modal -->
+<div class="modal" id="resetChecklistModal" aria-hidden="true">
+  <div class="modal-content" style="max-width: 500px;">
+    <div class="modal-header">
+      <h3>Reset Checklist</h3>
+      <button type="button" class="close-modal" aria-label="Close">×</button>
+    </div>
+    <div class="modal-body">
+      <p style="margin-bottom: 20px;">Select which sections you want to reset. This will clear all saved data for the selected sections.</p>
+
+      <div style="display: flex; flex-direction: column; gap: 15px;">
+        <div style="border: 1px solid #ddd; border-radius: 4px; padding: 15px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <strong>A. Safety Review</strong>
+              <div style="font-size: 12px; color: #666; margin-top: 4px;" id="safetyResetStatus">Status: Not Started</div>
+            </div>
+            <button type="button" class="secondary-btn" id="resetSafetyBtn" style="padding: 6px 12px;">Clear</button>
+          </div>
+        </div>
+
+        <div style="border: 1px solid #ddd; border-radius: 4px; padding: 15px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <strong>B. Animal Research Review</strong>
+              <div style="font-size: 12px; color: #666; margin-top: 4px;" id="animalResetStatus">Status: Not Started</div>
+            </div>
+            <button type="button" class="secondary-btn" id="resetAnimalBtn" style="padding: 6px 12px;">Clear</button>
+          </div>
+        </div>
+
+        <div style="border: 1px solid #ddd; border-radius: 4px; padding: 15px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <strong>C. Human Research Review</strong>
+              <div style="font-size: 12px; color: #666; margin-top: 4px;" id="humanResetStatus">Status: Not Started</div>
+            </div>
+            <button type="button" class="secondary-btn" id="resetHumanBtn" style="padding: 6px 12px;">Clear</button>
+          </div>
+        </div>
+
+        <div style="border: 1px solid #ddd; border-radius: 4px; padding: 15px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <strong>D. Acquisition/Contracting Review</strong>
+              <div style="font-size: 12px; color: #666; margin-top: 4px;" id="acquisitionResetStatus">Status: Not Started</div>
+            </div>
+            <button type="button" class="secondary-btn" id="resetAcquisitionBtn" style="padding: 6px 12px;">Clear</button>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 20px; padding: 15px; background: #fff3cd; border-radius: 4px; font-size: 14px;">
+        <strong>Warning:</strong> This action cannot be undone. All progress for the selected section will be permanently deleted.
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="primary-action close-modal">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= PANEL TOGGLE BUTTON ================= -->
+<button class="panel-toggle-btn" id="panelToggleBtn" title="Expand/Collapse Panel">◀</button>
+
+<!-- ================= RIGHT PANEL ================= -->
+<aside class="right-panel">
+  <div class="right-panel-header">
+    <h3>Document and File Management</h3>
+    <div class="right-panel-actions">
+      <button class="primary-action">Add File</button>
+      <button class="secondary-action">Add Note</button>
+    </div>
+  </div>
+
+  <p class="placeholder">Uploaded files and notes will appear here.</p>
+</aside>
+
+</main>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
