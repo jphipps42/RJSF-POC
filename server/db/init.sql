@@ -57,6 +57,8 @@ CREATE TABLE IF NOT EXISTS form_submissions (
   submitted_at TIMESTAMP WITH TIME ZONE,
   completion_date TIMESTAMP WITH TIME ZONE,
   is_locked BOOLEAN DEFAULT false,
+  schema_version_id UUID,
+  schema_version INTEGER,
   notes TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
@@ -84,6 +86,34 @@ CREATE TABLE IF NOT EXISTS award_linked_files (
   description TEXT,
   last_updated TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Form schema versions: stores each published version of a form definition
+CREATE TABLE IF NOT EXISTS form_schema_versions (
+  id            UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  form_id       UUID NOT NULL REFERENCES form_configurations(id),
+  version       INTEGER NOT NULL,
+  json_schema   JSONB NOT NULL,
+  ui_schema     JSONB DEFAULT '{}'::jsonb,
+  default_data  JSONB DEFAULT '{}'::jsonb,
+  change_notes  TEXT,
+  is_current    BOOLEAN DEFAULT false,
+  created_at    TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE (form_id, version)
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_one_current_version
+  ON form_schema_versions (form_id) WHERE is_current = true;
+
+-- Schema migrations: transformation rules between consecutive versions
+CREATE TABLE IF NOT EXISTS schema_migrations (
+  id               UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  form_id          UUID NOT NULL REFERENCES form_configurations(id),
+  from_version     INTEGER NOT NULL,
+  to_version       INTEGER NOT NULL,
+  migration_script JSONB NOT NULL DEFAULT '[]'::jsonb,
+  created_at       TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE (form_id, from_version, to_version)
 );
 
 -- Indexes for performance
@@ -458,3 +488,17 @@ FROM awards a WHERE a.log_number = 'TE020005';
 INSERT INTO project_personnel (award_id, organization, country, project_role, name, is_subcontract)
 SELECT a.id, 'Walter Reed Medical', 'USA', 'Co-Investigator', 'Walter White', false
 FROM awards a WHERE a.log_number = 'TE020005';
+
+-- Seed form_schema_versions (version 1 for each config)
+INSERT INTO form_schema_versions (form_id, version, json_schema, ui_schema, default_data, is_current, change_notes)
+SELECT id, 1, json_schema, ui_schema, COALESCE(default_data, '{}'::jsonb), true,
+       'Initial version'
+FROM form_configurations WHERE is_active = true
+ON CONFLICT (form_id, version) DO NOTHING;
+
+-- Pin submissions to version 1
+UPDATE form_submissions fs
+SET schema_version_id = fsv.id, schema_version = 1
+FROM form_schema_versions fsv
+WHERE fs.form_config_id = fsv.form_id AND fsv.version = 1
+  AND fs.schema_version_id IS NULL;

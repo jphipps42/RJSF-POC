@@ -24,7 +24,7 @@ const EMPTY_PERSON = { organization: '', country: 'USA', project_role: '', name:
 const cellSx = { border: '1px solid #93c5fd', p: 1, fontSize: 12 };
 const inputSx = { '& .MuiInputBase-input': { fontSize: 12, p: '4px 8px' } };
 
-export default function OverviewPanel({ award, personnel, submissions, onPrimeAwardChange, onPersonnelChange }) {
+export default function OverviewPanel({ award, personnel, submissions, onPrimeAwardChange, onPersonnelChange, overviewHeader = 'Overview' }) {
   const [editingId, setEditingId] = useState(null);
   const [editData, setEditData] = useState({});
   const [addOpen, setAddOpen] = useState(false);
@@ -136,7 +136,7 @@ export default function OverviewPanel({ award, personnel, submissions, onPrimeAw
 
   return (
     <Paper sx={{ p: 2, mb: 2, border: '1px solid #d6e4f2', borderRadius: 2 }}>
-      <Typography variant="h6" sx={{ fontWeight: 700, fontSize: 20, mb: 1 }}>Overview</Typography>
+      <Typography variant="h6" sx={{ fontWeight: 700, fontSize: 20, mb: 1 }}>{overviewHeader}</Typography>
 
       <InfoRow label="PI Budget" value={award.pi_budget ? `$${Number(award.pi_budget).toLocaleString('en-US', { minimumFractionDigits: 2 })}` : ''} />
       <InfoRow label="Final Recommended Budget" value={award.final_recommended_budget ? `$${Number(award.final_recommended_budget).toLocaleString('en-US', { minimumFractionDigits: 2 })}` : ''} />

@@ -3,11 +3,12 @@ import Form from '@rjsf/mui';
 import validator from '@rjsf/validator-ajv8';
 import {
   Accordion, AccordionSummary, AccordionDetails,
-  Box, Typography, Button, Snackbar, Alert,
+  Box, Typography, Button, Snackbar, Alert, Chip,
   Dialog, DialogTitle, DialogContent, DialogActions,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import StatusBadge from './StatusBadge';
+import useVersionedFormData from '../hooks/useVersionedFormData';
 import { saveFormDraft, submitForm } from '../services/api';
 
 // Budget Review sub-items (a-h), rendered as nested accordions inside subsection 1
@@ -63,13 +64,19 @@ function computeGroupStatus(subs) {
 
 // ---- Leaf-level form accordion (used for budget sub-items a-h AND subsections 2-7) ----
 function SubsectionForm({ submission, onUpdate }) {
-  const [formData, setFormData] = useState(submission.form_data || {});
+  const versioned = useVersionedFormData(submission, 'edit');
+  const [formData, setFormData] = useState(versioned.formData);
   const [saving, setSaving] = useState(false);
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
 
+  // Sync formData when versioned data changes
+  const [lastKey, setLastKey] = useState(null);
+  const key = `${submission.id}-${versioned.schemaVersion}-${versioned.migrated}`;
+  if (key !== lastKey) { setLastKey(key); setFormData(versioned.formData); }
+
   const isLocked = submission.is_locked;
-  const schema = submission.json_schema;
-  const uiSchema = { ...submission.ui_schema, 'ui:submitButtonOptions': { norender: true } };
+  const schema = versioned.schema;
+  const uiSchema = { ...versioned.uiSchema, 'ui:submitButtonOptions': { norender: true } };
 
   const handleSave = useCallback(async () => {
     setSaving(true);
@@ -82,6 +89,12 @@ function SubsectionForm({ submission, onUpdate }) {
     }
     setSaving(false);
   }, [formData, submission.id, submission.form_title, onUpdate]);
+
+  if (versioned.loading) {
+    return <Box sx={{ p: 1.5, mb: 1.5, border: '1px solid #dbeafe', borderRadius: 1.5, bgcolor: '#f8fbff' }}>
+      <Typography sx={{ color: '#666', fontSize: 13 }}>Loading...</Typography>
+    </Box>;
+  }
 
   return (
     <>
@@ -99,9 +112,18 @@ function SubsectionForm({ submission, onUpdate }) {
           <Typography sx={{ fontWeight: 700, fontSize: '0.95rem', color: '#0a2540', flex: 1 }}>
             {submission.form_title}
           </Typography>
+          {versioned.schemaVersion > 1 && (
+            <Chip label={`v${versioned.schemaVersion}`} size="small"
+              sx={{ fontSize: 10, height: 18, bgcolor: '#dbeafe', color: '#1d4ed8', mr: 1 }} />
+          )}
           <SubsectionIndicator status={submission.status} />
         </AccordionSummary>
         <AccordionDetails sx={{ bgcolor: '#fff', p: 2 }}>
+          {versioned.migrated && (
+            <Alert severity="info" sx={{ mb: 1, py: 0 }}>
+              Data migrated from v{submission.schema_version} to v{versioned.schemaVersion}.
+            </Alert>
+          )}
           <Form
             schema={schema} uiSchema={uiSchema} formData={formData} validator={validator}
             onChange={(e) => setFormData(e.formData)}

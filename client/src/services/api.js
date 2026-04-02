@@ -43,4 +43,21 @@ export const addLinkedFile = (data) => api.post('/linked-files', data);
 export const updateLinkedFile = (id, data) => api.put(`/linked-files/${id}`, data);
 export const deleteLinkedFile = (id) => api.delete(`/linked-files/${id}`);
 
+// Schema Versions
+export const getSchemaVersions = (formId) => api.get(`/schema-versions/${formId}`);
+export const getCurrentSchemaVersion = (formId) => api.get(`/schema-versions/${formId}/current`);
+export const publishSchemaVersion = (formId, data) => api.post(`/schema-versions/${formId}/publish`, data);
+
+// Page layout versions
+export const getPageLayoutVersions = () =>
+  api.get('/form-configurations/page_layout').then((cfg) =>
+    api.get(`/schema-versions/${cfg.data.id}`)
+  );
+export const getPageLayoutVersion = (formId, version) =>
+  api.get(`/schema-versions/${formId}/${version}`);
+
+// Version-aware submission loading
+export const getSubmissionForEdit = (id) => api.get(`/form-submissions/${id}/for-edit`);
+export const getSubmissionAudit = (id) => api.get(`/form-submissions/${id}/audit`);
+
 export default api;

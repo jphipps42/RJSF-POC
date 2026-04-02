@@ -1,6 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import { Box, Typography, Button, Chip, CircularProgress } from '@mui/material';
+import {
+  Box, Typography, Button, Chip, CircularProgress,
+  Select, MenuItem, FormControl, InputLabel,
+} from '@mui/material';
 import GlobalHeader from '../components/GlobalHeader';
 import TopNav from '../components/TopNav';
 import AwardSummary from '../components/AwardSummary';
@@ -11,12 +14,11 @@ import FinalRecommendation from '../components/FinalRecommendation';
 import NotesPanel from '../components/NotesPanel';
 import RightPanel from '../components/RightPanel';
 import ResetModal from '../components/ResetModal';
-import { getAwardByLog, updateAward } from '../services/api';
+import {
+  getAwardByLog, updateAward, getFormConfiguration, getSchemaVersions,
+} from '../services/api';
 
-// Top-level sections rendered as individual ReviewSection accordions
 const STANDARD_SECTIONS = ['safety_review', 'animal_review', 'human_review'];
-
-// Acquisition subsections rendered inside AcquisitionSection
 const ACQ_PREFIX = 'acq_';
 
 export default function ReviewPage() {
@@ -29,6 +31,12 @@ export default function ReviewPage() {
   const [error, setError] = useState(null);
   const [rightPanelCollapsed, setRightPanelCollapsed] = useState(false);
   const [resetModalOpen, setResetModalOpen] = useState(false);
+
+  // Page layout versioning
+  const [layoutVersions, setLayoutVersions] = useState([]);
+  const [selectedVersion, setSelectedVersion] = useState(null);
+  const [layoutConfig, setLayoutConfig] = useState(null);
+  const [layoutFormId, setLayoutFormId] = useState(null);
 
   const fetchData = useCallback(async () => {
     try {
@@ -43,9 +51,41 @@ export default function ReviewPage() {
     setLoading(false);
   }, [logNumber]);
 
+  // Fetch layout versions on mount
+  useEffect(() => {
+    async function loadLayoutVersions() {
+      try {
+        const cfgRes = await getFormConfiguration('page_layout');
+        const formId = cfgRes.data.id;
+        setLayoutFormId(formId);
+        const versionsRes = await getSchemaVersions(formId);
+        const versions = versionsRes.data;
+        setLayoutVersions(versions);
+        // Default to the current (is_current=true) version
+        const current = versions.find((v) => v.is_current) || versions[0];
+        if (current) {
+          setSelectedVersion(current.version);
+          setLayoutConfig(current.default_data);
+        }
+      } catch (err) {
+        console.error('Failed to load layout versions:', err);
+      }
+    }
+    loadLayoutVersions();
+  }, []);
+
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  // When user changes version dropdown
+  const handleVersionChange = (newVersion) => {
+    setSelectedVersion(newVersion);
+    const ver = layoutVersions.find((v) => v.version === newVersion);
+    if (ver) {
+      setLayoutConfig(ver.default_data);
+    }
+  };
 
   const handleSubmissionUpdate = (updatedSubmission) => {
     setSubmissions((prev) =>
@@ -66,16 +106,16 @@ export default function ReviewPage() {
     fetchData();
   };
 
-  // Standard sections (A, B, C)
   const standardSubmissions = STANDARD_SECTIONS
     .map((key) => submissions.find((s) => s.form_key === key))
     .filter(Boolean);
 
-  // Acquisition subsections (all acq_* keys)
   const acqSubmissions = submissions.filter((s) => s.form_key.startsWith(ACQ_PREFIX));
-
-  // All submissions for the reset modal
   const allResetable = [...standardSubmissions, ...acqSubmissions];
+
+  // Derive labels from layout config
+  const overviewHeader = layoutConfig?.overview_header || 'Overview';
+  const reviewHeader = layoutConfig?.review_header || 'Pre-Award / Negotiations Review';
 
   if (loading) {
     return (
@@ -142,13 +182,13 @@ export default function ReviewPage() {
               submissions={submissions}
               onPrimeAwardChange={handlePrimeAwardChange}
               onPersonnelChange={setPersonnel}
+              overviewHeader={overviewHeader}
             />
 
             <Typography variant="h6" sx={{ fontWeight: 700, mb: 2 }}>
-              Pre-Award / Negotiations Review
+              {reviewHeader}
             </Typography>
 
-            {/* Sections A, B, C */}
             {standardSubmissions.map((sub) => (
               <ReviewSection
                 key={sub.id}
@@ -157,7 +197,6 @@ export default function ReviewPage() {
               />
             ))}
 
-            {/* Section D with 7 nested subsections */}
             <AcquisitionSection
               submissions={acqSubmissions}
               onUpdate={handleSubmissionUpdate}
@@ -172,8 +211,8 @@ export default function ReviewPage() {
             <NotesPanel title="Change Log" />
           </Box>
 
-          {/* Reset Button */}
-          <Box sx={{ p: 2, borderTop: '1px solid #ddd' }}>
+          {/* Footer: Reset + Version Number */}
+          <Box sx={{ p: 2, borderTop: '1px solid #ddd', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <Button
               variant="contained"
               color="error"
@@ -183,6 +222,31 @@ export default function ReviewPage() {
             >
               Reset Checklist (Admin Only)
             </Button>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+              {selectedVersion && (
+                <Typography sx={{ fontSize: 12, color: '#64748b' }}>
+                  Form Version: v{selectedVersion}
+                </Typography>
+              )}
+              {layoutVersions.length > 1 && (
+                <FormControl size="small" sx={{ minWidth: 140 }}>
+                  <Select
+                    value={selectedVersion || ''}
+                    onChange={(e) => handleVersionChange(e.target.value)}
+                    sx={{ fontSize: 12, height: 28 }}
+                    displayEmpty
+                  >
+                    {layoutVersions
+                      .sort((a, b) => b.version - a.version)
+                      .map((v) => (
+                        <MenuItem key={v.version} value={v.version} sx={{ fontSize: 12 }}>
+                          v{v.version}{v.is_current ? ' (current)' : ''}
+                        </MenuItem>
+                      ))}
+                  </Select>
+                </FormControl>
+              )}
+            </Box>
           </Box>
         </Box>
 

@@ -54,11 +54,17 @@ router.post('/', async (req, res) => {
   }
 });
 
-// PUT /api/form-configurations/:id - Update a form config
+// PUT /api/form-configurations/:id - Update config metadata and publish new schema version
 router.put('/:id', async (req, res) => {
+  const client = await pool.connect();
   try {
-    const { title, description, json_schema, ui_schema, default_data } = req.body;
-    const result = await pool.query(
+    const { title, description, json_schema, ui_schema, default_data, change_notes, migration_rules } = req.body;
+    const formId = req.params.id;
+
+    await client.query('BEGIN');
+
+    // Update form_configurations metadata
+    await client.query(
       `UPDATE form_configurations
        SET title = COALESCE($1, title),
            description = COALESCE($2, description),
@@ -67,17 +73,52 @@ router.put('/:id', async (req, res) => {
            default_data = COALESCE($5, default_data),
            version = version + 1,
            updated_at = NOW()
-       WHERE id = $6
-       RETURNING *`,
-      [title, description, json_schema, ui_schema, default_data, req.params.id]
+       WHERE id = $6`,
+      [title, description, json_schema, ui_schema, default_data, formId]
     );
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'Form configuration not found' });
+
+    // If schema content changed, publish a new version
+    if (json_schema) {
+      const curResult = await client.query(
+        'SELECT id, version FROM form_schema_versions WHERE form_id = $1 AND is_current = true FOR UPDATE',
+        [formId]
+      );
+
+      const currentVersion = curResult.rows.length > 0 ? curResult.rows[0].version : 0;
+      const nextVersion = currentVersion + 1;
+
+      if (curResult.rows.length > 0) {
+        await client.query(
+          'UPDATE form_schema_versions SET is_current = false WHERE id = $1',
+          [curResult.rows[0].id]
+        );
+      }
+
+      await client.query(
+        `INSERT INTO form_schema_versions (form_id, version, json_schema, ui_schema, default_data, change_notes, is_current)
+         VALUES ($1, $2, $3, $4, $5, $6, true)`,
+        [formId, nextVersion, json_schema, ui_schema || {}, default_data || {}, change_notes || null]
+      );
+
+      if (migration_rules && Array.isArray(migration_rules) && migration_rules.length > 0) {
+        await client.query(
+          `INSERT INTO schema_migrations (form_id, from_version, to_version, migration_script)
+           VALUES ($1, $2, $3, $4)`,
+          [formId, currentVersion, nextVersion, JSON.stringify(migration_rules)]
+        );
+      }
     }
+
+    await client.query('COMMIT');
+
+    const result = await pool.query('SELECT * FROM form_configurations WHERE id = $1', [formId]);
     res.json(result.rows[0]);
   } catch (err) {
+    await client.query('ROLLBACK');
     console.error('Error updating form configuration:', err);
     res.status(500).json({ error: 'Internal server error' });
+  } finally {
+    client.release();
   }
 });
 

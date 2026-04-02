@@ -3,23 +3,35 @@ import Form from '@rjsf/mui';
 import validator from '@rjsf/validator-ajv8';
 import {
   Accordion, AccordionSummary, AccordionDetails,
-  Box, Typography, Button, Snackbar, Alert,
+  Box, Typography, Button, Snackbar, Alert, Chip,
   Dialog, DialogTitle, DialogContent, DialogActions,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import StatusBadge from './StatusBadge';
+import useVersionedFormData from '../hooks/useVersionedFormData';
 import { saveFormDraft, submitForm } from '../services/api';
 
-export default function ReviewSection({ submission, onUpdate }) {
-  const [formData, setFormData] = useState(submission.form_data || {});
+export default function ReviewSection({ submission, onUpdate, auditMode = false }) {
+  const mode = auditMode ? 'audit' : 'edit';
+  const versioned = useVersionedFormData(submission, mode);
+
+  const [formData, setFormData] = useState(versioned.formData);
   const [saving, setSaving] = useState(false);
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
   const [confirmOpen, setConfirmOpen] = useState(false);
 
-  const isLocked = submission.is_locked;
-  const schema = submission.json_schema;
+  // Sync formData when versioned data changes (e.g., after migration)
+  const [lastVersionKey, setLastVersionKey] = useState(null);
+  const versionKey = `${submission.id}-${versioned.schemaVersion}-${versioned.migrated}`;
+  if (versionKey !== lastVersionKey) {
+    setLastVersionKey(versionKey);
+    setFormData(versioned.formData);
+  }
+
+  const isLocked = submission.is_locked || auditMode;
+  const schema = versioned.schema;
   const uiSchema = {
-    ...submission.ui_schema,
+    ...versioned.uiSchema,
     'ui:submitButtonOptions': { norender: true },
   };
 
@@ -54,6 +66,14 @@ export default function ReviewSection({ submission, onUpdate }) {
     human_review: 'Submit to Human Research Regulatory Agency',
   }[submission.form_key] || 'Submit';
 
+  if (versioned.loading) {
+    return (
+      <Box sx={{ p: 2, mb: 2, border: '1px solid #d6e4f2', borderRadius: 2, bgcolor: '#f8fafc' }}>
+        <Typography sx={{ color: '#666' }}>Loading form data...</Typography>
+      </Box>
+    );
+  }
+
   return (
     <>
       <Accordion
@@ -78,9 +98,15 @@ export default function ReviewSection({ submission, onUpdate }) {
           }}
         >
           <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center', pr: 1 }}>
-            <Typography sx={{ fontWeight: 700, color: '#0a2540' }}>
-              {submission.form_title}
-            </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Typography sx={{ fontWeight: 700, color: '#0a2540' }}>
+                {submission.form_title}
+              </Typography>
+              {versioned.schemaVersion > 1 && (
+                <Chip label={`v${versioned.schemaVersion}`} size="small"
+                  sx={{ fontSize: 10, height: 20, bgcolor: '#dbeafe', color: '#1d4ed8' }} />
+              )}
+            </Box>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               {submission.submitted_at && (
                 <Typography sx={{ fontSize: 12, color: '#475569' }}>
@@ -92,6 +118,12 @@ export default function ReviewSection({ submission, onUpdate }) {
           </Box>
         </AccordionSummary>
         <AccordionDetails sx={{ bgcolor: '#fff', p: 2 }}>
+          {versioned.migrated && (
+            <Alert severity="info" sx={{ mb: 2 }}>
+              Data migrated from v{submission.schema_version} to v{versioned.schemaVersion}.
+            </Alert>
+          )}
+
           <Form
             schema={schema}
             uiSchema={uiSchema}
@@ -124,15 +156,19 @@ export default function ReviewSection({ submission, onUpdate }) {
             </Box>
           )}
 
-          {isLocked && (
+          {isLocked && !auditMode && (
             <Alert severity="info" sx={{ mt: 2 }}>
               This section has been submitted and locked. No further edits can be made.
+            </Alert>
+          )}
+          {auditMode && (
+            <Alert severity="warning" sx={{ mt: 2 }}>
+              Audit view — rendered with original schema v{versioned.schemaVersion}.
             </Alert>
           )}
         </AccordionDetails>
       </Accordion>
 
-      {/* Submit Confirmation Dialog */}
       <Dialog open={confirmOpen} onClose={() => setConfirmOpen(false)}>
         <DialogTitle sx={{ bgcolor: '#2563eb', color: '#fff' }}>Confirm Submission</DialogTitle>
         <DialogContent sx={{ pt: 3 }}>

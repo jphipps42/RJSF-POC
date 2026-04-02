@@ -7,6 +7,7 @@ const formSubmissionRoutes = require('./routes/formSubmissions');
 const awardRoutes = require('./routes/awards');
 const personnelRoutes = require('./routes/personnel');
 const linkedFilesRoutes = require('./routes/linkedFiles');
+const schemaVersionRoutes = require('./routes/schemaVersions');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -20,6 +21,7 @@ app.use('/api/form-submissions', formSubmissionRoutes);
 app.use('/api/awards', awardRoutes);
 app.use('/api/personnel', personnelRoutes);
 app.use('/api/linked-files', linkedFilesRoutes);
+app.use('/api/schema-versions', schemaVersionRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

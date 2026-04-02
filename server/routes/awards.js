@@ -3,6 +3,22 @@ const pool = require('../db/pool');
 
 const router = express.Router();
 
+// Shared query for fetching submissions with versioned schemas
+const SUBMISSIONS_QUERY = `
+  SELECT fs.*,
+         fc.title as form_title,
+         COALESCE(pinned.json_schema, cur.json_schema) as json_schema,
+         COALESCE(pinned.ui_schema, cur.ui_schema) as ui_schema,
+         COALESCE(fs.schema_version, cur.version) as schema_version,
+         cur.version as current_version
+  FROM form_submissions fs
+  JOIN form_configurations fc ON fs.form_config_id = fc.id
+  LEFT JOIN form_schema_versions pinned ON pinned.id = fs.schema_version_id
+  LEFT JOIN form_schema_versions cur ON cur.form_id = fc.id AND cur.is_current = true
+  WHERE fs.award_id = $1
+  ORDER BY fc.form_key
+`;
+
 // GET /api/awards - List all awards
 router.get('/', async (req, res) => {
   try {
@@ -22,14 +38,7 @@ router.get('/:id', async (req, res) => {
       return res.status(404).json({ error: 'Award not found' });
     }
 
-    const submissions = await pool.query(
-      `SELECT fs.*, fc.title as form_title, fc.json_schema, fc.ui_schema
-       FROM form_submissions fs
-       JOIN form_configurations fc ON fs.form_config_id = fc.id
-       WHERE fs.award_id = $1
-       ORDER BY fc.form_key`,
-      [req.params.id]
-    );
+    const submissions = await pool.query(SUBMISSIONS_QUERY, [req.params.id]);
 
     const personnel = await pool.query(
       'SELECT * FROM project_personnel WHERE award_id = $1 ORDER BY name',
@@ -63,14 +72,7 @@ router.get('/by-log/:logNumber', async (req, res) => {
 
     const awardId = award.rows[0].id;
 
-    const submissions = await pool.query(
-      `SELECT fs.*, fc.title as form_title, fc.json_schema, fc.ui_schema
-       FROM form_submissions fs
-       JOIN form_configurations fc ON fs.form_config_id = fc.id
-       WHERE fs.award_id = $1
-       ORDER BY fc.form_key`,
-      [awardId]
-    );
+    const submissions = await pool.query(SUBMISSIONS_QUERY, [awardId]);
 
     const personnel = await pool.query(
       'SELECT * FROM project_personnel WHERE award_id = $1 ORDER BY name',
@@ -123,12 +125,18 @@ router.post('/', async (req, res) => {
        pi_budget, final_recommended_budget, program_manager, prime_award_type || 'extramural']
     );
 
-    // Create form submissions for this award
-    const configs = await pool.query('SELECT id, form_key FROM form_configurations WHERE is_active = true');
+    // Create form submissions pinned to current version
+    const configs = await pool.query(
+      `SELECT fc.id, fc.form_key, fsv.id as version_id, fsv.version
+       FROM form_configurations fc
+       JOIN form_schema_versions fsv ON fsv.form_id = fc.id AND fsv.is_current = true
+       WHERE fc.is_active = true`
+    );
     for (const config of configs.rows) {
       await pool.query(
-        'INSERT INTO form_submissions (award_id, form_config_id, form_key, status) VALUES ($1, $2, $3, $4)',
-        [result.rows[0].id, config.id, config.form_key, 'not_started']
+        `INSERT INTO form_submissions (award_id, form_config_id, form_key, status, schema_version_id, schema_version)
+         VALUES ($1, $2, $3, 'not_started', $4, $5)`,
+        [result.rows[0].id, config.id, config.form_key, config.version_id, config.version]
       );
     }
 
