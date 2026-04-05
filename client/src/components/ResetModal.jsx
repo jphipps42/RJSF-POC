@@ -8,7 +8,12 @@ import { resetFormSubmission } from '../services/api';
 const SECTION_LABELS = {
   safety_review: 'A. Safety Review',
   animal_review: 'B. Animal Research Review',
-  human_review: 'C. Human Research Review',
+  human_no_regulatory: 'C.a No Regulatory Review Required',
+  human_anatomical: 'C.b Human Anatomical Substances',
+  human_data_secondary: 'C.c Human Data - Secondary Use',
+  human_subjects: 'C.d Human Subjects',
+  human_special_topics: 'C.e Other/Special Topics',
+  human_estimated_start: 'C.f Estimated Start',
   acq_br_personnel: 'D.1a Personnel',
   acq_br_equipment: 'D.1b Equipment',
   acq_br_travel: 'D.1c Travel',

@@ -1,0 +1,17 @@
+{"type": "object", "title": "Animal Research Review Requirements", "properties": {"notes": {"type": "string", "title": "Notes", "section1.note"}, "animal_q1": {"enum": ["yes", "no"], "type": "string", "title": "1. Animals used?"}, "animal_q2": {"enum": ["yes", "no"], "type": "string", "title": "2. Will any DOD-funded animal studies be performed at a site outside the US?"}, "animal_q3": {"enum": ["yes", "no", "unknown"], "type": "string", "title": "3. Will any DOD-funded animal studies be performed at a site in a foreign country of concern (FCOC)?"}, "animal_species": {"type": "array", "items": {"enum": ["Rodents (mouse/rat/hamster)", "Non-Human Primates (NHP)", "Pigs", "Rabbits", "Dogs", "Service animals", "Cats", "Marine mammals", "Other"], "type": "string"}, "title": "Selected Animal Species", "uniqueItems": true}, "animal_start_date": {"type": "string", "title": "5. Estimated Animal Research Start (if known)"}}}
+
+{"notes": {"type": "string", "title": "Notes", "section1.note"}
+
+
+{"notes": {"ui:widget": "textarea", "ui:options": {"rows": 4}}, "animal_q1": {"ui:widget": "radio"}, "animal_q2": {"ui:widget": "radio"}, "animal_q3": {"ui:widget": "radio"}, "animal_species": {"ui:widget": "checkboxes"}}
+
+
+
+{"effort": "yes", "qualifications": ".section1.note", mapper value pair}
+{"animal_q1": "yes"}
+
+{"type": "object", "title": "Animal Research Review Requirements", "properties": {"notes": {"type": "string", "title": "Notes"}, "animal_q1": {"enum": ["yes", "no"], "type": "string", "title": "1. Animals used?"}, "animal_q2": {"enum": ["yes", "no"], "type": "string", "title": "2. Will any DOD-funded animal studies be performed at a site outside the US?"}, "animal_q3": {"enum": ["yes", "no", "unknown"], "type": "string", "title": "3. Will any DOD-funded animal studies be performed at a site in a foreign country of concern (FCOC)?"}, "animal_species": {"type": "array", "items": {"enum": ["Rodents (mouse/rat/hamster)", "Non-Human Primates (NHP)", "Pigs", "Rabbits", "Dogs", "Service animals", "Cats", "Marine mammals", "Other"], "type": "string"}, "title": "Selected Animal Species", "uniqueItems": true}, "animal_start_date": {"type": "string", "title": "5. Estimated Animal Research Start (if known)"}}}
+
+
+
+{"notes": {"ui:widget": "textarea", "ui:options": {"rows": 4}}, "animal_q1": {"ui:widget": "radio"}, "animal_q2": {"ui:widget": "radio"}, "animal_q3": {"ui:widget": "radio"}, "animal_species": {"ui:widget": "checkboxes"}}

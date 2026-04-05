@@ -32,6 +32,7 @@ export default function ReviewSection({ submission, onUpdate, auditMode = false 
   const schema = versioned.schema;
   const uiSchema = {
     ...versioned.uiSchema,
+    'ui:title': ' ',
     'ui:submitButtonOptions': { norender: true },
   };
 
@@ -99,7 +100,7 @@ export default function ReviewSection({ submission, onUpdate, auditMode = false 
         >
           <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center', pr: 1 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <Typography sx={{ fontWeight: 700, color: '#0a2540' }}>
+              <Typography sx={{ fontWeight: 700, color: '#0a2540', fontSize: '0.85rem' }}>
                 {submission.form_title}
               </Typography>
               {versioned.schemaVersion > 1 && (
@@ -136,12 +137,12 @@ export default function ReviewSection({ submission, onUpdate, auditMode = false 
           />
 
           {!isLocked && (
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1, mt: 2 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', mt: 1.5 }}>
               <Button
                 variant="contained"
                 onClick={handleSave}
                 disabled={saving}
-                sx={{ bgcolor: '#60a5fa', '&:hover': { bgcolor: '#3b82f6' } }}
+                size="small" sx={{ bgcolor: '#60a5fa', '&:hover': { bgcolor: '#3b82f6' } }}
               >
                 Save Draft
               </Button>
@@ -149,7 +150,7 @@ export default function ReviewSection({ submission, onUpdate, auditMode = false 
                 variant="contained"
                 onClick={() => setConfirmOpen(true)}
                 disabled={saving}
-                sx={{ bgcolor: '#2563eb', '&:hover': { bgcolor: '#1d4ed8' } }}
+                size="small" sx={{ bgcolor: '#2563eb', '&:hover': { bgcolor: '#1d4ed8' } }}
               >
                 {submitLabel}
               </Button>

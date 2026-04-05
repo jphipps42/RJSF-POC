@@ -2,9 +2,9 @@ import { Box, Typography, Paper } from '@mui/material';
 
 function SummaryItem({ label, value }) {
   return (
-    <Box sx={{ display: 'flex', mb: 0.25 }}>
-      <Typography sx={{ fontWeight: 700, fontSize: 12, width: 160, flexShrink: 0 }}>{label}:</Typography>
-      <Typography sx={{ fontSize: 12, color: '#333' }}>{value || ''}</Typography>
+    <Box sx={{ display: 'flex', mb: 0 }}>
+      <Typography sx={{ fontWeight: 'bold', fontSize: 11, width: 150, flexShrink: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{label}:</Typography>
+      <Typography sx={{ fontSize: 11, color: '#333' }}>{value || ''}</Typography>
     </Box>
   );
 }
@@ -14,14 +14,17 @@ export default function AwardSummary({ award }) {
 
   return (
     <Paper
-      elevation={3}
+      elevation={0}
       sx={{
         display: 'flex',
-        p: 2,
-        gap: 2.5,
-        mb: 2.5,
-        fontSize: 12,
+        py: '16px',
+        px: '20px',
+        gap: '20px',
+        mb: '20px',
+        fontSize: 11,
         bgcolor: '#fff',
+        borderRadius: '5px',
+        boxShadow: '0px 10px 10px rgba(0, 0, 0, 0.2)',
       }}
     >
       <Box sx={{ flex: 1 }}>

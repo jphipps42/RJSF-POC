@@ -10,7 +10,19 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ./server/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./service/src/main/resources/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  rjsf-service:
+    build: ./service
+    container_name: rjsf_service
+    ports:
+      - "3001:3001"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/rjsf_forms
+      SPRING_DATASOURCE_USERNAME: rjsf_user
+      SPRING_DATASOURCE_PASSWORD: rjsf_pass
+    depends_on:
+      - postgres
 
 volumes:
   pgdata:

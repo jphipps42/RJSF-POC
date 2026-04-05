@@ -36,8 +36,8 @@ const FILE_SECTIONS = [
   { key: 'updated_cps', label: 'Updated Current/Pending Support' },
 ];
 
-const cellSx = { border: '1px solid #c7ddf8', p: 0.75, fontSize: 12 };
-const inputSx = { '& .MuiInputBase-input': { fontSize: 12, p: '4px 8px' } };
+const cellSx = { border: '1px solid #c7ddf8', p: '4px 6px', fontSize: 11 };
+const inputSx = { '& .MuiInputBase-input': { fontSize: 11, p: '3px 6px' } };
 
 // ---- Inline-editable file grid for a single section ----
 function FileGrid({ files, sectionKey, onUpdate, onDelete }) {
@@ -102,10 +102,10 @@ function FileGrid({ files, sectionKey, onUpdate, onDelete }) {
                   value={editData.file_name}
                   onChange={(e) => setEditData((prev) => ({ ...prev, file_name: e.target.value }))}
                   fullWidth
-                  sx={{ fontSize: 12 }}
+                  sx={{ fontSize: 11 }}
                 >
                   {FILE_NAME_OPTIONS.map((opt) => (
-                    <MenuItem key={opt} value={opt} sx={{ fontSize: 12 }}>{opt}</MenuItem>
+                    <MenuItem key={opt} value={opt} sx={{ fontSize: 11 }}>{opt}</MenuItem>
                   ))}
                 </Select>
               ) : (
@@ -230,7 +230,7 @@ export default function FinalRecommendation({ awardId, linkedFiles, onLinkedFile
             variant="contained"
             size="small"
             onClick={() => openAddModal(key)}
-            sx={{ bgcolor: '#007bff', fontSize: 12 }}
+            sx={{ bgcolor: '#007bff', fontSize: 11 }}
           >
             Link File(s)
           </Button>
@@ -256,7 +256,7 @@ export default function FinalRecommendation({ awardId, linkedFiles, onLinkedFile
               variant="contained"
               size="small"
               onClick={() => openAddModal('overlap_mitigation')}
-              sx={{ bgcolor: '#007bff', fontSize: 12 }}
+              sx={{ bgcolor: '#007bff', fontSize: 11 }}
             >
               Link File(s)
             </Button>

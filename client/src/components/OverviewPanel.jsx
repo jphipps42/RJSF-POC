@@ -8,21 +8,21 @@ import {
 } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
-import { addPersonnel, updatePersonnel } from '../services/api';
+import { addPersonnel, updatePersonnel, deletePersonnel } from '../services/api';
 
 function InfoRow({ label, value }) {
   return (
     <Box sx={{ display: 'flex', mb: 0.5 }}>
-      <Typography sx={{ fontWeight: 700, fontSize: 12, width: 250, flexShrink: 0 }}>{label}:</Typography>
-      <Typography sx={{ fontSize: 12, color: '#333' }}>{value || ''}</Typography>
+      <Typography sx={{ fontWeight: 700, fontSize: 11, width: 220, flexShrink: 0 }}>{label}:</Typography>
+      <Typography sx={{ fontSize: 11, color: '#333' }}>{value || ''}</Typography>
     </Box>
   );
 }
 
 const EMPTY_PERSON = { organization: '', country: 'USA', project_role: '', name: '', is_subcontract: false };
 
-const cellSx = { border: '1px solid #93c5fd', p: 1, fontSize: 12 };
-const inputSx = { '& .MuiInputBase-input': { fontSize: 12, p: '4px 8px' } };
+const cellSx = { border: '1px solid #93c5fd', p: '4px 6px', fontSize: 11 };
+const inputSx = { '& .MuiInputBase-input': { fontSize: 11, p: '3px 6px' } };
 
 export default function OverviewPanel({ award, personnel, submissions, onPrimeAwardChange, onPersonnelChange, overviewHeader = 'Overview' }) {
   const [editingId, setEditingId] = useState(null);
@@ -35,7 +35,6 @@ export default function OverviewPanel({ award, personnel, submissions, onPrimeAw
   if (!award) return null;
 
   const primeAwardType = award.prime_award_type || 'extramural';
-  const showCreateRecord = primeAwardType === 'extramural_intramural';
 
   const getSubmissionDate = (formKey) => {
     const sub = submissions?.find(s => s.form_key === formKey);
@@ -104,6 +103,30 @@ export default function OverviewPanel({ award, personnel, submissions, onPrimeAw
     setSaving(false);
   };
 
+  // --- Delete Personnel ---
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState(null);
+
+  const confirmDelete = (person) => {
+    setDeleteTarget(person);
+    setDeleteConfirmOpen(true);
+  };
+
+  const handleDelete = async () => {
+    if (!deleteTarget) return;
+    setSaving(true);
+    try {
+      await deletePersonnel(deleteTarget.id);
+      onPersonnelChange?.((prev) => prev.filter((p) => p.id !== deleteTarget.id));
+      setSnackbar({ open: true, message: 'Personnel deleted.', severity: 'success' });
+    } catch (err) {
+      setSnackbar({ open: true, message: err.response?.data?.error || 'Delete failed', severity: 'error' });
+    }
+    setSaving(false);
+    setDeleteConfirmOpen(false);
+    setDeleteTarget(null);
+  };
+
   // --- Render helpers ---
   const renderCell = (person, field) => {
     if (editingId === person.id) {
@@ -136,7 +159,7 @@ export default function OverviewPanel({ award, personnel, submissions, onPrimeAw
 
   return (
     <Paper sx={{ p: 2, mb: 2, border: '1px solid #d6e4f2', borderRadius: 2 }}>
-      <Typography variant="h6" sx={{ fontWeight: 700, fontSize: 20, mb: 1 }}>{overviewHeader}</Typography>
+      <Typography variant="h6" sx={{ fontWeight: 700, fontSize: 16, mb: 0.5 }}>{overviewHeader}</Typography>
 
       <InfoRow label="PI Budget" value={award.pi_budget ? `$${Number(award.pi_budget).toLocaleString('en-US', { minimumFractionDigits: 2 })}` : ''} />
       <InfoRow label="Final Recommended Budget" value={award.final_recommended_budget ? `$${Number(award.final_recommended_budget).toLocaleString('en-US', { minimumFractionDigits: 2 })}` : ''} />
@@ -158,12 +181,12 @@ export default function OverviewPanel({ award, personnel, submissions, onPrimeAw
       <Divider sx={{ my: 1 }} />
 
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-        <Typography sx={{ fontWeight: 700, fontSize: 12, width: 250, flexShrink: 0 }}>Prime Award (Intra/Extra):</Typography>
+        <Typography sx={{ fontWeight: 700, fontSize: 11, width: 220, flexShrink: 0 }}>Prime Award (Intra/Extra):</Typography>
         <Select
           size="small"
           value={primeAwardType}
           onChange={(e) => onPrimeAwardChange?.(e.target.value)}
-          sx={{ fontSize: 12 }}
+          sx={{ fontSize: 11 }}
         >
           <MenuItem value="extramural">Extramural Only</MenuItem>
           <MenuItem value="intramural">Intragovernmental Only</MenuItem>
@@ -173,7 +196,7 @@ export default function OverviewPanel({ award, personnel, submissions, onPrimeAw
       </Box>
 
       {/* Project Personnel Table */}
-      <Typography sx={{ fontWeight: 700, fontSize: 12, mt: 2, mb: 1 }}>Project Personnel</Typography>
+      <Typography sx={{ fontWeight: 700, fontSize: 11, mt: 1.5, mb: 0.5 }}>Project Personnel</Typography>
       <Table size="small" sx={{ '& th, & td': cellSx }}>
         <TableHead sx={{ bgcolor: '#c8ddf3' }}>
           <TableRow>
@@ -196,11 +219,11 @@ export default function OverviewPanel({ award, personnel, submissions, onPrimeAw
               <TableCell align="center" sx={{ whiteSpace: 'nowrap' }}>
                 {editingId === p.id ? (
                   <>
-                    <IconButton size="small" onClick={saveEdit} disabled={saving} sx={{ color: '#16a34a' }}>
-                      <CheckIcon fontSize="small" />
+                    <IconButton size="small" onClick={saveEdit} disabled={saving} sx={{ color: '#16a34a', p: 0.25 }}>
+                      <CheckIcon sx={{ fontSize: 16 }} />
                     </IconButton>
-                    <IconButton size="small" onClick={cancelEdit} sx={{ color: '#dc2626' }}>
-                      <CloseIcon fontSize="small" />
+                    <IconButton size="small" onClick={cancelEdit} sx={{ color: '#dc2626', p: 0.25 }}>
+                      <CloseIcon sx={{ fontSize: 16 }} />
                     </IconButton>
                   </>
                 ) : (
@@ -209,19 +232,18 @@ export default function OverviewPanel({ award, personnel, submissions, onPrimeAw
                       variant="outlined"
                       size="small"
                       onClick={() => startEdit(p)}
-                      sx={{ fontSize: 12, py: 0.25, px: 1, mr: 0.5, bgcolor: '#e0ecff', color: '#1d4ed8', borderColor: '#93c5fd' }}
+                      sx={{ fontSize: 10, py: 0, px: 0.75, mr: 0.5, minWidth: 0, lineHeight: 1.8, bgcolor: '#e0ecff', color: '#1d4ed8', borderColor: '#93c5fd' }}
                     >
                       Edit
                     </Button>
-                    {showCreateRecord && (
-                      <Button
-                        variant="outlined"
-                        size="small"
-                        sx={{ fontSize: 12, py: 0.25, px: 1, bgcolor: '#e0ecff', color: '#1d4ed8', borderColor: '#93c5fd' }}
-                      >
-                        Create Record
-                      </Button>
-                    )}
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      onClick={() => confirmDelete(p)}
+                      sx={{ fontSize: 10, py: 0, px: 0.75, minWidth: 0, lineHeight: 1.8, bgcolor: '#fee2e2', color: '#dc2626', borderColor: '#fca5a5' }}
+                    >
+                      Delete
+                    </Button>
                   </>
                 )}
               </TableCell>
@@ -229,7 +251,7 @@ export default function OverviewPanel({ award, personnel, submissions, onPrimeAw
           ))}
         </TableBody>
       </Table>
-      <Button variant="outlined" size="small" onClick={openAdd} sx={{ mt: 1, fontSize: 12 }}>
+      <Button variant="outlined" size="small" onClick={openAdd} sx={{ mt: 0.5 }}>
         Add Personnel
       </Button>
 
@@ -282,6 +304,25 @@ export default function OverviewPanel({ award, personnel, submissions, onPrimeAw
           <Button onClick={() => setAddOpen(false)}>Cancel</Button>
           <Button variant="contained" onClick={saveNewPerson} disabled={saving} sx={{ bgcolor: '#2563eb' }}>
             {saving ? 'Saving...' : 'Add Personnel'}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* ====== Delete Confirmation Modal ====== */}
+      <Dialog open={deleteConfirmOpen} onClose={() => setDeleteConfirmOpen(false)} maxWidth="xs" fullWidth>
+        <DialogTitle sx={{ bgcolor: '#dc2626', color: '#fff' }}>Confirm Delete</DialogTitle>
+        <DialogContent sx={{ pt: 3 }}>
+          <Typography>
+            Are you sure you want to delete <strong>{deleteTarget?.name}</strong> ({deleteTarget?.project_role}) from the project personnel?
+          </Typography>
+          <Typography variant="body2" sx={{ mt: 1, color: '#666' }}>
+            This action cannot be undone.
+          </Typography>
+        </DialogContent>
+        <DialogActions sx={{ px: 3, pb: 2 }}>
+          <Button onClick={() => setDeleteConfirmOpen(false)}>Cancel</Button>
+          <Button variant="contained" color="error" onClick={handleDelete} disabled={saving}>
+            {saving ? 'Deleting...' : 'Delete'}
           </Button>
         </DialogActions>
       </Dialog>

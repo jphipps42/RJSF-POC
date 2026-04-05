@@ -17,9 +17,11 @@ export default function StatusBadge({ status }) {
         bgcolor: config.bgcolor,
         color: config.color,
         fontWeight: 700,
-        fontSize: '0.75rem',
-        px: 3,
+        fontSize: '0.65rem',
+        height: 18,
+        px: '30px',
         borderRadius: 999,
+        '& .MuiChip-label': { px: 0 },
       }}
     />
   );

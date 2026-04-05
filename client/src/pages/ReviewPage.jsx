@@ -9,6 +9,7 @@ import TopNav from '../components/TopNav';
 import AwardSummary from '../components/AwardSummary';
 import OverviewPanel from '../components/OverviewPanel';
 import ReviewSection from '../components/ReviewSection';
+import HumanReviewSection from '../components/HumanReviewSection';
 import AcquisitionSection from '../components/AcquisitionSection';
 import FinalRecommendation from '../components/FinalRecommendation';
 import NotesPanel from '../components/NotesPanel';
@@ -18,7 +19,8 @@ import {
   getAwardByLog, updateAward, getFormConfiguration, getSchemaVersions,
 } from '../services/api';
 
-const STANDARD_SECTIONS = ['safety_review', 'animal_review', 'human_review'];
+const STANDARD_SECTIONS = ['safety_review', 'animal_review'];
+const HUMAN_PREFIX = 'human_';
 const ACQ_PREFIX = 'acq_';
 
 export default function ReviewPage() {
@@ -110,8 +112,9 @@ export default function ReviewPage() {
     .map((key) => submissions.find((s) => s.form_key === key))
     .filter(Boolean);
 
+  const humanSubmissions = submissions.filter((s) => s.form_key.startsWith(HUMAN_PREFIX));
   const acqSubmissions = submissions.filter((s) => s.form_key.startsWith(ACQ_PREFIX));
-  const allResetable = [...standardSubmissions, ...acqSubmissions];
+  const allResetable = [...standardSubmissions, ...humanSubmissions, ...acqSubmissions];
 
   // Derive labels from layout config
   const overviewHeader = layoutConfig?.overview_header || 'Overview';
@@ -145,7 +148,7 @@ export default function ReviewPage() {
             Award Management &rarr; Negotiation
           </Typography>
         </Box>
-        <Button sx={{ color: '#2563eb', fontWeight: 600 }}>Return to Search</Button>
+        <Button variant="text" sx={{ color: '#2563eb', fontWeight: 600, p: 0, minWidth: 0, '&:hover': { bgcolor: 'transparent', textDecoration: 'underline' } }}>Return to Search</Button>
       </Box>
 
       {/* Status Bar */}
@@ -185,10 +188,11 @@ export default function ReviewPage() {
               overviewHeader={overviewHeader}
             />
 
-            <Typography variant="h6" sx={{ fontWeight: 700, mb: 2 }}>
+            <Typography variant="h6" sx={{ fontWeight: 700, fontSize: 14, mb: 1 }}>
               {reviewHeader}
             </Typography>
 
+            {/* Sections A, B */}
             {standardSubmissions.map((sub) => (
               <ReviewSection
                 key={sub.id}
@@ -197,6 +201,13 @@ export default function ReviewPage() {
               />
             ))}
 
+            {/* Section C with 6 nested subsections */}
+            <HumanReviewSection
+              submissions={humanSubmissions}
+              onUpdate={handleSubmissionUpdate}
+            />
+
+            {/* Section D with nested subsections */}
             <AcquisitionSection
               submissions={acqSubmissions}
               onUpdate={handleSubmissionUpdate}

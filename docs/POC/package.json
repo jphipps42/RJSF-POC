@@ -1,0 +1,11 @@
+{
+  "name": "egs-static-app",
+  "version": "1.0.0",
+  "description": "Static offline Pre-Award Review application",
+  "scripts": {
+    "build": "echo 'Build complete - static site ready for deployment'"
+  },
+  "keywords": ["static", "offline"],
+  "author": "",
+  "license": "MIT"
+}
