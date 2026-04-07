@@ -11,6 +11,7 @@ public record SubmissionWithSchemaDto(
         String formKey,
         Map<String, Object> formData,
         String status,
+        Map<String, Object> sectionStatus,
         OffsetDateTime submittedAt,
         OffsetDateTime completionDate,
         Boolean isLocked,

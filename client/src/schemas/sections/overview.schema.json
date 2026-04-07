@@ -1,0 +1,77 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "x-schemaVersion": 1,
+  "x-sectionKey": "overview",
+  "title": "Overview",
+  "properties": {
+    "pi_budget": {
+      "type": "number",
+      "title": "PI Budget"
+    },
+    "final_recommended_budget": {
+      "type": "number",
+      "title": "Final Recommended Budget"
+    },
+    "funding_source": {
+      "type": "string",
+      "title": "Funding Source",
+      "enum": ["congressional", "core_program", "supplemental", "other"],
+      "enumNames": ["Congressional", "Core Program", "Supplemental", "Other"]
+    },
+    "negotiation_status": {
+      "type": "string",
+      "title": "Negotiation Status",
+      "enum": ["not_started", "initial_contact", "under_negotiation", "terms_agreed", "pending_signatures"],
+      "enumNames": ["Not Started", "Initial Contact", "Under Negotiation", "Terms Agreed", "Pending Signatures"],
+      "default": "not_started"
+    },
+    "program_manager": {
+      "type": "string",
+      "title": "Program Manager"
+    },
+    "co_principal_investigator": {
+      "type": "string",
+      "title": "Co-Principal Investigator"
+    },
+    "contract_grants_specialist": {
+      "type": "string",
+      "title": "Contract/Grants Specialist"
+    },
+    "branch_chief": {
+      "type": "string",
+      "title": "Branch Chief"
+    },
+    "prime_award_type": {
+      "type": "string",
+      "title": "Prime Award Type",
+      "enum": ["extramural", "intramural", "extramural_intramural", "intramural_extramural"],
+      "enumNames": ["Extramural", "Intramural", "Extramural/Intramural", "Intramural/Extramural"],
+      "default": "extramural"
+    },
+    "pi_notification_date": {
+      "type": "string",
+      "format": "date",
+      "title": "PI Notification Date"
+    },
+    "personnel": {
+      "type": "array",
+      "title": "Project Personnel",
+      "items": {
+        "type": "object",
+        "required": ["name", "organization", "project_role"],
+        "properties": {
+          "name": { "type": "string", "title": "Name" },
+          "organization": { "type": "string", "title": "Organization" },
+          "country": { "type": "string", "title": "Country", "default": "USA" },
+          "project_role": { "type": "string", "title": "Project Role" },
+          "is_subcontract": { "type": "boolean", "title": "Subcontract", "default": false }
+        }
+      }
+    },
+    "overview_notes": {
+      "type": "string",
+      "title": "Overview Notes"
+    }
+  }
+}

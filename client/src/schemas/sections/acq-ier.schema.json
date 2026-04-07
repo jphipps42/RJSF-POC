@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "x-schemaVersion": 1,
+  "x-sectionKey": "acq_ier",
+  "title": "International Engagement Review",
+  "properties": {
+    "acq_ier_applicable": {
+      "type": "string",
+      "title": "Is an International Engagement Review applicable?",
+      "enum": ["yes", "no", "unclear"]
+    },
+    "acq_ier_comment": {
+      "type": "string",
+      "title": "IER Comment"
+    },
+    "acq_ier_plan_included": {
+      "type": "string",
+      "title": "Is an international engagement plan included?",
+      "enum": ["yes", "no"]
+    },
+    "acq_ier_plan_notes": {
+      "type": "string",
+      "title": "IER Plan Notes"
+    }
+  }
+}

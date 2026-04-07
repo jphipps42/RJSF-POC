@@ -14,10 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class FormSubmissionService {
@@ -82,16 +79,20 @@ public class FormSubmissionService {
     }
 
     @Transactional
-    public FormSubmission saveDraft(UUID id, Map<String, Object> formData) {
+    public FormSubmission saveDraft(UUID id, Map<String, Object> formData, String sectionId) {
         FormSubmission submission = formSubmissionRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "FormSubmission not found: " + id));
 
-        if (Boolean.TRUE.equals(submission.getIsLocked())) {
+        // Check if the specific section is locked
+        if (sectionId != null && isSectionLocked(submission, sectionId)) {
+            throw new IllegalStateException("Section '" + sectionId + "' is submitted and cannot be edited.");
+        }
+        if (sectionId == null && Boolean.TRUE.equals(submission.getIsLocked())) {
             throw new IllegalStateException("Submission is locked and cannot be edited: " + id);
         }
 
-        // Always pin to the current schema version on save (upgrades migrated data)
+        // Pin to current schema version
         FormSchemaVersion currentVersion = formSchemaVersionRepository
                 .findByFormIdAndIsCurrentTrue(submission.getFormConfigId())
                 .orElseThrow(() -> new EntityNotFoundException(
@@ -100,21 +101,33 @@ public class FormSubmissionService {
         submission.setSchemaVersion(currentVersion.getVersion());
 
         submission.setFormData(formData);
+
+        // Update section status
+        if (sectionId != null) {
+            Map<String, Object> sectionStatus = new HashMap<>(
+                    submission.getSectionStatus() != null ? submission.getSectionStatus() : Map.of());
+            sectionStatus.put(sectionId, "in_progress");
+            submission.setSectionStatus(sectionStatus);
+        }
+
         submission.setStatus("in_progress");
         return formSubmissionRepository.save(submission);
     }
 
     @Transactional
-    public FormSubmission submit(UUID id, Map<String, Object> formData) {
+    public FormSubmission submit(UUID id, Map<String, Object> formData, String sectionId) {
         FormSubmission submission = formSubmissionRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "FormSubmission not found: " + id));
 
-        if (Boolean.TRUE.equals(submission.getIsLocked())) {
+        if (sectionId != null && isSectionLocked(submission, sectionId)) {
+            throw new IllegalStateException("Section '" + sectionId + "' is already submitted.");
+        }
+        if (sectionId == null && Boolean.TRUE.equals(submission.getIsLocked())) {
             throw new IllegalStateException("Submission is locked and cannot be submitted: " + id);
         }
 
-        // Always pin to current version on submit
+        // Pin to current version
         FormSchemaVersion currentVersion = formSchemaVersionRepository
                 .findByFormIdAndIsCurrentTrue(submission.getFormConfigId())
                 .orElseThrow(() -> new EntityNotFoundException(
@@ -123,32 +136,78 @@ public class FormSubmissionService {
         submission.setSchemaVersion(currentVersion.getVersion());
 
         submission.setFormData(formData);
-        submission.setStatus("submitted");
-        submission.setIsLocked(true);
-        submission.setSubmittedAt(OffsetDateTime.now());
-        submission.setCompletionDate(OffsetDateTime.now());
+
+        // Update section status
+        Map<String, Object> sectionStatus = new HashMap<>(
+                submission.getSectionStatus() != null ? submission.getSectionStatus() : Map.of());
+        if (sectionId != null) {
+            sectionStatus.put(sectionId, "submitted");
+        } else {
+            // Submit all sections
+            for (String key : sectionStatus.keySet()) {
+                sectionStatus.put(key, "submitted");
+            }
+        }
+        submission.setSectionStatus(sectionStatus);
+
+        // Check if ALL sections are now submitted
+        boolean allSubmitted = sectionStatus.values().stream()
+                .allMatch(v -> "submitted".equals(v));
+
+        if (allSubmitted) {
+            submission.setStatus("submitted");
+            submission.setIsLocked(true);
+            submission.setSubmittedAt(OffsetDateTime.now());
+            submission.setCompletionDate(OffsetDateTime.now());
+        } else {
+            submission.setStatus("in_progress");
+        }
 
         return formSubmissionRepository.save(submission);
     }
 
     @Transactional
-    public FormSubmission reset(UUID id) {
+    public FormSubmission reset(UUID id, String sectionId) {
         FormSubmission submission = formSubmissionRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "FormSubmission not found: " + id));
 
-        submission.setFormData(Map.of());
-        submission.setStatus("not_started");
-        submission.setIsLocked(false);
-        submission.setSubmittedAt(null);
-        submission.setCompletionDate(null);
-        submission.setSchemaVersionId(null);
-        submission.setSchemaVersion(null);
+        if (sectionId != null) {
+            // Reset only one section
+            Map<String, Object> sectionStatus = new HashMap<>(
+                    submission.getSectionStatus() != null ? submission.getSectionStatus() : Map.of());
+            sectionStatus.put(sectionId, "not_started");
+            submission.setSectionStatus(sectionStatus);
+            submission.setStatus("in_progress");
+            submission.setIsLocked(false);
+        } else {
+            // Reset entire submission
+            submission.setFormData(Map.of());
+            submission.setStatus("not_started");
+            submission.setIsLocked(false);
+            submission.setSubmittedAt(null);
+            submission.setCompletionDate(null);
+            submission.setSchemaVersionId(null);
+            submission.setSchemaVersion(null);
+
+            // Reset all section statuses
+            Map<String, Object> sectionStatus = new HashMap<>(
+                    submission.getSectionStatus() != null ? submission.getSectionStatus() : Map.of());
+            for (String key : sectionStatus.keySet()) {
+                sectionStatus.put(key, "not_started");
+            }
+            submission.setSectionStatus(sectionStatus);
+        }
 
         return formSubmissionRepository.save(submission);
     }
 
-    // ---- Helper methods for building DTOs ----
+    // ---- Helper methods ----
+
+    private boolean isSectionLocked(FormSubmission submission, String sectionId) {
+        if (submission.getSectionStatus() == null) return false;
+        return "submitted".equals(submission.getSectionStatus().get(sectionId));
+    }
 
     private List<SubmissionWithSchemaDto> buildSubmissionDtos(List<FormSubmission> submissions) {
         List<SubmissionWithSchemaDto> dtos = new ArrayList<>();
@@ -159,24 +218,20 @@ public class FormSubmissionService {
     }
 
     private SubmissionWithSchemaDto buildSubmissionDto(FormSubmission sub) {
-        // Pinned schema version
         FormSchemaVersion pinnedVersion = null;
         if (sub.getSchemaVersionId() != null) {
             pinnedVersion = formSchemaVersionRepository.findById(sub.getSchemaVersionId())
                     .orElse(null);
         }
 
-        // Current schema version for this form config
         FormSchemaVersion currentVersion = formSchemaVersionRepository
                 .findByFormIdAndIsCurrentTrue(sub.getFormConfigId())
                 .orElse(null);
 
-        // Form title
         String formTitle = formConfigurationRepository.findById(sub.getFormConfigId())
                 .map(FormConfiguration::getTitle)
                 .orElse(null);
 
-        // COALESCE: pinned if available, else current
         FormSchemaVersion effectiveVersion = pinnedVersion != null ? pinnedVersion : currentVersion;
 
         Map<String, Object> jsonSchema = effectiveVersion != null ? effectiveVersion.getJsonSchema() : Map.of();
@@ -191,6 +246,7 @@ public class FormSubmissionService {
                 sub.getFormKey(),
                 sub.getFormData(),
                 sub.getStatus(),
+                sub.getSectionStatus(),
                 sub.getSubmittedAt(),
                 sub.getCompletionDate(),
                 sub.getIsLocked(),

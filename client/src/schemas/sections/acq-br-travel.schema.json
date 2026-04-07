@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "x-schemaVersion": 1,
+  "x-sectionKey": "acq_br_travel",
+  "title": "Budget Review - Travel",
+  "properties": {
+    "acq_travel_included": {
+      "type": "string",
+      "title": "Is travel included in the budget?",
+      "enum": ["yes", "no"]
+    },
+    "acq_travel_appropriate": {
+      "type": "string",
+      "title": "Are travel costs appropriate?",
+      "enum": ["yes", "no"]
+    },
+    "acq_travel_notes": {
+      "type": "string",
+      "title": "Travel Notes"
+    }
+  }
+}

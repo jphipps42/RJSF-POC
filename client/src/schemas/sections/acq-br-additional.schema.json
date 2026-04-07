@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "x-schemaVersion": 1,
+  "x-sectionKey": "acq_br_additional",
+  "title": "Budget Review - Additional Concerns",
+  "properties": {
+    "acq_additional_has_concerns": {
+      "type": "string",
+      "title": "Are there additional budget concerns?",
+      "enum": ["yes", "no"]
+    },
+    "acq_additional_notes": {
+      "type": "string",
+      "title": "Additional Notes"
+    }
+  }
+}

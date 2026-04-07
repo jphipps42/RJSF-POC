@@ -4,7 +4,7 @@ import {
   Table, TableHead, TableBody, TableRow, TableCell,
   TextField, Checkbox,
   Dialog, DialogTitle, DialogContent, DialogActions,
-  FormControlLabel,
+  FormControlLabel, Snackbar, Alert,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
@@ -12,6 +12,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import DescriptionIcon from '@mui/icons-material/Description';
+import { addPersonnel, updatePersonnel, deletePersonnel } from '../services/api';
 
 const EMPTY_PERSON = { name: '', organization: '', country: 'USA', project_role: '', is_subcontract: false };
 
@@ -21,12 +22,7 @@ const inputSx = { '& .MuiInputBase-input': { fontSize: 11, p: '3px 6px' } };
 
 /**
  * Custom RJSF field component that renders the personnel array as a data grid table.
- *
- * This is registered as a custom field via the `fields` prop on the RJSF Form component
- * and wired to the "personnel" property via uiSchema: { "ui:field": "personnelGrid" }.
- *
- * It receives the standard RJSF field props and calls onChange(newArray) to update
- * the form data through the RJSF engine.
+ * Calls REST API endpoints directly for add/edit/delete, then syncs via onChange.
  */
 export default function PersonnelDataGrid({ formData, onChange, readonly, disabled, schema, formContext }) {
   const [editingIdx, setEditingIdx] = useState(null);
@@ -34,9 +30,12 @@ export default function PersonnelDataGrid({ formData, onChange, readonly, disabl
   const [addOpen, setAddOpen] = useState(false);
   const [newPerson, setNewPerson] = useState({ ...EMPTY_PERSON });
   const [deleteConfirmIdx, setDeleteConfirmIdx] = useState(null);
+  const [saving, setSaving] = useState(false);
+  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
 
   const isLocked = readonly || disabled;
   const personnel = formData || [];
+  const awardId = formContext?.awardId;
 
   // Show "Create Record" button when prime award type includes a mixed component
   const primeAwardType = formContext?.primeAwardType || '';
@@ -60,15 +59,30 @@ export default function PersonnelDataGrid({ formData, onChange, readonly, disabl
     setEditData({});
   };
 
-  const saveEdit = () => {
-    if (editingIdx !== null) {
-      const currentPersonnel = Array.isArray(formData) ? formData : [];
-      const updated = [...currentPersonnel];
-      updated[editingIdx] = { ...editData };
-      setEditingIdx(null);
-      setEditData({});
-      onChange(updated);
+  const saveEdit = async () => {
+    if (editingIdx === null) return;
+    const person = personnel[editingIdx];
+    setSaving(true);
+    try {
+      if (person.id) {
+        // Update existing record via API
+        const res = await updatePersonnel(person.id, editData);
+        const updated = [...personnel];
+        updated[editingIdx] = res.data;
+        onChange(updated);
+        setSnackbar({ open: true, message: 'Personnel updated.', severity: 'success' });
+      } else {
+        // Record without an id (shouldn't happen normally, but handle gracefully)
+        const updated = [...personnel];
+        updated[editingIdx] = { ...person, ...editData };
+        onChange(updated);
+      }
+    } catch (err) {
+      setSnackbar({ open: true, message: err.response?.data?.error || 'Update failed', severity: 'error' });
     }
+    setEditingIdx(null);
+    setEditData({});
+    setSaving(false);
   };
 
   const handleEditField = (field, value) => {
@@ -85,28 +99,46 @@ export default function PersonnelDataGrid({ formData, onChange, readonly, disabl
     setNewPerson((prev) => ({ ...prev, [field]: value }));
   };
 
-  const saveNewPerson = () => {
+  const saveNewPerson = async () => {
     if (!newPerson.name || !newPerson.organization || !newPerson.project_role) return;
-    const currentPersonnel = Array.isArray(formData) ? formData : [];
-    const updated = [...currentPersonnel, {
-      name: newPerson.name,
-      organization: newPerson.organization,
-      country: newPerson.country || 'USA',
-      project_role: newPerson.project_role,
-      is_subcontract: newPerson.is_subcontract || false,
-    }];
-    onChange(updated);
-    setAddOpen(false);
+    if (!awardId) return;
+    setSaving(true);
+    try {
+      const res = await addPersonnel({
+        award_id: awardId,
+        name: newPerson.name,
+        organization: newPerson.organization,
+        country: newPerson.country || 'USA',
+        project_role: newPerson.project_role,
+        is_subcontract: newPerson.is_subcontract || false,
+      });
+      const updated = [...personnel, res.data];
+      onChange(updated);
+      setAddOpen(false);
+      setSnackbar({ open: true, message: 'Personnel added.', severity: 'success' });
+    } catch (err) {
+      setSnackbar({ open: true, message: err.response?.data?.error || 'Add failed', severity: 'error' });
+    }
+    setSaving(false);
   };
 
   // --- Delete ---
-  const handleDelete = () => {
-    if (deleteConfirmIdx !== null) {
-      const currentPersonnel = Array.isArray(formData) ? formData : [];
-      const updated = currentPersonnel.filter((_, i) => i !== deleteConfirmIdx);
-      setDeleteConfirmIdx(null);
+  const handleDelete = async () => {
+    if (deleteConfirmIdx === null) return;
+    const person = personnel[deleteConfirmIdx];
+    setSaving(true);
+    try {
+      if (person.id) {
+        await deletePersonnel(person.id);
+      }
+      const updated = personnel.filter((_, i) => i !== deleteConfirmIdx);
       onChange(updated);
+      setSnackbar({ open: true, message: 'Personnel removed.', severity: 'success' });
+    } catch (err) {
+      setSnackbar({ open: true, message: err.response?.data?.error || 'Delete failed', severity: 'error' });
     }
+    setDeleteConfirmIdx(null);
+    setSaving(false);
   };
 
   // --- Render Cell ---
@@ -165,7 +197,7 @@ export default function PersonnelDataGrid({ formData, onChange, readonly, disabl
             </TableRow>
           )}
           {personnel.map((person, idx) => (
-            <TableRow key={idx} sx={{ '&:hover': { bgcolor: '#f0f7ff' } }}>
+            <TableRow key={person.id || idx} sx={{ '&:hover': { bgcolor: '#f0f7ff' } }}>
               <TableCell>{renderCell(person, 'organization', idx)}</TableCell>
               <TableCell>{renderCell(person, 'country', idx)}</TableCell>
               <TableCell>{renderCell(person, 'project_role', idx)}</TableCell>
@@ -175,7 +207,7 @@ export default function PersonnelDataGrid({ formData, onChange, readonly, disabl
                 <TableCell align="center" sx={{ whiteSpace: 'nowrap' }}>
                   {editingIdx === idx ? (
                     <>
-                      <IconButton size="small" onClick={saveEdit} sx={{ color: '#16a34a', p: 0.25 }}>
+                      <IconButton size="small" onClick={saveEdit} disabled={saving} sx={{ color: '#16a34a', p: 0.25 }}>
                         <CheckIcon sx={{ fontSize: 16 }} />
                       </IconButton>
                       <IconButton size="small" onClick={cancelEdit} sx={{ color: '#dc2626', p: 0.25 }}>
@@ -184,10 +216,10 @@ export default function PersonnelDataGrid({ formData, onChange, readonly, disabl
                     </>
                   ) : (
                     <>
-                      <IconButton size="small" onClick={() => startEdit(idx)} sx={{ color: '#1d4ed8', p: 0.25 }}>
+                      <IconButton size="small" onClick={() => startEdit(idx)} disabled={saving} sx={{ color: '#1d4ed8', p: 0.25 }}>
                         <EditIcon sx={{ fontSize: 16 }} />
                       </IconButton>
-                      <IconButton size="small" onClick={() => setDeleteConfirmIdx(idx)} sx={{ color: '#dc2626', p: 0.25 }}>
+                      <IconButton size="small" onClick={() => setDeleteConfirmIdx(idx)} disabled={saving} sx={{ color: '#dc2626', p: 0.25 }}>
                         <DeleteIcon sx={{ fontSize: 16 }} />
                       </IconButton>
                       {showCreateRecord && (
@@ -219,6 +251,7 @@ export default function PersonnelDataGrid({ formData, onChange, readonly, disabl
           size="small"
           startIcon={<AddIcon />}
           onClick={openAdd}
+          disabled={saving}
           sx={{ mt: 0.5, fontSize: 11 }}
         >
           Add Personnel
@@ -260,10 +293,10 @@ export default function PersonnelDataGrid({ formData, onChange, readonly, disabl
           <Button
             variant="contained"
             onClick={saveNewPerson}
-            disabled={!newPerson.name || !newPerson.organization || !newPerson.project_role}
+            disabled={saving || !newPerson.name || !newPerson.organization || !newPerson.project_role}
             sx={{ bgcolor: '#2563eb' }}
           >
-            Add Personnel
+            {saving ? 'Adding...' : 'Add Personnel'}
           </Button>
         </DialogActions>
       </Dialog>
@@ -284,9 +317,22 @@ export default function PersonnelDataGrid({ formData, onChange, readonly, disabl
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2 }}>
           <Button onClick={() => setDeleteConfirmIdx(null)}>Cancel</Button>
-          <Button variant="contained" color="error" onClick={handleDelete}>Delete</Button>
+          <Button variant="contained" color="error" onClick={handleDelete} disabled={saving}>
+            {saving ? 'Deleting...' : 'Delete'}
+          </Button>
         </DialogActions>
       </Dialog>
+
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={3000}
+        onClose={() => setSnackbar({ ...snackbar, open: false })}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert severity={snackbar.severity} onClose={() => setSnackbar({ ...snackbar, open: false })}>
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }

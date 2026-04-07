@@ -1,0 +1,11 @@
+{
+  "acq_special_requirements": {
+    "ui:widget": "checkboxes"
+  },
+  "acq_special_notes": {
+    "ui:widget": "textarea",
+    "ui:options": {
+      "rows": 3
+    }
+  }
+}

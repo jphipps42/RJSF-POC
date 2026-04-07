@@ -1,0 +1,37 @@
+{
+  "scientific_overlap": {
+    "ui:widget": "radio"
+  },
+  "foreign_involvement": {
+    "ui:widget": "radio"
+  },
+  "risg_approval": {
+    "ui:widget": "radio"
+  },
+  "so_recommendation": {
+    "ui:widget": "select",
+    "ui:enumNames": [
+      "SO Recommend Approval to Award",
+      "SO Recommend Disapproval"
+    ]
+  },
+  "so_comments": {
+    "ui:widget": "textarea",
+    "ui:options": {
+      "rows": 3
+    }
+  },
+  "gor_recommendation": {
+    "ui:widget": "select",
+    "ui:enumNames": [
+      "GOR/COR Recommend Approval",
+      "GOR/COR Recommend Disapproval"
+    ]
+  },
+  "gor_comments": {
+    "ui:widget": "textarea",
+    "ui:options": {
+      "rows": 3
+    }
+  }
+}

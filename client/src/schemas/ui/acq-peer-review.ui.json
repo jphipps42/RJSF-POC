@@ -1,0 +1,17 @@
+{
+  "acq_peer_review_outcome": {
+    "ui:widget": "select",
+    "ui:enumNames": [
+      "Fund",
+      "Fund with Modifications",
+      "Defer",
+      "Do Not Fund"
+    ]
+  },
+  "acq_peer_comments": {
+    "ui:widget": "textarea",
+    "ui:options": {
+      "rows": 4
+    }
+  }
+}

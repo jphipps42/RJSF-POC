@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "x-schemaVersion": 1,
+  "x-sectionKey": "acq_br_third_party",
+  "title": "Budget Review - Third Party Costs",
+  "properties": {
+    "acq_third_party_included": {
+      "type": "string",
+      "title": "Are third party costs included in the budget?",
+      "enum": ["yes", "no"]
+    },
+    "acq_third_party_value_added": {
+      "type": "string",
+      "title": "Do third parties add value to the project?",
+      "enum": ["yes", "no"]
+    },
+    "acq_third_party_work_described": {
+      "type": "string",
+      "title": "Is the third party work adequately described?",
+      "enum": ["yes", "no"]
+    },
+    "acq_third_party_budget_concerns": {
+      "type": "string",
+      "title": "Are there budget concerns with third party costs?",
+      "enum": ["yes", "no"]
+    },
+    "acq_third_party_notes": {
+      "type": "string",
+      "title": "Third Party Notes"
+    }
+  }
+}

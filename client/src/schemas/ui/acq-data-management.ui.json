@@ -1,0 +1,17 @@
+{
+  "acq_dmp_received": {
+    "ui:widget": "radio"
+  },
+  "acq_dmp_repository_identified": {
+    "ui:widget": "radio"
+  },
+  "acq_dmp_sharing_timeline": {
+    "ui:widget": "radio"
+  },
+  "acq_dmp_notes": {
+    "ui:widget": "textarea",
+    "ui:options": {
+      "rows": 3
+    }
+  }
+}

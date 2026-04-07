@@ -17,6 +17,8 @@ import java.util.UUID;
 @Service
 public class AwardService {
 
+    private static final String COMPOSITE_FORM_KEY = "pre_award_composite";
+
     private final AwardRepository awardRepository;
     private final FormConfigurationRepository formConfigurationRepository;
     private final FormSubmissionRepository formSubmissionRepository;
@@ -107,24 +109,20 @@ public class AwardService {
         List<SubmissionWithSchemaDto> dtos = new ArrayList<>();
 
         for (FormSubmission sub : submissions) {
-            // Pinned schema version (if the submission was pinned to a specific version)
             FormSchemaVersion pinnedVersion = null;
             if (sub.getSchemaVersionId() != null) {
                 pinnedVersion = formSchemaVersionRepository.findById(sub.getSchemaVersionId())
                         .orElse(null);
             }
 
-            // Current schema version for this form config
             FormSchemaVersion currentVersion = formSchemaVersionRepository
                     .findByFormIdAndIsCurrentTrue(sub.getFormConfigId())
                     .orElse(null);
 
-            // Form title from the configuration
             String formTitle = formConfigurationRepository.findById(sub.getFormConfigId())
                     .map(FormConfiguration::getTitle)
                     .orElse(null);
 
-            // COALESCE logic: use pinned if available, otherwise current
             FormSchemaVersion effectiveVersion = pinnedVersion != null ? pinnedVersion : currentVersion;
 
             Map<String, Object> jsonSchema = effectiveVersion != null ? effectiveVersion.getJsonSchema() : Map.of();
@@ -139,6 +137,7 @@ public class AwardService {
                     sub.getFormKey(),
                     sub.getFormData(),
                     sub.getStatus(),
+                    sub.getSectionStatus(),
                     sub.getSubmittedAt(),
                     sub.getCompletionDate(),
                     sub.getIsLocked(),
@@ -161,27 +160,56 @@ public class AwardService {
     public Award create(Award award) {
         Award saved = awardRepository.save(award);
 
-        // For each active form config, create a submission pinned to the current schema version
-        List<FormConfiguration> activeConfigs = formConfigurationRepository
-                .findByIsActiveTrueOrderByFormKey();
+        // Create ONE composite submission for this award
+        FormConfiguration compositeConfig = formConfigurationRepository
+                .findByFormKeyAndIsActiveTrue(COMPOSITE_FORM_KEY)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Composite form config not found: " + COMPOSITE_FORM_KEY));
 
-        for (FormConfiguration config : activeConfigs) {
-            FormSchemaVersion currentVersion = formSchemaVersionRepository
-                    .findByFormIdAndIsCurrentTrue(config.getId())
-                    .orElse(null);
+        FormSchemaVersion currentVersion = formSchemaVersionRepository
+                .findByFormIdAndIsCurrentTrue(compositeConfig.getId())
+                .orElse(null);
 
-            FormSubmission submission = FormSubmission.builder()
-                    .awardId(saved.getId())
-                    .formConfigId(config.getId())
-                    .formKey(config.getFormKey())
-                    .formData(Map.of())
-                    .status("not_started")
-                    .isLocked(false)
-                    .schemaVersionId(currentVersion != null ? currentVersion.getId() : null)
-                    .schemaVersion(currentVersion != null ? currentVersion.getVersion() : null)
-                    .build();
-            formSubmissionRepository.save(submission);
-        }
+        // Initialize section statuses
+        Map<String, Object> sectionStatus = Map.ofEntries(
+                Map.entry("overview", "not_started"),
+                Map.entry("safety_review", "not_started"),
+                Map.entry("animal_review", "not_started"),
+                Map.entry("human_no_regulatory", "not_started"),
+                Map.entry("human_anatomical", "not_started"),
+                Map.entry("human_data_secondary", "not_started"),
+                Map.entry("human_subjects", "not_started"),
+                Map.entry("human_special_topics", "not_started"),
+                Map.entry("human_estimated_start", "not_started"),
+                Map.entry("acq_br_personnel", "not_started"),
+                Map.entry("acq_br_equipment", "not_started"),
+                Map.entry("acq_br_travel", "not_started"),
+                Map.entry("acq_br_materials", "not_started"),
+                Map.entry("acq_br_consultant", "not_started"),
+                Map.entry("acq_br_third_party", "not_started"),
+                Map.entry("acq_br_other_direct", "not_started"),
+                Map.entry("acq_br_additional", "not_started"),
+                Map.entry("acq_peer_review", "not_started"),
+                Map.entry("acq_sow_concerns", "not_started"),
+                Map.entry("acq_cps", "not_started"),
+                Map.entry("acq_ier", "not_started"),
+                Map.entry("acq_data_management", "not_started"),
+                Map.entry("acq_special_requirements", "not_started"),
+                Map.entry("final_recommendation", "not_started")
+        );
+
+        FormSubmission submission = FormSubmission.builder()
+                .awardId(saved.getId())
+                .formConfigId(compositeConfig.getId())
+                .formKey(COMPOSITE_FORM_KEY)
+                .formData(Map.of())
+                .status("not_started")
+                .sectionStatus(sectionStatus)
+                .isLocked(false)
+                .schemaVersionId(currentVersion != null ? currentVersion.getId() : null)
+                .schemaVersion(currentVersion != null ? currentVersion.getVersion() : null)
+                .build();
+        formSubmissionRepository.save(submission);
 
         return saved;
     }

@@ -18,14 +18,29 @@ export const updateAward = (id, data) => api.put(`/awards/${id}`, data);
 export const getFormConfigurations = () => api.get('/form-configurations');
 export const getFormConfiguration = (formKey) => api.get(`/form-configurations/${formKey}`);
 
-// Form Submissions
+// Form Submissions (section-aware)
 export const getFormSubmissions = (awardId) => api.get(`/form-submissions?award_id=${awardId}`);
 export const getFormSubmission = (id) => api.get(`/form-submissions/${id}`);
 export const getSubmissionByAwardAndKey = (awardId, formKey) =>
   api.get(`/form-submissions/by-award/${awardId}/${formKey}`);
-export const saveFormDraft = (id, formData) => api.put(`/form-submissions/${id}/save`, { form_data: formData });
-export const submitForm = (id, formData) => api.put(`/form-submissions/${id}/submit`, { form_data: formData });
-export const resetFormSubmission = (id) => api.put(`/form-submissions/${id}/reset`);
+export const saveFormDraft = (id, formData, sectionId) => {
+  const url = sectionId
+    ? `/form-submissions/${id}/save?section=${sectionId}`
+    : `/form-submissions/${id}/save`;
+  return api.put(url, { form_data: formData });
+};
+export const submitForm = (id, formData, sectionId) => {
+  const url = sectionId
+    ? `/form-submissions/${id}/submit?section=${sectionId}`
+    : `/form-submissions/${id}/submit`;
+  return api.put(url, { form_data: formData });
+};
+export const resetFormSubmission = (id, sectionId) => {
+  const url = sectionId
+    ? `/form-submissions/${id}/reset?section=${sectionId}`
+    : `/form-submissions/${id}/reset`;
+  return api.put(url);
+};
 
 // Personnel
 export const getPersonnel = (awardId) => api.get(`/personnel?award_id=${awardId}`);

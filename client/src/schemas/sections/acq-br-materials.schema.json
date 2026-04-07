@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "x-schemaVersion": 1,
+  "x-sectionKey": "acq_br_materials",
+  "title": "Budget Review - Materials & Supplies",
+  "properties": {
+    "acq_materials_included": {
+      "type": "string",
+      "title": "Are materials and supplies included in the budget?",
+      "enum": ["yes", "no"]
+    },
+    "acq_materials_appropriate": {
+      "type": "string",
+      "title": "Are the materials and supplies appropriate for the project?",
+      "enum": ["yes", "no"]
+    },
+    "acq_materials_cost_appropriate": {
+      "type": "string",
+      "title": "Are the costs for materials and supplies appropriate?",
+      "enum": ["yes", "no"]
+    },
+    "acq_materials_notes": {
+      "type": "string",
+      "title": "Materials & Supplies Notes"
+    }
+  }
+}

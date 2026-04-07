@@ -1,0 +1,11 @@
+{
+  "human_ds_q1": {
+    "ui:widget": "radio"
+  },
+  "human_ds_notes": {
+    "ui:widget": "textarea",
+    "ui:options": {
+      "rows": 3
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "x-schemaVersion": 1,
+  "x-sectionKey": "acq_sow_concerns",
+  "title": "Statement of Work Concerns",
+  "properties": {
+    "acq_sow_comments": {
+      "type": "string",
+      "title": "Note (Required)"
+    }
+  }
+}

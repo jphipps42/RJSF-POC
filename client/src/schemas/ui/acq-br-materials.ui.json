@@ -1,0 +1,17 @@
+{
+  "acq_materials_included": {
+    "ui:widget": "radio"
+  },
+  "acq_materials_appropriate": {
+    "ui:widget": "radio"
+  },
+  "acq_materials_cost_appropriate": {
+    "ui:widget": "radio"
+  },
+  "acq_materials_notes": {
+    "ui:widget": "textarea",
+    "ui:options": {
+      "rows": 3
+    }
+  }
+}

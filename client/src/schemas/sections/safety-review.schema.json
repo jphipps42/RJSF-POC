@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "x-schemaVersion": 1,
+  "x-sectionKey": "safety_review",
+  "title": "Safety Review",
+  "properties": {
+    "safety_q1": {
+      "type": "string",
+      "title": "1. Does the research involve select agents or toxins?",
+      "enum": ["yes", "no"]
+    },
+    "safety_q2": {
+      "type": "string",
+      "title": "2. Does the research involve recombinant or synthetic nucleic acid molecules?",
+      "enum": ["yes", "no"]
+    },
+    "safety_q3": {
+      "type": "string",
+      "title": "3. Does the research involve human blood, body fluids, tissues, or cell lines?",
+      "enum": ["yes", "no"]
+    },
+    "safety_q4": {
+      "type": "string",
+      "title": "4. Does the research involve hazardous chemicals or materials?",
+      "enum": ["yes", "no"]
+    },
+    "safety_q5": {
+      "type": "string",
+      "title": "5. Does the research involve lasers?",
+      "enum": ["yes", "no"]
+    },
+    "safety_q6": {
+      "type": "string",
+      "title": "6. Does the research involve radiation or radioactive materials?",
+      "enum": ["yes", "no"]
+    },
+    "safety_q7": {
+      "type": "string",
+      "title": "7. Does the research involve field work or travel to hazardous locations?",
+      "enum": ["yes", "no"]
+    },
+    "safety_q8": {
+      "type": "string",
+      "title": "8. Does the research involve Dual Use Research of Concern (DURC)?",
+      "enum": ["yes", "no", "not_applicable"]
+    },
+    "programmatic_rec": {
+      "type": "string",
+      "title": "Programmatic Recommendation"
+    },
+    "safety_notes": {
+      "type": "string",
+      "title": "Safety Notes"
+    }
+  }
+}

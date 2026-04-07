@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "x-schemaVersion": 1,
+  "x-sectionKey": "final_recommendation",
+  "title": "Final Recommendation",
+  "properties": {
+    "scientific_overlap": {
+      "type": "string",
+      "title": "Is there scientific overlap with other funded projects?",
+      "enum": ["yes", "no"]
+    },
+    "foreign_involvement": {
+      "type": "string",
+      "title": "Is there foreign involvement?",
+      "enum": ["yes", "no"]
+    },
+    "risg_approval": {
+      "type": "string",
+      "title": "Has RISG approval been obtained?",
+      "enum": ["yes", "no"]
+    },
+    "so_recommendation": {
+      "type": "string",
+      "title": "Scientific Officer Recommendation",
+      "enum": ["approval", "disapproval"],
+      "enumNames": ["Approval", "Disapproval"]
+    },
+    "so_comments": {
+      "type": "string",
+      "title": "Scientific Officer Comments"
+    },
+    "gor_recommendation": {
+      "type": "string",
+      "title": "Grants Officer Representative Recommendation",
+      "enum": ["approval", "disapproval"],
+      "enumNames": ["Approval", "Disapproval"]
+    },
+    "gor_comments": {
+      "type": "string",
+      "title": "Grants Officer Representative Comments"
+    }
+  }
+}

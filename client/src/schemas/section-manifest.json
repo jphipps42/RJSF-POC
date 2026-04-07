@@ -1,0 +1,88 @@
+{
+  "version": 1,
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Pre-Award Overview",
+      "schemaFile": "overview.schema.json",
+      "uiSchemaFile": "overview.ui.json",
+      "order": 0,
+      "submitLabel": "Submit Overview",
+      "customRenderer": "OverviewRenderer"
+    },
+    {
+      "id": "safety_review",
+      "title": "A. Safety Requirements Review",
+      "schemaFile": "safety-review.schema.json",
+      "uiSchemaFile": "safety-review.ui.json",
+      "group": "review",
+      "order": 1,
+      "submitLabel": "Submit to Safety Office"
+    },
+    {
+      "id": "animal_review",
+      "title": "B. Animal Research Review Requirements",
+      "schemaFile": "animal-review.schema.json",
+      "uiSchemaFile": "animal-review.ui.json",
+      "group": "review",
+      "order": 2,
+      "submitLabel": "Submit to Animal Research Regulatory Office"
+    },
+    {
+      "id": "human_review",
+      "title": "C. Human Research Review Requirements",
+      "group": "review",
+      "order": 3,
+      "isGroupHeader": true,
+      "submitLabel": "Submit to Human Research Regulatory Agency",
+      "children": [
+        { "id": "human_no_regulatory", "title": "a. Human Research NOT Requiring Regulatory Review", "schemaFile": "human-no-regulatory.schema.json", "uiSchemaFile": "human-no-regulatory.ui.json" },
+        { "id": "human_anatomical", "title": "b. Human Anatomical Substances", "schemaFile": "human-anatomical.schema.json", "uiSchemaFile": "human-anatomical.ui.json" },
+        { "id": "human_data_secondary", "title": "c. Human Data - Secondary Use", "schemaFile": "human-data-secondary.schema.json", "uiSchemaFile": "human-data-secondary.ui.json" },
+        { "id": "human_subjects", "title": "d. Human Subjects", "schemaFile": "human-subjects.schema.json", "uiSchemaFile": "human-subjects.ui.json" },
+        { "id": "human_special_topics", "title": "e. Other/Special Topics", "schemaFile": "human-special-topics.schema.json", "uiSchemaFile": "human-special-topics.ui.json" },
+        { "id": "human_estimated_start", "title": "f. Estimated Start", "schemaFile": "human-estimated-start.schema.json", "uiSchemaFile": "human-estimated-start.ui.json" }
+      ]
+    },
+    {
+      "id": "acquisition",
+      "title": "D. Acquisition/Contracting Review",
+      "group": "review",
+      "order": 4,
+      "isGroupHeader": true,
+      "submitLabel": "Submit to Finance for processing",
+      "children": [
+        {
+          "id": "budget_review",
+          "title": "1. Budget Review",
+          "isGroupHeader": true,
+          "children": [
+            { "id": "acq_br_personnel", "title": "a. Personnel", "schemaFile": "acq-br-personnel.schema.json", "uiSchemaFile": "acq-br-personnel.ui.json" },
+            { "id": "acq_br_equipment", "title": "b. Equipment", "schemaFile": "acq-br-equipment.schema.json", "uiSchemaFile": "acq-br-equipment.ui.json" },
+            { "id": "acq_br_travel", "title": "c. Travel", "schemaFile": "acq-br-travel.schema.json", "uiSchemaFile": "acq-br-travel.ui.json" },
+            { "id": "acq_br_materials", "title": "d. Materials, Supplies, Consumables", "schemaFile": "acq-br-materials.schema.json", "uiSchemaFile": "acq-br-materials.ui.json" },
+            { "id": "acq_br_consultant", "title": "e. Consultant/Collaborator", "schemaFile": "acq-br-consultant.schema.json", "uiSchemaFile": "acq-br-consultant.ui.json" },
+            { "id": "acq_br_third_party", "title": "f. 3rd Party (Subawards/Consortium/Contractual)", "schemaFile": "acq-br-third-party.schema.json", "uiSchemaFile": "acq-br-third-party.ui.json" },
+            { "id": "acq_br_other_direct", "title": "g. Other Direct Costs", "schemaFile": "acq-br-other-direct.schema.json", "uiSchemaFile": "acq-br-other-direct.ui.json" },
+            { "id": "acq_br_additional", "title": "h. Additional Budget Concerns", "schemaFile": "acq-br-additional.schema.json", "uiSchemaFile": "acq-br-additional.ui.json" }
+          ]
+        },
+        { "id": "acq_peer_review", "title": "2. Peer and Programmatic Review Recommendations", "schemaFile": "acq-peer-review.schema.json", "uiSchemaFile": "acq-peer-review.ui.json" },
+        { "id": "acq_sow_concerns", "title": "3. Statement of Work Related Concerns", "schemaFile": "acq-sow-concerns.schema.json", "uiSchemaFile": "acq-sow-concerns.ui.json" },
+        { "id": "acq_cps", "title": "4. Current and Pending Support (CPS)", "schemaFile": "acq-cps.schema.json", "uiSchemaFile": "acq-cps.ui.json" },
+        { "id": "acq_ier", "title": "5. Inclusion Enrollment Report (IER)", "schemaFile": "acq-ier.schema.json", "uiSchemaFile": "acq-ier.ui.json" },
+        { "id": "acq_data_management", "title": "6. Data Management Plan", "schemaFile": "acq-data-management.schema.json", "uiSchemaFile": "acq-data-management.ui.json" },
+        { "id": "acq_special_requirements", "title": "7. Special Requirements", "schemaFile": "acq-special-requirements.schema.json", "uiSchemaFile": "acq-special-requirements.ui.json" }
+      ]
+    },
+    {
+      "id": "final_recommendation",
+      "title": "Final Recommendation to Award",
+      "schemaFile": "final-recommendation.schema.json",
+      "uiSchemaFile": "final-recommendation.ui.json",
+      "group": "recommendation",
+      "order": 5
+    }
+  ],
+  "crossSectionValidation": []
+}

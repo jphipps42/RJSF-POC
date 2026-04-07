@@ -1,0 +1,17 @@
+{
+  "acq_other_direct_included": {
+    "ui:widget": "radio"
+  },
+  "acq_other_direct_justified": {
+    "ui:widget": "radio"
+  },
+  "acq_other_direct_breakdown": {
+    "ui:widget": "radio"
+  },
+  "acq_other_direct_notes": {
+    "ui:widget": "textarea",
+    "ui:options": {
+      "rows": 3
+    }
+  }
+}

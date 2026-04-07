@@ -1,0 +1,17 @@
+{
+  "acq_equip_included": {
+    "ui:widget": "radio"
+  },
+  "acq_equip_necessary": {
+    "ui:widget": "radio"
+  },
+  "acq_equip_cost_appropriate": {
+    "ui:widget": "radio"
+  },
+  "acq_equip_notes": {
+    "ui:widget": "textarea",
+    "ui:options": {
+      "rows": 3
+    }
+  }
+}

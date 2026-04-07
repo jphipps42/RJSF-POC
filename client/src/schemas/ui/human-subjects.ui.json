@@ -1,0 +1,20 @@
+{
+  "human_hs_q1": {
+    "ui:widget": "radio"
+  },
+  "human_hs_q2": {
+    "ui:widget": "radio"
+  },
+  "ct_fda_q1": {
+    "ui:widget": "radio"
+  },
+  "ct_nonus_q1": {
+    "ui:widget": "radio"
+  },
+  "human_hs_notes": {
+    "ui:widget": "textarea",
+    "ui:options": {
+      "rows": 3
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "acq_cps_received": {
+    "ui:widget": "radio"
+  },
+  "acq_cps_foreign_influence": {
+    "ui:widget": "radio"
+  },
+  "acq_cps_overlap_identified": {
+    "ui:widget": "radio"
+  },
+  "acq_cps_comments": {
+    "ui:widget": "textarea",
+    "ui:options": {
+      "rows": 4
+    }
+  }
+}

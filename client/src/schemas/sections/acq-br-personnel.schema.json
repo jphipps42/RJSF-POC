@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "x-schemaVersion": 1,
+  "x-sectionKey": "acq_br_personnel",
+  "title": "Budget Review - Personnel",
+  "properties": {
+    "acq_personnel_qualifications": {
+      "type": "string",
+      "title": "Are personnel qualifications adequate?",
+      "enum": ["yes", "no"]
+    },
+    "acq_personnel_effort": {
+      "type": "string",
+      "title": "Is the level of effort appropriate?",
+      "enum": ["yes", "no"]
+    },
+    "acq_personnel_salary_cap": {
+      "type": "string",
+      "title": "Are salaries within the salary cap?",
+      "enum": ["yes", "no", "not_applicable"]
+    },
+    "acq_personnel_fringe_rate": {
+      "type": "string",
+      "title": "Is the fringe benefit rate appropriate?",
+      "enum": ["yes", "no"]
+    },
+    "acq_personnel_notes": {
+      "type": "string",
+      "title": "Personnel Notes"
+    }
+  }
+}

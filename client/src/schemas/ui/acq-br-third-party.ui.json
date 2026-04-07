@@ -1,0 +1,20 @@
+{
+  "acq_third_party_included": {
+    "ui:widget": "radio"
+  },
+  "acq_third_party_value_added": {
+    "ui:widget": "radio"
+  },
+  "acq_third_party_work_described": {
+    "ui:widget": "radio"
+  },
+  "acq_third_party_budget_concerns": {
+    "ui:widget": "radio"
+  },
+  "acq_third_party_notes": {
+    "ui:widget": "textarea",
+    "ui:options": {
+      "rows": 3
+    }
+  }
+}

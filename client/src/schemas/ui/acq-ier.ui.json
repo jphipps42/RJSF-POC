@@ -1,0 +1,20 @@
+{
+  "acq_ier_applicable": {
+    "ui:widget": "radio"
+  },
+  "acq_ier_comment": {
+    "ui:widget": "textarea",
+    "ui:options": {
+      "rows": 3
+    }
+  },
+  "acq_ier_plan_included": {
+    "ui:widget": "radio"
+  },
+  "acq_ier_plan_notes": {
+    "ui:widget": "textarea",
+    "ui:options": {
+      "rows": 3
+    }
+  }
+}

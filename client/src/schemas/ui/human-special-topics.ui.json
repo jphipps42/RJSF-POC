@@ -1,0 +1,11 @@
+{
+  "human_ost_q1": {
+    "ui:widget": "radio"
+  },
+  "human_ost_notes": {
+    "ui:widget": "textarea",
+    "ui:options": {
+      "rows": 3
+    }
+  }
+}

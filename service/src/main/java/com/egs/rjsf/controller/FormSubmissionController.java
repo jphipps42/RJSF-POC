@@ -22,10 +22,6 @@ public class FormSubmissionController {
         this.formSubmissionService = formSubmissionService;
     }
 
-    /**
-     * Request body for save and submit endpoints.
-     * Jackson SNAKE_CASE naming maps the JSON field "form_data" to this record's formData field.
-     */
     public record SaveFormRequest(Map<String, Object> formData) {}
 
     @GetMapping
@@ -57,19 +53,25 @@ public class FormSubmissionController {
     }
 
     @PutMapping("/{id}/save")
-    public ResponseEntity<FormSubmission> save(@PathVariable UUID id,
-                                               @RequestBody SaveFormRequest request) {
-        return ResponseEntity.ok(formSubmissionService.saveDraft(id, request.formData()));
+    public ResponseEntity<FormSubmission> save(
+            @PathVariable UUID id,
+            @RequestParam(name = "section", required = false) String section,
+            @RequestBody SaveFormRequest request) {
+        return ResponseEntity.ok(formSubmissionService.saveDraft(id, request.formData(), section));
     }
 
     @PutMapping("/{id}/submit")
-    public ResponseEntity<FormSubmission> submit(@PathVariable UUID id,
-                                                 @RequestBody SaveFormRequest request) {
-        return ResponseEntity.ok(formSubmissionService.submit(id, request.formData()));
+    public ResponseEntity<FormSubmission> submit(
+            @PathVariable UUID id,
+            @RequestParam(name = "section", required = false) String section,
+            @RequestBody SaveFormRequest request) {
+        return ResponseEntity.ok(formSubmissionService.submit(id, request.formData(), section));
     }
 
     @PutMapping("/{id}/reset")
-    public ResponseEntity<FormSubmission> reset(@PathVariable UUID id) {
-        return ResponseEntity.ok(formSubmissionService.reset(id));
+    public ResponseEntity<FormSubmission> reset(
+            @PathVariable UUID id,
+            @RequestParam(name = "section", required = false) String section) {
+        return ResponseEntity.ok(formSubmissionService.reset(id, section));
     }
 }

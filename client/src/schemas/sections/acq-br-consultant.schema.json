@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "x-schemaVersion": 1,
+  "x-sectionKey": "acq_br_consultant",
+  "title": "Budget Review - Consultant Costs",
+  "properties": {
+    "acq_consultant_included": {
+      "type": "string",
+      "title": "Are consultant costs included in the budget?",
+      "enum": ["yes", "no"]
+    },
+    "acq_consultant_necessary": {
+      "type": "string",
+      "title": "Are the consultants necessary for the project?",
+      "enum": ["yes", "no"]
+    },
+    "acq_consultant_duties_described": {
+      "type": "string",
+      "title": "Are consultant duties adequately described?",
+      "enum": ["yes", "no"]
+    },
+    "acq_consultant_costs_appropriate": {
+      "type": "string",
+      "title": "Are consultant costs appropriate?",
+      "enum": ["yes", "no"]
+    },
+    "acq_consultant_notes": {
+      "type": "string",
+      "title": "Consultant Notes"
+    }
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "pi_budget": {
+    "ui:placeholder": "Enter PI budget amount"
+  },
+  "final_recommended_budget": {
+    "ui:placeholder": "Enter final recommended budget"
+  },
+  "funding_source": {
+    "ui:widget": "select",
+    "ui:enumNames": [
+      "Congressional Directed",
+      "Core Program",
+      "Supplemental",
+      "Other"
+    ]
+  },
+  "negotiation_status": {
+    "ui:widget": "select",
+    "ui:enumNames": [
+      "Not Started",
+      "Initial Contact",
+      "Under Negotiation",
+      "Terms Agreed",
+      "Pending Signatures"
+    ]
+  },
+  "program_manager": {
+    "ui:placeholder": "Enter program manager name"
+  },
+  "co_principal_investigator": {
+    "ui:placeholder": "Enter co-PI name (if applicable)"
+  },
+  "contract_grants_specialist": {
+    "ui:placeholder": "Enter contract/grants specialist name"
+  },
+  "branch_chief": {
+    "ui:placeholder": "Enter branch chief name"
+  },
+  "prime_award_type": {
+    "ui:widget": "select",
+    "ui:enumNames": [
+      "Extramural Only",
+      "Intragovernmental Only",
+      "Extramural w/Intragovernmental Component",
+      "Intragovernmental w/Extramural Component"
+    ]
+  },
+  "pi_notification_date": {
+    "ui:widget": "date"
+  },
+  "personnel": {
+    "ui:widget": "hidden"
+  },
+  "overview_notes": {
+    "ui:widget": "textarea",
+    "ui:options": {
+      "rows": 4
+    }
+  },
+  "ui:order": [
+    "pi_budget",
+    "final_recommended_budget",
+    "funding_source",
+    "negotiation_status",
+    "program_manager",
+    "co_principal_investigator",
+    "contract_grants_specialist",
+    "branch_chief",
+    "pi_notification_date",
+    "prime_award_type",
+    "personnel",
+    "overview_notes"
+  ]
+}

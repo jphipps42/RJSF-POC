@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "x-schemaVersion": 1,
+  "x-sectionKey": "acq_peer_review",
+  "title": "Peer Review",
+  "properties": {
+    "acq_peer_review_score": {
+      "type": "number",
+      "title": "Peer Review Score",
+      "minimum": 1,
+      "maximum": 10
+    },
+    "acq_peer_review_outcome": {
+      "type": "string",
+      "title": "Peer Review Outcome",
+      "enum": ["fund", "fund_with_modifications", "defer", "do_not_fund"],
+      "enumNames": ["Fund", "Fund with Modifications", "Defer", "Do Not Fund"]
+    },
+    "acq_peer_comments": {
+      "type": "string",
+      "title": "Peer Review Comments"
+    }
+  }
+}

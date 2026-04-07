@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "x-schemaVersion": 1,
+  "x-sectionKey": "acq_br_other_direct",
+  "title": "Budget Review - Other Direct Costs",
+  "properties": {
+    "acq_other_direct_included": {
+      "type": "string",
+      "title": "Are other direct costs included in the budget?",
+      "enum": ["yes", "no"]
+    },
+    "acq_other_direct_justified": {
+      "type": "string",
+      "title": "Are other direct costs adequately justified?",
+      "enum": ["yes", "no"]
+    },
+    "acq_other_direct_breakdown": {
+      "type": "string",
+      "title": "Is a cost breakdown provided for other direct costs?",
+      "enum": ["yes", "no"]
+    },
+    "acq_other_direct_notes": {
+      "type": "string",
+      "title": "Other Direct Costs Notes"
+    }
+  }
+}

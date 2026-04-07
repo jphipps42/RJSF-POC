@@ -1,0 +1,8 @@
+{
+  "acq_sow_comments": {
+    "ui:widget": "textarea",
+    "ui:options": {
+      "rows": 4
+    }
+  }
+}

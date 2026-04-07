@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "x-schemaVersion": 1,
+  "x-sectionKey": "acq_cps",
+  "title": "Current & Pending Support",
+  "properties": {
+    "acq_cps_received": {
+      "type": "string",
+      "title": "Has Current & Pending Support been received?",
+      "enum": ["yes", "no"]
+    },
+    "acq_cps_foreign_influence": {
+      "type": "string",
+      "title": "Are there foreign influence concerns?",
+      "enum": ["yes", "no", "in_progress"]
+    },
+    "acq_cps_overlap_identified": {
+      "type": "string",
+      "title": "Has overlap been identified?",
+      "enum": ["yes", "no"]
+    },
+    "acq_cps_comments": {
+      "type": "string",
+      "title": "Comments"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "acq_additional_has_concerns": {
+    "ui:widget": "radio"
+  },
+  "acq_additional_notes": {
+    "ui:widget": "textarea",
+    "ui:options": {
+      "rows": 3
+    }
+  }
+}

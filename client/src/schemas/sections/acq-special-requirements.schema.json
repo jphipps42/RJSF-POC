@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "x-schemaVersion": 1,
+  "x-sectionKey": "acq_special_requirements",
+  "title": "Special Requirements",
+  "properties": {
+    "acq_special_requirements": {
+      "type": "array",
+      "title": "Special Requirements",
+      "items": {
+        "type": "string",
+        "enum": [
+          "Cooperative Agreement",
+          "Option Years",
+          "ClinicalTrials.gov submission",
+          "FDA Regulatory Requirement",
+          "Payment Restrictions for Human Use Approval",
+          "Participation in IPR Meetings",
+          "Participation in Milestone Meetings",
+          "Federal TBI Registry submission (FITBIR)",
+          "National Database for Autism Research",
+          "National Institute of Mental Health Data Archive",
+          "Additional Key Personnel",
+          "Minimum Effort for the PI",
+          "Annual Inclusion Enrollment Reporting",
+          "Annual Quad Charts",
+          "Award Expiration Transition Plan",
+          "Quarterly Reports",
+          "Quarterly Quad Chart",
+          "Semi Annual Reports",
+          "Semi Annual Quad Chart",
+          "Annual Reports",
+          "Final Report"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "acq_special_notes": {
+      "type": "string",
+      "title": "Special Requirements Notes"
+    }
+  }
+}

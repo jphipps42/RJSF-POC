@@ -1,0 +1,20 @@
+{
+  "acq_personnel_qualifications": {
+    "ui:widget": "radio"
+  },
+  "acq_personnel_effort": {
+    "ui:widget": "radio"
+  },
+  "acq_personnel_salary_cap": {
+    "ui:widget": "radio"
+  },
+  "acq_personnel_fringe_rate": {
+    "ui:widget": "radio"
+  },
+  "acq_personnel_notes": {
+    "ui:widget": "textarea",
+    "ui:options": {
+      "rows": 3
+    }
+  }
+}

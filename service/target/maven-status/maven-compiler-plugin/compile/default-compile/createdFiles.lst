@@ -58,7 +58,6 @@ com/egs/rjsf/transformer/transform/BuiltInTransforms$JsonParseTransform$2.class
 com/egs/rjsf/transformer/hook/WriteHook.class
 com/egs/rjsf/repository/SchemaMigrationRepository.class
 com/egs/rjsf/transformer/repository/TemplateHistoryRepository.class
-com/egs/rjsf/entity/ProjectPersonnel$ProjectPersonnelBuilder.class
 com/egs/rjsf/entity/Award$AwardBuilder.class
 com/egs/rjsf/transformer/config/TransformerProperties.class
 com/egs/rjsf/transformer/transform/TransformFunction.class
@@ -77,11 +76,9 @@ com/egs/rjsf/transformer/transform/BuiltInTransforms$ToLocalDateTransform.class
 com/egs/rjsf/transformer/config/TransformerProperties$CacheProperties.class
 com/egs/rjsf/transformer/exception/DuplicateSubmissionException.class
 com/egs/rjsf/entity/AwardLinkedFile.class
-com/egs/rjsf/service/PersonnelService.class
 com/egs/rjsf/transformer/transform/BuiltInTransforms$TrimStringTransform.class
 com/egs/rjsf/transformer/registry/TemplateValidator.class
 com/egs/rjsf/transformer/transform/BuiltInTransforms$JsonStringifyTransform.class
-com/egs/rjsf/repository/ProjectPersonnelRepository.class
 com/egs/rjsf/transformer/transform/BuiltInTransforms$ToIsoDateStringTransform.class
 com/egs/rjsf/service/FormSubmissionService.class
 com/egs/rjsf/controller/FormConfigurationController.class
@@ -94,10 +91,8 @@ com/egs/rjsf/transformer/dto/TransformerSubmissionResponse.class
 com/egs/rjsf/transformer/transform/BuiltInTransforms$FromInstantTransform.class
 com/egs/rjsf/transformer/config/TransformerExceptionHandler.class
 com/egs/rjsf/controller/AwardController.class
-com/egs/rjsf/entity/ProjectPersonnel.class
 com/egs/rjsf/util/MigrationEngine.class
 com/egs/rjsf/entity/FormConfiguration$FormConfigurationBuilder.class
-com/egs/rjsf/controller/PersonnelController.class
 com/egs/rjsf/transformer/model/TransformerTemplate.class
 com/egs/rjsf/transformer/exception/SubmissionNotFoundException.class
 com/egs/rjsf/transformer/registry/TemplateRegistry.class

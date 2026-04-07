@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "x-schemaVersion": 1,
+  "x-sectionKey": "human_data_secondary",
+  "title": "Human Data - Secondary Use",
+  "properties": {
+    "human_ds_q1": {
+      "type": "string",
+      "title": "1. Does the research involve secondary use of data?",
+      "enum": ["yes", "no"]
+    },
+    "human_ds_notes": {
+      "type": "string",
+      "title": "Notes"
+    }
+  }
+}

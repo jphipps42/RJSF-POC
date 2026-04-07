@@ -1,0 +1,20 @@
+{
+  "acq_consultant_included": {
+    "ui:widget": "radio"
+  },
+  "acq_consultant_necessary": {
+    "ui:widget": "radio"
+  },
+  "acq_consultant_duties_described": {
+    "ui:widget": "radio"
+  },
+  "acq_consultant_costs_appropriate": {
+    "ui:widget": "radio"
+  },
+  "acq_consultant_notes": {
+    "ui:widget": "textarea",
+    "ui:options": {
+      "rows": 3
+    }
+  }
+}

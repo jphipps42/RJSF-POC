@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "x-schemaVersion": 1,
+  "x-sectionKey": "acq_data_management",
+  "title": "Data Management Plan",
+  "properties": {
+    "acq_dmp_received": {
+      "type": "string",
+      "title": "Has the Data Management Plan been received?",
+      "enum": ["yes", "no"]
+    },
+    "acq_dmp_repository_identified": {
+      "type": "string",
+      "title": "Has a data repository been identified?",
+      "enum": ["yes", "no", "not_applicable"]
+    },
+    "acq_dmp_sharing_timeline": {
+      "type": "string",
+      "title": "Is a data sharing timeline included?",
+      "enum": ["yes", "no"]
+    },
+    "acq_dmp_notes": {
+      "type": "string",
+      "title": "Data Management Notes"
+    }
+  }
+}

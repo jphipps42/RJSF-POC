@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "x-schemaVersion": 1,
+  "x-sectionKey": "human_anatomical",
+  "title": "Human Anatomical Substances",
+  "properties": {
+    "has_default_no": {
+      "type": "boolean",
+      "title": "Default No"
+    },
+    "human_has_q1": {
+      "type": "string",
+      "title": "1. Does the research involve human anatomical substances?",
+      "enum": ["yes", "no"]
+    },
+    "human_has_q2": {
+      "type": "string",
+      "title": "2. Are the specimens de-identified?",
+      "enum": ["yes", "no"]
+    },
+    "human_has_q3": {
+      "type": "string",
+      "title": "3. Are specimens obtained from a commercial source?",
+      "enum": ["yes", "no"]
+    },
+    "human_has_q4": {
+      "type": "string",
+      "title": "4. Is an IRB-approved protocol in place for specimen collection?",
+      "enum": ["yes", "no"]
+    },
+    "human_has_q5": {
+      "type": "string",
+      "title": "5. Are adequate biosafety measures described?",
+      "enum": ["yes", "no"]
+    },
+    "human_has_q6": {
+      "type": "string",
+      "title": "6. Is informed consent documentation adequate?",
+      "enum": ["yes", "no"]
+    },
+    "human_has_q7": {
+      "type": "string",
+      "title": "7. Are specimen handling and disposal procedures adequate?",
+      "enum": ["yes", "no"]
+    },
+    "human_has_notes": {
+      "type": "string",
+      "title": "Notes"
+    }
+  }
+}

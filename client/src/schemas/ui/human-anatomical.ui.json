@@ -1,0 +1,29 @@
+{
+  "human_has_q1": {
+    "ui:widget": "radio"
+  },
+  "human_has_q2": {
+    "ui:widget": "radio"
+  },
+  "human_has_q3": {
+    "ui:widget": "radio"
+  },
+  "human_has_q4": {
+    "ui:widget": "radio"
+  },
+  "human_has_q5": {
+    "ui:widget": "radio"
+  },
+  "human_has_q6": {
+    "ui:widget": "radio"
+  },
+  "human_has_q7": {
+    "ui:widget": "radio"
+  },
+  "human_has_notes": {
+    "ui:widget": "textarea",
+    "ui:options": {
+      "rows": 3
+    }
+  }
+}

@@ -37,6 +37,11 @@ public class FormSubmission {
     @Column(length = 50, nullable = false)
     private String status = "not_started";
 
+    @Type(JsonType.class)
+    @Column(name = "section_status", columnDefinition = "jsonb")
+    @Builder.Default
+    private Map<String, Object> sectionStatus = Map.of();
+
     @Column(name = "submitted_at")
     private OffsetDateTime submittedAt;
 

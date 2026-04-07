@@ -1,0 +1,14 @@
+{
+  "acq_travel_included": {
+    "ui:widget": "radio"
+  },
+  "acq_travel_appropriate": {
+    "ui:widget": "radio"
+  },
+  "acq_travel_notes": {
+    "ui:widget": "textarea",
+    "ui:options": {
+      "rows": 3
+    }
+  }
+}

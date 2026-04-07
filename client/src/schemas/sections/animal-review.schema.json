@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "x-schemaVersion": 1,
+  "x-sectionKey": "animal_review",
+  "title": "Animal Review",
+  "properties": {
+    "animal_q1": {
+      "type": "string",
+      "title": "1. Does the research involve live vertebrate animals?",
+      "enum": ["yes", "no"]
+    },
+    "animal_species": {
+      "type": "array",
+      "title": "Animal Species",
+      "items": {
+        "type": "string",
+        "enum": [
+          "Rodents",
+          "NHP",
+          "Pigs",
+          "Rabbits",
+          "Dogs",
+          "Service animals",
+          "Cats",
+          "Marine mammals",
+          "Ferrets",
+          "Birds",
+          "Fish/Aquatic",
+          "Other"
+        ]
+      }
+    },
+    "animal_q2": {
+      "type": "string",
+      "title": "2. Is the proposed animal use described in sufficient detail?",
+      "enum": ["yes", "no"]
+    },
+    "animal_q3": {
+      "type": "string",
+      "title": "3. Are there alternatives to using animals?",
+      "enum": ["yes", "no", "unknown"]
+    },
+    "animal_q4": {
+      "type": "string",
+      "title": "4. IACUC approval status",
+      "enum": ["approved", "submitted", "not_yet_submitted", "not_applicable"]
+    },
+    "iacuc_protocol_number": {
+      "type": "string",
+      "title": "IACUC Protocol Number"
+    },
+    "animal_q5": {
+      "type": "string",
+      "title": "5. Are adequate veterinary care provisions described?",
+      "enum": ["yes", "no"]
+    },
+    "animal_start_date": {
+      "type": "string",
+      "title": "Animal Start Date"
+    },
+    "animal_notes": {
+      "type": "string",
+      "title": "Animal Review Notes"
+    }
+  }
+}
