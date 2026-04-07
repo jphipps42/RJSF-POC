@@ -116,6 +116,21 @@ CREATE TABLE IF NOT EXISTS schema_migrations (
   UNIQUE (form_id, from_version, to_version)
 );
 
+-- Application users (authentication + role/org)
+CREATE TABLE IF NOT EXISTS app_users (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  username VARCHAR(100) UNIQUE NOT NULL,
+  password_hash VARCHAR(255) NOT NULL,
+  display_name VARCHAR(255),
+  role VARCHAR(100) NOT NULL,
+  organization VARCHAR(255) NOT NULL,
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE INDEX idx_app_users_username ON app_users(username);
+
 -- Indexes for performance
 CREATE INDEX idx_form_submissions_award ON form_submissions(award_id);
 CREATE INDEX idx_form_submissions_form_key ON form_submissions(form_key);
@@ -258,6 +273,117 @@ INSERT INTO form_configurations (form_key, title, description, json_schema, ui_s
 
 ('acq_special_requirements', '7. Special Requirements', 'Special requirements for acquisition', '{"title":"Special Requirements","type":"object","properties":{"selected_requirements":{"type":"array","title":"Selected Requirements","items":{"type":"string","enum":["Cooperative Agreement","Option Years","ClinicalTrials.gov submission","FDA Regulatory Requirement","Payment Restrictions for Human Use Approval","Participation in IPR Meetings","Participation in Milestone Meetings","Federal TBI Registry submission (FITBIR)","National Database for Autism Research","National Institute of Mental Health Data Archive","Additional Key Personnel","Minimum Effort for the PI","Annual Inclusion Enrollment Reporting","Annual Quad Charts","Award Expiration Transition Plan","Quarterly Reports","Quarterly Quad Chart","Semi Annual Reports","Semi Annual Quad Chart","Annual Reports","Final Report"]},"uniqueItems":true},"notes":{"type":"string","title":"Note (optional)"}}}'::jsonb, '{"selected_requirements":{"ui:widget":"checkboxes"},"notes":{"ui:widget":"textarea","ui:options":{"rows":3}}}'::jsonb);
 
+-- Pre-Award Overview: captures the overview/negotiation panel fields as an RJSF form
+-- Includes project personnel as an embedded array (previously a separate CRUD table)
+INSERT INTO form_configurations (form_key, title, description, json_schema, ui_schema, default_data) VALUES
+('pre_award_overview', 'Pre-Award Overview', 'Pre-award review overview panel — budgets, personnel assignments, award classification, and project personnel', '{
+  "title": "Pre-Award Overview",
+  "type": "object",
+  "properties": {
+    "pi_budget": {
+      "type": "number",
+      "title": "PI Budget"
+    },
+    "final_recommended_budget": {
+      "type": "number",
+      "title": "Final Recommended Budget"
+    },
+    "program_manager": {
+      "type": "string",
+      "title": "Program Manager"
+    },
+    "contract_grants_specialist": {
+      "type": "string",
+      "title": "Contract/Grants Specialist"
+    },
+    "branch_chief": {
+      "type": "string",
+      "title": "Branch Chief"
+    },
+    "prime_award_type": {
+      "type": "string",
+      "title": "Prime Award (Intra/Extra)",
+      "enum": ["extramural", "intramural", "extramural_intramural", "intramural_extramural"],
+      "default": "extramural"
+    },
+    "pi_notification_date": {
+      "type": "string",
+      "title": "PI Notification Date",
+      "format": "date"
+    },
+    "personnel": {
+      "type": "array",
+      "title": "Project Personnel",
+      "items": {
+        "type": "object",
+        "required": ["name", "organization", "project_role"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "organization": {
+            "type": "string",
+            "title": "Organization"
+          },
+          "country": {
+            "type": "string",
+            "title": "Country",
+            "default": "USA"
+          },
+          "project_role": {
+            "type": "string",
+            "title": "Project Role"
+          },
+          "is_subcontract": {
+            "type": "boolean",
+            "title": "Subcontract",
+            "default": false
+          }
+        }
+      }
+    },
+    "notes": {
+      "type": "string",
+      "title": "Overview Notes"
+    }
+  }
+}'::jsonb, '{
+  "pi_budget": {
+    "ui:placeholder": "Enter PI budget amount"
+  },
+  "final_recommended_budget": {
+    "ui:placeholder": "Enter final recommended budget"
+  },
+  "program_manager": {
+    "ui:placeholder": "Enter program manager name"
+  },
+  "contract_grants_specialist": {
+    "ui:placeholder": "Enter contract/grants specialist name"
+  },
+  "branch_chief": {
+    "ui:placeholder": "Enter branch chief name"
+  },
+  "prime_award_type": {
+    "ui:widget": "select",
+    "ui:enumNames": ["Extramural Only", "Intragovernmental Only", "Extramural w/Intragovernmental Component", "Intragovernmental w/Extramural Component"]
+  },
+  "pi_notification_date": {
+    "ui:widget": "date"
+  },
+  "personnel": {
+    "items": {
+      "country": {"ui:placeholder": "USA"},
+      "is_subcontract": {"ui:widget": "checkbox"}
+    }
+  },
+  "notes": {
+    "ui:widget": "textarea",
+    "ui:options": {"rows": 4}
+  },
+  "ui:order": ["pi_budget", "final_recommended_budget", "program_manager", "contract_grants_specialist", "branch_chief", "pi_notification_date", "prime_award_type", "personnel", "notes"]
+}'::jsonb, '{}'::jsonb);
+
 -- Seed a demo award matching the POC
 INSERT INTO awards (
   log_number, award_number, award_mechanism, principal_investigator,
@@ -288,7 +414,7 @@ FROM awards a
 CROSS JOIN form_configurations fc
 WHERE a.log_number = 'TE020005';
 
--- Seed demo personnel
+-- Seed demo personnel (must be before overview population so we can aggregate them)
 INSERT INTO project_personnel (award_id, organization, country, project_role, name, is_subcontract)
 SELECT a.id, 'Johns Hopkins University', 'USA', 'PI/PD', 'John Smith', false
 FROM awards a WHERE a.log_number = 'TE020005';
@@ -296,6 +422,32 @@ FROM awards a WHERE a.log_number = 'TE020005';
 INSERT INTO project_personnel (award_id, organization, country, project_role, name, is_subcontract)
 SELECT a.id, 'Walter Reed Medical', 'USA', 'Co-Investigator', 'Walter White', false
 FROM awards a WHERE a.log_number = 'TE020005';
+
+-- Populate the pre_award_overview submission with award data + personnel array
+UPDATE form_submissions fs
+SET form_data = jsonb_build_object(
+      'pi_budget', a.pi_budget,
+      'final_recommended_budget', a.final_recommended_budget,
+      'program_manager', a.program_manager,
+      'contract_grants_specialist', a.contract_grants_specialist,
+      'branch_chief', a.branch_chief,
+      'prime_award_type', a.prime_award_type,
+      'personnel', (
+        SELECT COALESCE(jsonb_agg(jsonb_build_object(
+          'name', pp.name,
+          'organization', pp.organization,
+          'country', pp.country,
+          'project_role', pp.project_role,
+          'is_subcontract', pp.is_subcontract
+        ) ORDER BY pp.name), '[]'::jsonb)
+        FROM project_personnel pp WHERE pp.award_id = a.id
+      )
+    ),
+    status = 'in_progress'
+FROM awards a
+WHERE fs.award_id = a.id
+  AND fs.form_key = 'pre_award_overview'
+  AND a.log_number = 'TE020005';
 
 -- Seed form_schema_versions (version 1 for each config)
 INSERT INTO form_schema_versions (form_id, version, json_schema, ui_schema, default_data, is_current, change_notes)
@@ -310,3 +462,544 @@ SET schema_version_id = fsv.id, schema_version = 1
 FROM form_schema_versions fsv
 WHERE fs.form_config_id = fsv.form_id AND fsv.version = 1
   AND fs.schema_version_id IS NULL;
+
+-- Transformer template history: stores each loaded template version for version pinning on reads
+CREATE TABLE IF NOT EXISTS transformer_template_history (
+    id              BIGSERIAL PRIMARY KEY,
+    form_id         TEXT        NOT NULL,
+    version         INTEGER     NOT NULL,
+    template_json   JSONB       NOT NULL,
+    loaded_at       TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    UNIQUE (form_id, version)
+);
+
+CREATE INDEX IF NOT EXISTS idx_tth_form_id ON transformer_template_history(form_id);
+CREATE INDEX IF NOT EXISTS idx_tth_form_version ON transformer_template_history(form_id, version);
+
+-- ============================================
+-- Page Layout configuration (drives version selector)
+-- ============================================
+INSERT INTO form_configurations (form_key, title, description, json_schema, ui_schema, default_data) VALUES
+('page_layout', 'Page Layout', 'Controls page-level labels and section visibility per version', '{
+  "title": "Page Layout",
+  "type": "object",
+  "properties": {
+    "overview_header": { "type": "string", "title": "Overview Header" },
+    "review_header": { "type": "string", "title": "Review Header" }
+  }
+}'::jsonb, '{}'::jsonb, '{"overview_header": "Pre-Award Overview", "review_header": "Pre-Award / Negotiations Review"}'::jsonb);
+
+-- page_layout v1 (already seeded by bulk insert above, but insert explicitly to ensure is_current=false)
+INSERT INTO form_schema_versions (form_id, version, json_schema, ui_schema, default_data, is_current, change_notes)
+SELECT id, 1,
+  json_schema, ui_schema,
+  '{"overview_header": "Pre-Award Overview", "review_header": "Pre-Award / Negotiations Review"}'::jsonb,
+  false, 'Initial layout — original headers'
+FROM form_configurations WHERE form_key = 'page_layout'
+ON CONFLICT (form_id, version) DO UPDATE SET is_current = false;
+
+-- page_layout v2 (current)
+INSERT INTO form_schema_versions (form_id, version, json_schema, ui_schema, default_data, is_current, change_notes)
+SELECT id, 2,
+  json_schema, ui_schema,
+  '{"overview_header": "Award Overview & Personnel", "review_header": "Pre-Award Compliance & Negotiations Review"}'::jsonb,
+  true, 'Updated headers for clarity — overview emphasizes personnel, review emphasizes compliance'
+FROM form_configurations WHERE form_key = 'page_layout'
+ON CONFLICT (form_id, version) DO NOTHING;
+
+-- ============================================
+-- Version 2 schema versions for key form sections
+-- ============================================
+
+-- Mark all existing v1 as NOT current (v2 will become current)
+UPDATE form_schema_versions SET is_current = false
+WHERE version = 1 AND form_id IN (
+  SELECT id FROM form_configurations WHERE form_key IN (
+    'safety_review', 'animal_review', 'pre_award_overview',
+    'acq_br_personnel', 'acq_peer_review', 'acq_cps', 'acq_data_management'
+  )
+);
+
+-- safety_review v2: adds radiation safety question & NEPA compliance
+INSERT INTO form_schema_versions (form_id, version, json_schema, ui_schema, default_data, is_current, change_notes)
+SELECT id, 2, '{
+  "title": "Safety Requirements Review",
+  "type": "object",
+  "required": [],
+  "properties": {
+    "safety_q1": {
+      "type": "string",
+      "title": "1. Programmatic Record of Environmental Compliance (REC) available?",
+      "enum": ["yes", "no"]
+    },
+    "programmatic_rec": {
+      "type": "string",
+      "title": "Selected Programmatic REC"
+    },
+    "safety_q2": {
+      "type": "string",
+      "title": "2. Involves Army-provided infectious agents?",
+      "enum": ["yes", "no"]
+    },
+    "safety_q3": {
+      "type": "string",
+      "title": "3. Involves Biological Select Agents or Toxins (BSAT)?",
+      "enum": ["yes", "no"]
+    },
+    "safety_q4": {
+      "type": "string",
+      "title": "4. Involves specific chemical agents?",
+      "enum": ["yes", "no"]
+    },
+    "safety_q5": {
+      "type": "string",
+      "title": "5. Involves pesticides outside of established lab?",
+      "enum": ["yes", "no"]
+    },
+    "safety_q6": {
+      "type": "string",
+      "title": "6. Potential likelihood of significant negative effects on public health, safety, or environment?",
+      "enum": ["yes", "no"]
+    },
+    "safety_q7": {
+      "type": "string",
+      "title": "7. Does the project involve ionizing radiation or radioactive materials?",
+      "enum": ["yes", "no"]
+    },
+    "safety_q8": {
+      "type": "string",
+      "title": "8. Has a NEPA compliance determination been completed?",
+      "enum": ["yes", "no", "not_applicable"]
+    },
+    "notes": {
+      "type": "string",
+      "title": "Note"
+    }
+  }
+}'::jsonb, '{
+  "safety_q1": {"ui:widget": "radio"},
+  "safety_q2": {"ui:widget": "radio"},
+  "safety_q3": {"ui:widget": "radio"},
+  "safety_q4": {"ui:widget": "radio"},
+  "safety_q5": {"ui:widget": "radio"},
+  "safety_q6": {"ui:widget": "radio"},
+  "safety_q7": {"ui:widget": "radio"},
+  "safety_q8": {"ui:widget": "radio"},
+  "notes": {"ui:widget": "textarea", "ui:options": {"rows": 4}},
+  "programmatic_rec": {"ui:widget": "hidden"}
+}'::jsonb, '{}'::jsonb, true, 'Added radiation safety (Q7) and NEPA compliance (Q8) questions'
+FROM form_configurations WHERE form_key = 'safety_review';
+
+-- animal_review v2: adds IACUC protocol and foreign collaboration fields
+INSERT INTO form_schema_versions (form_id, version, json_schema, ui_schema, default_data, is_current, change_notes)
+SELECT id, 2, '{
+  "title": "Animal Research Review Requirements",
+  "type": "object",
+  "properties": {
+    "animal_q1": {
+      "type": "string",
+      "title": "1. Animals used?",
+      "enum": ["yes", "no"]
+    },
+    "animal_species": {
+      "type": "array",
+      "title": "Selected Animal Species",
+      "items": {
+        "type": "string",
+        "enum": ["Rodents (mouse/rat/hamster)", "Non-Human Primates (NHP)", "Pigs", "Rabbits", "Dogs", "Service animals", "Cats", "Marine mammals", "Ferrets", "Birds", "Fish/Aquatic", "Other"]
+      },
+      "uniqueItems": true
+    },
+    "animal_q2": {
+      "type": "string",
+      "title": "2. Will any DOD-funded animal studies be performed at a site outside the US?",
+      "enum": ["yes", "no"]
+    },
+    "animal_q3": {
+      "type": "string",
+      "title": "3. Will any DOD-funded animal studies be performed at a site in a foreign country of concern (FCOC)?",
+      "enum": ["yes", "no", "unknown"]
+    },
+    "animal_q4": {
+      "type": "string",
+      "title": "4. Has a valid IACUC protocol approval been obtained or submitted?",
+      "enum": ["approved", "submitted", "not_yet_submitted", "not_applicable"]
+    },
+    "iacuc_protocol_number": {
+      "type": "string",
+      "title": "IACUC Protocol Number (if available)"
+    },
+    "animal_q5": {
+      "type": "string",
+      "title": "5. Does this project involve endangered or protected species?",
+      "enum": ["yes", "no"]
+    },
+    "animal_start_date": {
+      "type": "string",
+      "title": "6. Estimated Animal Research Start (if known)"
+    },
+    "notes": {
+      "type": "string",
+      "title": "Notes"
+    }
+  }
+}'::jsonb, '{
+  "animal_q1": {"ui:widget": "radio"},
+  "animal_q2": {"ui:widget": "radio"},
+  "animal_q3": {"ui:widget": "radio"},
+  "animal_q4": {"ui:widget": "radio"},
+  "animal_q5": {"ui:widget": "radio"},
+  "animal_species": {"ui:widget": "checkboxes"},
+  "notes": {"ui:widget": "textarea", "ui:options": {"rows": 4}}
+}'::jsonb, '{}'::jsonb, true, 'Added IACUC protocol tracking (Q4), endangered species (Q5), expanded species list, renumbered start date to Q6'
+FROM form_configurations WHERE form_key = 'animal_review';
+
+-- pre_award_overview v2: adds negotiation status, funding source, and co-PI field
+INSERT INTO form_schema_versions (form_id, version, json_schema, ui_schema, default_data, is_current, change_notes)
+SELECT id, 2, '{
+  "title": "Pre-Award Overview",
+  "type": "object",
+  "properties": {
+    "pi_budget": {
+      "type": "number",
+      "title": "PI Budget"
+    },
+    "final_recommended_budget": {
+      "type": "number",
+      "title": "Final Recommended Budget"
+    },
+    "funding_source": {
+      "type": "string",
+      "title": "Funding Source",
+      "enum": ["congressional", "core_program", "supplemental", "other"]
+    },
+    "negotiation_status": {
+      "type": "string",
+      "title": "Negotiation Status",
+      "enum": ["not_started", "initial_contact", "under_negotiation", "terms_agreed", "pending_signatures"],
+      "default": "not_started"
+    },
+    "program_manager": {
+      "type": "string",
+      "title": "Program Manager"
+    },
+    "co_principal_investigator": {
+      "type": "string",
+      "title": "Co-Principal Investigator"
+    },
+    "contract_grants_specialist": {
+      "type": "string",
+      "title": "Contract/Grants Specialist"
+    },
+    "branch_chief": {
+      "type": "string",
+      "title": "Branch Chief"
+    },
+    "prime_award_type": {
+      "type": "string",
+      "title": "Prime Award (Intra/Extra)",
+      "enum": ["extramural", "intramural", "extramural_intramural", "intramural_extramural"],
+      "default": "extramural"
+    },
+    "pi_notification_date": {
+      "type": "string",
+      "title": "PI Notification Date",
+      "format": "date"
+    },
+    "personnel": {
+      "type": "array",
+      "title": "Project Personnel",
+      "items": {
+        "type": "object",
+        "required": ["name", "organization", "project_role"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "organization": {
+            "type": "string",
+            "title": "Organization"
+          },
+          "country": {
+            "type": "string",
+            "title": "Country",
+            "default": "USA"
+          },
+          "project_role": {
+            "type": "string",
+            "title": "Project Role"
+          },
+          "percent_effort": {
+            "type": "number",
+            "title": "% Effort",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "is_subcontract": {
+            "type": "boolean",
+            "title": "Subcontract",
+            "default": false
+          }
+        }
+      }
+    },
+    "notes": {
+      "type": "string",
+      "title": "Overview Notes"
+    }
+  }
+}'::jsonb, '{
+  "pi_budget": {
+    "ui:placeholder": "Enter PI budget amount"
+  },
+  "final_recommended_budget": {
+    "ui:placeholder": "Enter final recommended budget"
+  },
+  "funding_source": {
+    "ui:widget": "select",
+    "ui:enumNames": ["Congressional Directed", "Core Program", "Supplemental", "Other"]
+  },
+  "negotiation_status": {
+    "ui:widget": "select",
+    "ui:enumNames": ["Not Started", "Initial Contact", "Under Negotiation", "Terms Agreed", "Pending Signatures"]
+  },
+  "program_manager": {
+    "ui:placeholder": "Enter program manager name"
+  },
+  "co_principal_investigator": {
+    "ui:placeholder": "Enter co-PI name (if applicable)"
+  },
+  "contract_grants_specialist": {
+    "ui:placeholder": "Enter contract/grants specialist name"
+  },
+  "branch_chief": {
+    "ui:placeholder": "Enter branch chief name"
+  },
+  "prime_award_type": {
+    "ui:widget": "select",
+    "ui:enumNames": ["Extramural Only", "Intragovernmental Only", "Extramural w/Intragovernmental Component", "Intragovernmental w/Extramural Component"]
+  },
+  "pi_notification_date": {
+    "ui:widget": "date"
+  },
+  "personnel": {
+    "items": {
+      "country": {"ui:placeholder": "USA"},
+      "percent_effort": {"ui:placeholder": "0-100"},
+      "is_subcontract": {"ui:widget": "checkbox"}
+    }
+  },
+  "notes": {
+    "ui:widget": "textarea",
+    "ui:options": {"rows": 4}
+  },
+  "ui:order": ["pi_budget", "final_recommended_budget", "funding_source", "negotiation_status", "program_manager", "co_principal_investigator", "contract_grants_specialist", "branch_chief", "pi_notification_date", "prime_award_type", "personnel", "notes"]
+}'::jsonb, '{}'::jsonb, true, 'Added funding_source, negotiation_status, co_principal_investigator, and percent_effort on personnel'
+FROM form_configurations WHERE form_key = 'pre_award_overview';
+
+-- acq_br_personnel v2: adds salary cap and fringe rate questions
+INSERT INTO form_schema_versions (form_id, version, json_schema, ui_schema, default_data, is_current, change_notes)
+SELECT id, 2, '{
+  "title": "Personnel",
+  "type": "object",
+  "properties": {
+    "qualifications": {
+      "type": "string",
+      "title": "i. Are the type/qualifications of proposed personnel appropriate?",
+      "enum": ["yes", "no"]
+    },
+    "effort": {
+      "type": "string",
+      "title": "ii. Is the level of effort of proposed personnel appropriate?",
+      "enum": ["yes", "no"]
+    },
+    "salary_cap_compliant": {
+      "type": "string",
+      "title": "iii. Are proposed salaries within the applicable salary cap?",
+      "enum": ["yes", "no", "not_applicable"]
+    },
+    "fringe_rate_reasonable": {
+      "type": "string",
+      "title": "iv. Are the proposed fringe benefit rates reasonable and consistent with the organization''s negotiated rates?",
+      "enum": ["yes", "no"]
+    },
+    "notes": {
+      "type": "string",
+      "title": "Note"
+    }
+  }
+}'::jsonb, '{
+  "qualifications": {"ui:widget": "radio"},
+  "effort": {"ui:widget": "radio"},
+  "salary_cap_compliant": {"ui:widget": "radio"},
+  "fringe_rate_reasonable": {"ui:widget": "radio"},
+  "notes": {"ui:widget": "textarea", "ui:options": {"rows": 3}}
+}'::jsonb, '{}'::jsonb, true, 'Added salary cap compliance (iii) and fringe rate reasonableness (iv) questions'
+FROM form_configurations WHERE form_key = 'acq_br_personnel';
+
+-- acq_peer_review v2: adds structured review score field
+INSERT INTO form_schema_versions (form_id, version, json_schema, ui_schema, default_data, is_current, change_notes)
+SELECT id, 2, '{
+  "title": "Peer and Programmatic Review Recommendations",
+  "type": "object",
+  "properties": {
+    "review_score": {
+      "type": "number",
+      "title": "Overall Review Score (if applicable)",
+      "minimum": 1,
+      "maximum": 10
+    },
+    "review_outcome": {
+      "type": "string",
+      "title": "Review Recommendation",
+      "enum": ["fund", "fund_with_modifications", "defer", "do_not_fund"]
+    },
+    "comments": {
+      "type": "string",
+      "title": "Note (Required)"
+    }
+  }
+}'::jsonb, '{
+  "review_outcome": {
+    "ui:widget": "select",
+    "ui:enumNames": ["Fund", "Fund with Modifications", "Defer", "Do Not Fund"]
+  },
+  "comments": {"ui:widget": "textarea", "ui:options": {"rows": 4}}
+}'::jsonb, '{}'::jsonb, true, 'Added structured review_score and review_outcome fields'
+FROM form_configurations WHERE form_key = 'acq_peer_review';
+
+-- acq_cps v2: adds foreign influence screening
+INSERT INTO form_schema_versions (form_id, version, json_schema, ui_schema, default_data, is_current, change_notes)
+SELECT id, 2, '{
+  "title": "Current and Pending Support (CPS)",
+  "type": "object",
+  "properties": {
+    "cps_received": {
+      "type": "string",
+      "title": "a. Has an updated and certified CPS document been received for all key personnel?",
+      "enum": ["yes", "no"]
+    },
+    "foreign_influence_screened": {
+      "type": "string",
+      "title": "b. Has foreign influence screening been completed for all key personnel?",
+      "enum": ["yes", "no", "in_progress"]
+    },
+    "overlap_identified": {
+      "type": "string",
+      "title": "c. Has any scientific, budgetary, or commitment overlap been identified?",
+      "enum": ["yes", "no"]
+    },
+    "comments": {
+      "type": "string",
+      "title": "Note (Required)"
+    }
+  }
+}'::jsonb, '{
+  "cps_received": {"ui:widget": "radio"},
+  "foreign_influence_screened": {"ui:widget": "radio"},
+  "overlap_identified": {"ui:widget": "radio"},
+  "comments": {"ui:widget": "textarea", "ui:options": {"rows": 4}}
+}'::jsonb, '{}'::jsonb, true, 'Added foreign influence screening (b) and overlap identification (c) questions'
+FROM form_configurations WHERE form_key = 'acq_cps';
+
+-- acq_data_management v2: adds data sharing and repository questions
+INSERT INTO form_schema_versions (form_id, version, json_schema, ui_schema, default_data, is_current, change_notes)
+SELECT id, 2, '{
+  "title": "Data Management Plan",
+  "type": "object",
+  "properties": {
+    "dmp_received": {
+      "type": "string",
+      "title": "a. Has an acceptable Data Management Plan been received?",
+      "enum": ["yes", "no"]
+    },
+    "data_repository_identified": {
+      "type": "string",
+      "title": "b. Has a designated data repository been identified?",
+      "enum": ["yes", "no", "not_applicable"]
+    },
+    "data_sharing_timeline": {
+      "type": "string",
+      "title": "c. Is the proposed data sharing timeline consistent with DOD policy?",
+      "enum": ["yes", "no"]
+    },
+    "dmp_notes": {
+      "type": "string",
+      "title": "Note"
+    }
+  }
+}'::jsonb, '{
+  "dmp_received": {"ui:widget": "radio"},
+  "data_repository_identified": {"ui:widget": "radio"},
+  "data_sharing_timeline": {"ui:widget": "radio"},
+  "dmp_notes": {"ui:widget": "textarea", "ui:options": {"rows": 3}}
+}'::jsonb, '{}'::jsonb, true, 'Added data repository identification (b) and sharing timeline compliance (c) questions'
+FROM form_configurations WHERE form_key = 'acq_data_management';
+
+-- ============================================
+-- Migration scripts: v1 → v2 transformations
+-- ============================================
+
+-- safety_review migration: new fields get null defaults
+INSERT INTO schema_migrations (form_id, from_version, to_version, migration_script)
+SELECT id, 1, 2, '[
+  {"op": "set_default", "field": "safety_q7", "value": null},
+  {"op": "set_default", "field": "safety_q8", "value": null}
+]'::jsonb
+FROM form_configurations WHERE form_key = 'safety_review';
+
+-- animal_review migration: new fields, renumber handled by schema
+INSERT INTO schema_migrations (form_id, from_version, to_version, migration_script)
+SELECT id, 1, 2, '[
+  {"op": "set_default", "field": "animal_q4", "value": null},
+  {"op": "set_default", "field": "animal_q5", "value": null},
+  {"op": "set_default", "field": "iacuc_protocol_number", "value": null}
+]'::jsonb
+FROM form_configurations WHERE form_key = 'animal_review';
+
+-- pre_award_overview migration: new fields
+INSERT INTO schema_migrations (form_id, from_version, to_version, migration_script)
+SELECT id, 1, 2, '[
+  {"op": "set_default", "field": "funding_source", "value": null},
+  {"op": "set_default", "field": "negotiation_status", "value": "not_started"},
+  {"op": "set_default", "field": "co_principal_investigator", "value": null}
+]'::jsonb
+FROM form_configurations WHERE form_key = 'pre_award_overview';
+
+-- acq_br_personnel migration
+INSERT INTO schema_migrations (form_id, from_version, to_version, migration_script)
+SELECT id, 1, 2, '[
+  {"op": "set_default", "field": "salary_cap_compliant", "value": null},
+  {"op": "set_default", "field": "fringe_rate_reasonable", "value": null}
+]'::jsonb
+FROM form_configurations WHERE form_key = 'acq_br_personnel';
+
+-- acq_peer_review migration
+INSERT INTO schema_migrations (form_id, from_version, to_version, migration_script)
+SELECT id, 1, 2, '[
+  {"op": "set_default", "field": "review_score", "value": null},
+  {"op": "set_default", "field": "review_outcome", "value": null}
+]'::jsonb
+FROM form_configurations WHERE form_key = 'acq_peer_review';
+
+-- acq_cps migration
+INSERT INTO schema_migrations (form_id, from_version, to_version, migration_script)
+SELECT id, 1, 2, '[
+  {"op": "set_default", "field": "foreign_influence_screened", "value": null},
+  {"op": "set_default", "field": "overlap_identified", "value": null}
+]'::jsonb
+FROM form_configurations WHERE form_key = 'acq_cps';
+
+-- acq_data_management migration
+INSERT INTO schema_migrations (form_id, from_version, to_version, migration_script)
+SELECT id, 1, 2, '[
+  {"op": "set_default", "field": "data_repository_identified", "value": null},
+  {"op": "set_default", "field": "data_sharing_timeline", "value": null}
+]'::jsonb
+FROM form_configurations WHERE form_key = 'acq_data_management';
+
+-- Seed test user: jphipps / test / SO / CDMRP
+INSERT INTO app_users (username, password_hash, display_name, role, organization)
+VALUES ('jphipps', '$2b$12$t4sdX/EhG8ck9ZvE8j8r5ucDrt1IKfioRq7d5jObZNuGjevGqKTAe', 'Joshua Phipps', 'SO', 'CDMRP')
+ON CONFLICT (username) DO NOTHING;

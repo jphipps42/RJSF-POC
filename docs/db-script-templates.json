@@ -1,0 +1,12 @@
+[
+    {
+        "op": "rename",
+        "to": "rec_available",
+        "from": "safety_q1"
+    },
+    {
+        "op": "set_default",
+        "field": "safety_q7",
+        "value": "no"
+    }
+]

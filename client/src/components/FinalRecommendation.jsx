@@ -1,16 +1,19 @@
 import { useState } from 'react';
 import {
-  Paper, Typography, Box, Button, TextField, Select, MenuItem,
+  Typography, Box, Button, TextField, Select, MenuItem, Chip,
   RadioGroup, FormControlLabel, Radio, FormLabel, FormControl,
   Table, TableHead, TableBody, TableRow, TableCell, IconButton,
   Dialog, DialogTitle, DialogContent, DialogActions,
   Snackbar, Alert,
+  Accordion, AccordionSummary, AccordionDetails,
 } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { addLinkedFile, updateLinkedFile, deleteLinkedFile } from '../services/api';
+import { useAuth } from '../contexts/AuthContext';
 
 // Available file names for the dropdown
 const FILE_NAME_OPTIONS = [
@@ -157,7 +160,12 @@ function FileGrid({ files, sectionKey, onUpdate, onDelete }) {
 }
 
 // ---- Main Component ----
-export default function FinalRecommendation({ awardId, linkedFiles, onLinkedFilesChange }) {
+export default function FinalRecommendation({ awardId, linkedFiles, onLinkedFilesChange, expanded, onAccordionChange }) {
+  const { user } = useAuth();
+  const userRole = (user?.role || '').toUpperCase();
+  const isSO = userRole === 'SO';
+  const isGorCor = userRole === 'GOR' || userRole === 'COR';
+
   const [soRecommendation, setSoRecommendation] = useState('');
   const [gorRecommendation, setGorRecommendation] = useState('');
   const [scientificOverlap, setScientificOverlap] = useState('');
@@ -219,8 +227,35 @@ export default function FinalRecommendation({ awardId, linkedFiles, onLinkedFile
     [...FILE_SECTIONS, ...conditionalSections].find((s) => s.key === key)?.label || key;
 
   return (
-    <Paper sx={{ p: 2, mb: 2, border: '1px solid #d6e4f2', borderRadius: 2 }}>
-      <Typography variant="h6" sx={{ fontWeight: 700, mb: 2 }}>Final Recommendation to Award</Typography>
+    <>
+    <Accordion
+      expanded={expanded}
+      onChange={onAccordionChange}
+      sx={{
+        border: '1px solid #d6e4f2',
+        borderRadius: '8px !important',
+        mb: 2,
+        overflow: 'hidden',
+        '&:before': { display: 'none' },
+      }}
+    >
+      <AccordionSummary
+        expandIcon={<ExpandMoreIcon />}
+        sx={{
+          bgcolor: '#e7f1ff',
+          '&:hover': { bgcolor: '#dbeafe' },
+          '&.Mui-expanded': {
+            bgcolor: '#bfdbfe',
+            border: '2px solid #2563eb',
+            boxShadow: '0 0 0 3px rgba(37,99,235,0.1)',
+          },
+        }}
+      >
+        <Typography sx={{ fontWeight: 700, color: '#0a2540', fontSize: '0.85rem' }}>
+          Final Recommendation to Award
+        </Typography>
+      </AccordionSummary>
+      <AccordionDetails sx={{ bgcolor: '#fff', p: 2 }}>
 
       {/* File link sections */}
       {FILE_SECTIONS.map(({ key, label }) => (
@@ -286,34 +321,51 @@ export default function FinalRecommendation({ awardId, linkedFiles, onLinkedFile
       </Box>
 
       {/* SO Recommendation */}
-      <Box sx={{ mb: 1.5, p: 1.5, border: '1px solid #c7ddf8', borderRadius: 2, bgcolor: '#f9fbff' }}>
-        <Typography sx={{ fontWeight: 700, fontSize: 14, mb: 1 }}>SO Recommendation</Typography>
-        <Select fullWidth size="small" value={soRecommendation} onChange={(e) => setSoRecommendation(e.target.value)} displayEmpty sx={{ mb: 1 }}>
+      <Box sx={{ mb: 1.5, p: 1.5, border: '1px solid #c7ddf8', borderRadius: 2, bgcolor: isSO ? '#f9fbff' : '#f5f5f5' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+          <Typography sx={{ fontWeight: 700, fontSize: 14 }}>SO Recommendation</Typography>
+          {!isSO && (
+            <Chip label="Read Only" size="small" sx={{ fontSize: 10, height: 18, bgcolor: '#e2e8f0', color: '#64748b' }} />
+          )}
+        </Box>
+        <Select fullWidth size="small" value={soRecommendation} onChange={(e) => setSoRecommendation(e.target.value)} displayEmpty disabled={!isSO} sx={{ mb: 1 }}>
           <MenuItem value="">Select Recommendation</MenuItem>
           <MenuItem value="approval">SO Recommend Approval to Award</MenuItem>
           <MenuItem value="disapproval">SO Recommend Disapproval</MenuItem>
         </Select>
-        <TextField fullWidth multiline rows={3} placeholder="Enter comments..." size="small" />
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1, mt: 1 }}>
-          <Button variant="contained" size="small" sx={{ bgcolor: '#60a5fa' }}>Save</Button>
-          <Button variant="contained" size="small" sx={{ bgcolor: '#2563eb' }}>Send to GOR/COR</Button>
-        </Box>
+        <TextField fullWidth multiline rows={3} placeholder="Enter comments..." size="small" disabled={!isSO} />
+        {isSO && (
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1, mt: 1 }}>
+            <Button variant="contained" size="small" sx={{ bgcolor: '#60a5fa' }}>Save</Button>
+            <Button variant="contained" size="small" sx={{ bgcolor: '#2563eb' }}>Send to GOR/COR</Button>
+          </Box>
+        )}
       </Box>
 
       {/* GOR/COR Recommendation */}
-      <Box sx={{ mb: 1.5, p: 1.5, border: '1px solid #c7ddf8', borderRadius: 2, bgcolor: '#f9fbff' }}>
-        <Typography sx={{ fontWeight: 700, fontSize: 14, mb: 1 }}>GOR/COR Recommendation</Typography>
-        <Select fullWidth size="small" value={gorRecommendation} onChange={(e) => setGorRecommendation(e.target.value)} displayEmpty sx={{ mb: 1 }}>
+      <Box sx={{ mb: 1.5, p: 1.5, border: '1px solid #c7ddf8', borderRadius: 2, bgcolor: isGorCor ? '#f9fbff' : '#f5f5f5' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+          <Typography sx={{ fontWeight: 700, fontSize: 14 }}>GOR/COR Recommendation</Typography>
+          {!isGorCor && (
+            <Chip label="Read Only" size="small" sx={{ fontSize: 10, height: 18, bgcolor: '#e2e8f0', color: '#64748b' }} />
+          )}
+        </Box>
+        <Select fullWidth size="small" value={gorRecommendation} onChange={(e) => setGorRecommendation(e.target.value)} displayEmpty disabled={!isGorCor} sx={{ mb: 1 }}>
           <MenuItem value="">Select Recommendation</MenuItem>
           <MenuItem value="approval">GOR/COR Recommend Approval</MenuItem>
           <MenuItem value="disapproval">GOR/COR Recommend Disapproval</MenuItem>
         </Select>
-        <TextField fullWidth multiline rows={3} placeholder="Enter comments..." size="small" />
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1, mt: 1 }}>
-          <Button variant="contained" size="small" sx={{ bgcolor: '#60a5fa' }}>Save</Button>
-          <Button variant="contained" size="small" sx={{ bgcolor: '#2563eb' }}>Submit Recommendation to DHACA R&D</Button>
-        </Box>
+        <TextField fullWidth multiline rows={3} placeholder="Enter comments..." size="small" disabled={!isGorCor} />
+        {isGorCor && (
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1, mt: 1 }}>
+            <Button variant="contained" size="small" sx={{ bgcolor: '#60a5fa' }}>Save</Button>
+            <Button variant="contained" size="small" sx={{ bgcolor: '#2563eb' }}>Submit Recommendation to DHACA R&D</Button>
+          </Box>
+        )}
       </Box>
+
+      </AccordionDetails>
+    </Accordion>
 
       {/* ====== Add File Modal ====== */}
       <Dialog open={addOpen} onClose={() => setAddOpen(false)} maxWidth="sm" fullWidth>
@@ -372,6 +424,6 @@ export default function FinalRecommendation({ awardId, linkedFiles, onLinkedFile
           {snackbar.message}
         </Alert>
       </Snackbar>
-    </Paper>
+    </>
   );
 }

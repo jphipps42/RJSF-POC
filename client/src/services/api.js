@@ -60,4 +60,8 @@ export const getPageLayoutVersion = (formId, version) =>
 export const getSubmissionForEdit = (id) => api.get(`/form-submissions/${id}/for-edit`);
 export const getSubmissionAudit = (id) => api.get(`/form-submissions/${id}/audit`);
 
+// Auth
+export const login = (username, password) => api.post('/auth/login', { username, password });
+export const getMe = (userId) => api.get('/auth/me', { headers: { 'X-User-Id': userId } });
+
 export default api;

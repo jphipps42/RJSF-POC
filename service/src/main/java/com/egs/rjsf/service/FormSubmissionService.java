@@ -91,15 +91,13 @@ public class FormSubmissionService {
             throw new IllegalStateException("Submission is locked and cannot be edited: " + id);
         }
 
-        // If not yet pinned to a schema version, pin to the current version
-        if (submission.getSchemaVersionId() == null) {
-            FormSchemaVersion currentVersion = formSchemaVersionRepository
-                    .findByFormIdAndIsCurrentTrue(submission.getFormConfigId())
-                    .orElseThrow(() -> new EntityNotFoundException(
-                            "No current schema version for form: " + submission.getFormConfigId()));
-            submission.setSchemaVersionId(currentVersion.getId());
-            submission.setSchemaVersion(currentVersion.getVersion());
-        }
+        // Always pin to the current schema version on save (upgrades migrated data)
+        FormSchemaVersion currentVersion = formSchemaVersionRepository
+                .findByFormIdAndIsCurrentTrue(submission.getFormConfigId())
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "No current schema version for form: " + submission.getFormConfigId()));
+        submission.setSchemaVersionId(currentVersion.getId());
+        submission.setSchemaVersion(currentVersion.getVersion());
 
         submission.setFormData(formData);
         submission.setStatus("in_progress");

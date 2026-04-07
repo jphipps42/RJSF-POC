@@ -26,6 +26,9 @@ spring:
     deserialization:
       fail-on-unknown-properties: false
 
+  cache:
+    type: caffeine
+
 server:
   port: 3001
 
@@ -48,3 +51,10 @@ logging:
   level:
     com.egs.rjsf: DEBUG
     org.hibernate.SQL: WARN
+
+transformer:
+  template:
+    dir: ${TRANSFORMER_TEMPLATE_DIR:classpath:templates}
+    hot-reload: ${TRANSFORMER_HOT_RELOAD:true}
+  cache:
+    max-size: ${TRANSFORMER_CACHE_MAX_SIZE:500}

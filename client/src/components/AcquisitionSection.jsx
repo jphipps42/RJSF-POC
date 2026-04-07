@@ -182,7 +182,7 @@ function BudgetReviewSection({ budgetSubs, onUpdate }) {
 }
 
 // ---- Parent Section D accordion ----
-export default function AcquisitionSection({ submissions, onUpdate }) {
+export default function AcquisitionSection({ submissions, onUpdate, expanded, onAccordionChange }) {
   const [saving, setSaving] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
@@ -220,7 +220,7 @@ export default function AcquisitionSection({ submissions, onUpdate }) {
 
   return (
     <>
-      <Accordion sx={{
+      <Accordion expanded={expanded} onChange={onAccordionChange} sx={{
         border: '1px solid #d6e4f2', borderRadius: '8px !important', mb: 2, overflow: 'hidden',
         '&:before': { display: 'none' },
       }}>

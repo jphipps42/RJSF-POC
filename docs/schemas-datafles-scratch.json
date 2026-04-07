@@ -1,0 +1,31 @@
+{
+    "personnel": [
+        {
+            "name": "John Smith",
+            "country": "USA",
+            "organization": "Johns Hopkins University",
+            "project_role": "PI/PD",
+            "is_subcontract": false
+        },
+        {
+            "name": "Walter White",
+            "country": "USA",
+            "organization": "Walter Reed Medical",
+            "project_role": "Co-Investigator",
+            "is_subcontract": false
+        },
+        {
+            "name": "Jane Doe",
+            "country": "USA",
+            "organization": "Penn State",
+            "project_role": "PI",
+            "is_subcontract": true
+        }
+    ],
+    "pi_budget": 1448199,
+    "branch_chief": "Pending Assignment",
+    "program_manager": "Naba Bora",
+    "prime_award_type": "extramural",
+    "final_recommended_budget": 1448199,
+    "contract_grants_specialist": "Pending Assignment"
+}

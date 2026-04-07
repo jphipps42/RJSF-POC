@@ -11,7 +11,7 @@ import StatusBadge from './StatusBadge';
 import useVersionedFormData from '../hooks/useVersionedFormData';
 import { saveFormDraft, submitForm } from '../services/api';
 
-export default function ReviewSection({ submission, onUpdate, auditMode = false }) {
+export default function ReviewSection({ submission, onUpdate, auditMode = false, expanded, onAccordionChange }) {
   const mode = auditMode ? 'audit' : 'edit';
   const versioned = useVersionedFormData(submission, mode);
 
@@ -78,6 +78,8 @@ export default function ReviewSection({ submission, onUpdate, auditMode = false 
   return (
     <>
       <Accordion
+        expanded={expanded}
+        onChange={onAccordionChange}
         sx={{
           border: '1px solid #d6e4f2',
           borderRadius: '8px !important',

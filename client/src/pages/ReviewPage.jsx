@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   Box, Typography, Button, Chip, CircularProgress,
@@ -16,7 +16,7 @@ import NotesPanel from '../components/NotesPanel';
 import RightPanel from '../components/RightPanel';
 import ResetModal from '../components/ResetModal';
 import {
-  getAwardByLog, updateAward, getFormConfiguration, getSchemaVersions,
+  getAwardByLog, getFormConfiguration, getSchemaVersions,
 } from '../services/api';
 
 const STANDARD_SECTIONS = ['safety_review', 'animal_review'];
@@ -27,12 +27,24 @@ export default function ReviewPage() {
   const { logNumber } = useParams();
   const [award, setAward] = useState(null);
   const [submissions, setSubmissions] = useState([]);
-  const [personnel, setPersonnel] = useState([]);
   const [linkedFiles, setLinkedFiles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [rightPanelCollapsed, setRightPanelCollapsed] = useState(false);
   const [resetModalOpen, setResetModalOpen] = useState(false);
+
+  // Only one top-level accordion open at a time; scroll into view on expand
+  const [expandedSection, setExpandedSection] = useState('overview');
+  const sectionRefs = useRef({});
+  const handleAccordionChange = (panelId) => (_event, isExpanded) => {
+    setExpandedSection(isExpanded ? panelId : false);
+    if (isExpanded) {
+      setTimeout(() => {
+        sectionRefs.current[panelId]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 300);
+    }
+  };
+  const registerRef = (panelId) => (el) => { sectionRefs.current[panelId] = el; };
 
   // Page layout versioning
   const [layoutVersions, setLayoutVersions] = useState([]);
@@ -45,7 +57,6 @@ export default function ReviewPage() {
       const res = await getAwardByLog(logNumber);
       setAward(res.data);
       setSubmissions(res.data.submissions || []);
-      setPersonnel(res.data.personnel || []);
       setLinkedFiles(res.data.linked_files || []);
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to load award data');
@@ -95,18 +106,11 @@ export default function ReviewPage() {
     );
   };
 
-  const handlePrimeAwardChange = async (value) => {
-    try {
-      await updateAward(award.id, { prime_award_type: value });
-      setAward((prev) => ({ ...prev, prime_award_type: value }));
-    } catch (err) {
-      console.error('Failed to update prime award type:', err);
-    }
-  };
-
   const handleReset = () => {
     fetchData();
   };
+
+  const overviewSubmission = submissions.find((s) => s.form_key === 'pre_award_overview');
 
   const standardSubmissions = STANDARD_SECTIONS
     .map((key) => submissions.find((s) => s.form_key === key))
@@ -114,7 +118,7 @@ export default function ReviewPage() {
 
   const humanSubmissions = submissions.filter((s) => s.form_key.startsWith(HUMAN_PREFIX));
   const acqSubmissions = submissions.filter((s) => s.form_key.startsWith(ACQ_PREFIX));
-  const allResetable = [...standardSubmissions, ...humanSubmissions, ...acqSubmissions];
+  const allResetable = [overviewSubmission, ...standardSubmissions, ...humanSubmissions, ...acqSubmissions].filter(Boolean);
 
   // Derive labels from layout config
   const overviewHeader = layoutConfig?.overview_header || 'Overview';
@@ -167,7 +171,13 @@ export default function ReviewPage() {
         </Box>
       </Box>
 
-      <AwardSummary award={award} />
+      <div ref={registerRef('award_summary')}>
+        <AwardSummary
+          award={award}
+          expanded={expandedSection === 'award_summary'}
+          onAccordionChange={handleAccordionChange('award_summary')}
+        />
+      </div>
 
       {/* Main Content */}
       <Box sx={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
@@ -179,14 +189,18 @@ export default function ReviewPage() {
           }}
         >
           <Box sx={{ flex: 1, overflowY: 'auto', p: 2 }}>
-            <OverviewPanel
-              award={award}
-              personnel={personnel}
-              submissions={submissions}
-              onPrimeAwardChange={handlePrimeAwardChange}
-              onPersonnelChange={setPersonnel}
-              overviewHeader={overviewHeader}
-            />
+            {overviewSubmission && (
+              <div ref={registerRef('overview')}>
+                <OverviewPanel
+                  overviewSubmission={overviewSubmission}
+                  submissions={submissions}
+                  onUpdate={handleSubmissionUpdate}
+                  overviewHeader={overviewHeader}
+                  expanded={expandedSection === 'overview'}
+                  onAccordionChange={handleAccordionChange('overview')}
+                />
+              </div>
+            )}
 
             <Typography variant="h6" sx={{ fontWeight: 700, fontSize: 14, mb: 1 }}>
               {reviewHeader}
@@ -194,32 +208,59 @@ export default function ReviewPage() {
 
             {/* Sections A, B */}
             {standardSubmissions.map((sub) => (
-              <ReviewSection
-                key={sub.id}
-                submission={sub}
-                onUpdate={handleSubmissionUpdate}
-              />
+              <div key={sub.id} ref={registerRef(sub.form_key)}>
+                <ReviewSection
+                  submission={sub}
+                  onUpdate={handleSubmissionUpdate}
+                  expanded={expandedSection === sub.form_key}
+                  onAccordionChange={handleAccordionChange(sub.form_key)}
+                />
+              </div>
             ))}
 
             {/* Section C with 6 nested subsections */}
-            <HumanReviewSection
-              submissions={humanSubmissions}
-              onUpdate={handleSubmissionUpdate}
-            />
+            <div ref={registerRef('human_review')}>
+              <HumanReviewSection
+                submissions={humanSubmissions}
+                onUpdate={handleSubmissionUpdate}
+                expanded={expandedSection === 'human_review'}
+                onAccordionChange={handleAccordionChange('human_review')}
+              />
+            </div>
 
             {/* Section D with nested subsections */}
-            <AcquisitionSection
-              submissions={acqSubmissions}
-              onUpdate={handleSubmissionUpdate}
-            />
+            <div ref={registerRef('acquisition')}>
+              <AcquisitionSection
+                submissions={acqSubmissions}
+                onUpdate={handleSubmissionUpdate}
+                expanded={expandedSection === 'acquisition'}
+                onAccordionChange={handleAccordionChange('acquisition')}
+              />
+            </div>
 
-            <FinalRecommendation
-              awardId={award.id}
-              linkedFiles={linkedFiles}
-              onLinkedFilesChange={setLinkedFiles}
-            />
-            <NotesPanel title="SO/GOR Notes" />
-            <NotesPanel title="Change Log" />
+            <div ref={registerRef('final_recommendation')}>
+              <FinalRecommendation
+                awardId={award.id}
+                linkedFiles={linkedFiles}
+                onLinkedFilesChange={setLinkedFiles}
+                expanded={expandedSection === 'final_recommendation'}
+                onAccordionChange={handleAccordionChange('final_recommendation')}
+              />
+            </div>
+            <div ref={registerRef('so_gor_notes')}>
+              <NotesPanel
+                title="SO/GOR Notes"
+                expanded={expandedSection === 'so_gor_notes'}
+                onAccordionChange={handleAccordionChange('so_gor_notes')}
+              />
+            </div>
+            <div ref={registerRef('change_log')}>
+              <NotesPanel
+                title="Change Log"
+                expanded={expandedSection === 'change_log'}
+                onAccordionChange={handleAccordionChange('change_log')}
+              />
+            </div>
           </Box>
 
           {/* Footer: Reset + Version Number */}
@@ -234,29 +275,29 @@ export default function ReviewPage() {
               Reset Checklist (Admin Only)
             </Button>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-              {selectedVersion && (
-                <Typography sx={{ fontSize: 12, color: '#64748b' }}>
-                  Form Version: v{selectedVersion}
-                </Typography>
-              )}
-              {layoutVersions.length > 1 && (
-                <FormControl size="small" sx={{ minWidth: 140 }}>
-                  <Select
-                    value={selectedVersion || ''}
-                    onChange={(e) => handleVersionChange(e.target.value)}
-                    sx={{ fontSize: 12, height: 28 }}
-                    displayEmpty
-                  >
-                    {layoutVersions
-                      .sort((a, b) => b.version - a.version)
-                      .map((v) => (
-                        <MenuItem key={v.version} value={v.version} sx={{ fontSize: 12 }}>
-                          v{v.version}{v.is_current ? ' (current)' : ''}
-                        </MenuItem>
-                      ))}
-                  </Select>
-                </FormControl>
-              )}
+              <Typography sx={{ fontSize: 12, color: '#64748b', fontWeight: 600 }}>
+                Rendered Version: v{selectedVersion ?? 1}
+              </Typography>
+              <FormControl size="small" sx={{ minWidth: 140 }}>
+                <InputLabel sx={{ fontSize: 12 }}>Select Version</InputLabel>
+                <Select
+                  label="Select Version"
+                  value={selectedVersion ?? 1}
+                  onChange={(e) => handleVersionChange(e.target.value)}
+                  sx={{ fontSize: 12, height: 28 }}
+                >
+                  {layoutVersions.length > 0
+                    ? layoutVersions
+                        .sort((a, b) => b.version - a.version)
+                        .map((v) => (
+                          <MenuItem key={v.version} value={v.version} sx={{ fontSize: 12 }}>
+                            v{v.version}{v.is_current ? ' (current)' : ''}
+                          </MenuItem>
+                        ))
+                    : <MenuItem value={1} sx={{ fontSize: 12 }}>v1 (current)</MenuItem>
+                  }
+                </Select>
+              </FormControl>
             </Box>
           </Box>
         </Box>
