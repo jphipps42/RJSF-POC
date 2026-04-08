@@ -46,7 +46,7 @@ Use the "Reset Checklist (Admin Only)" button at the bottom of the left panel to
 ## Changes from the Node.js Version
 
 ### Removed Features:
-- Supabase database integration (replaced with localStorage)
+- External database integration (replaced with localStorage)
 - Real authentication system (replaced with demo auth)
 - Server-side logic and API endpoints
 - Multi-user support
@@ -54,7 +54,7 @@ Use the "Reset Checklist (Admin Only)" button at the bottom of the left panel to
 - page2.html (unused secondary page)
 
 ### How Data is Handled:
-- **Original**: Data stored in Supabase PostgreSQL database
+- **Original**: Data stored in External PostgreSQL database
 - **Static**: Data stored in browser's localStorage
 - **Review IDs**: Hardcoded to 'TE020005'
 - **User IDs**: Generated locally as 'user_' + timestamp
@@ -124,11 +124,11 @@ This conversion maintained all UI and functionality from the original Node.js ve
 - Authentication logic moved to browser-side with localStorage
 - Database operations replaced with localStorage read/write
 - All module imports consolidated into single script.js
-- Supabase SDK removed
+- External SDK removed
 - No build tools or npm packages required
 
 ---
 
 **Version**: Static Offline 1.0
 **Converted**: February 2026
-**Original**: Node.js + Supabase application
+**Original**: Node.js application
