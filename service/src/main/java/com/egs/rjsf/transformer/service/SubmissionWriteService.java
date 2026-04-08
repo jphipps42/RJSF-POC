@@ -30,6 +30,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class SubmissionWriteService {
@@ -182,6 +183,50 @@ public class SubmissionWriteService {
                 OffsetDateTime.now(),
                 null  // write response does not echo formData per spec
         );
+    }
+
+    /**
+     * Section-aware upsert for composite form integration.
+     * Filters fields by section tag, maps and transforms them, then upserts into the
+     * relational table keyed by award_id. Only the section's columns are touched.
+     */
+    public void writeSection(String formId, UUID awardId, Map<String, Object> formData,
+                             String sectionId, String submittedBy) {
+        TransformerTemplate template = templateRegistry.getTemplate(formId);
+
+        List<FieldMapping> sectionFields = template.fieldsBySection(sectionId);
+        if (sectionFields.isEmpty()) {
+            log.debug("No transformer fields mapped for section '{}', skipping", sectionId);
+            return;
+        }
+
+        Map<String, Object> columnValues = new LinkedHashMap<>();
+        for (FieldMapping field : sectionFields) {
+            Optional<Object> rawValue = pathResolver.get(field.jsonPath(), formData);
+            Object value = rawValue.orElse(field.defaultValue());
+
+            if (value != null && field.transform() != null && field.transform().toDb() != null) {
+                Optional<ToDbFunction> fn = transformRegistry.getToDb(field.transform().toDb());
+                if (fn.isPresent()) {
+                    value = fn.get().apply(value, field);
+                }
+            }
+
+            if (value != null) {
+                value = typeCoercionService.coerce(value, field.sqlType());
+            }
+
+            columnValues.put(field.column(), value);
+        }
+
+        columnValues.put(template.schemaVersion().column(), template.version());
+        if (submittedBy != null) {
+            columnValues.put(template.auditColumns().submittedBy(), submittedBy);
+        }
+
+        sqlExecutor.upsertByAwardId(template.tableName(), awardId, columnValues);
+
+        log.info("Upserted section '{}' for award {} into '{}'", sectionId, awardId, template.tableName());
     }
 
     private void saveTemplateHistory(TransformerTemplate template) {

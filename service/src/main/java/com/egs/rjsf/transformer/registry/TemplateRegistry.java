@@ -1,6 +1,7 @@
 package com.egs.rjsf.transformer.registry;
 
 import com.egs.rjsf.transformer.config.TransformerProperties;
+import com.egs.rjsf.transformer.ddl.DdlManager;
 import com.egs.rjsf.transformer.model.TransformerTemplate;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
@@ -18,12 +19,15 @@ public class TemplateRegistry {
     private final TemplateLoader loader;
     private final TemplateValidator validator;
     private final TransformerProperties properties;
+    private final DdlManager ddlManager;
     private final ConcurrentHashMap<String, TransformerTemplate> cache = new ConcurrentHashMap<>();
 
-    public TemplateRegistry(TemplateLoader loader, TemplateValidator validator, TransformerProperties properties) {
+    public TemplateRegistry(TemplateLoader loader, TemplateValidator validator,
+                            TransformerProperties properties, DdlManager ddlManager) {
         this.loader = loader;
         this.validator = validator;
         this.properties = properties;
+        this.ddlManager = ddlManager;
     }
 
     @PostConstruct
@@ -81,6 +85,13 @@ public class TemplateRegistry {
         validator.validate(template);
         cache.put(formId, template);
         log.info("Loaded and cached template: {} (version {})", formId, template.version());
+
+        try {
+            ddlManager.reconcile(template);
+        } catch (Exception e) {
+            log.error("DDL reconciliation failed for template '{}': {}", formId, e.getMessage(), e);
+        }
+
         return template;
     }
 }

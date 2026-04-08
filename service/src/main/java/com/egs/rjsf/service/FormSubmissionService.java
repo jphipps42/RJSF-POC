@@ -8,8 +8,11 @@ import com.egs.rjsf.entity.FormSubmission;
 import com.egs.rjsf.repository.FormConfigurationRepository;
 import com.egs.rjsf.repository.FormSchemaVersionRepository;
 import com.egs.rjsf.repository.FormSubmissionRepository;
+import com.egs.rjsf.transformer.service.SubmissionWriteService;
 import com.egs.rjsf.util.MigrationEngine;
 import jakarta.persistence.EntityNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,19 +22,24 @@ import java.util.*;
 @Service
 public class FormSubmissionService {
 
+    private static final Logger log = LoggerFactory.getLogger(FormSubmissionService.class);
+
     private final FormSubmissionRepository formSubmissionRepository;
     private final FormSchemaVersionRepository formSchemaVersionRepository;
     private final FormConfigurationRepository formConfigurationRepository;
     private final MigrationEngine migrationEngine;
+    private final SubmissionWriteService transformerWriteService;
 
     public FormSubmissionService(FormSubmissionRepository formSubmissionRepository,
                                  FormSchemaVersionRepository formSchemaVersionRepository,
                                  FormConfigurationRepository formConfigurationRepository,
-                                 MigrationEngine migrationEngine) {
+                                 MigrationEngine migrationEngine,
+                                 SubmissionWriteService transformerWriteService) {
         this.formSubmissionRepository = formSubmissionRepository;
         this.formSchemaVersionRepository = formSchemaVersionRepository;
         this.formConfigurationRepository = formConfigurationRepository;
         this.migrationEngine = migrationEngine;
+        this.transformerWriteService = transformerWriteService;
     }
 
     public List<SubmissionWithSchemaDto> findByAwardId(UUID awardId) {
@@ -203,6 +211,24 @@ public class FormSubmissionService {
     }
 
     // ---- Helper methods ----
+
+    public void syncToRelationalTable(FormSubmission submission, String sectionId) {
+        try {
+            if (!"pre_award_composite".equals(submission.getFormKey())) {
+                return;
+            }
+            transformerWriteService.writeSection(
+                    "pre-award-composite",
+                    submission.getAwardId(),
+                    submission.getFormData(),
+                    sectionId,
+                    null
+            );
+        } catch (Exception e) {
+            log.warn("Transformer sync failed for submission {} section '{}': {}",
+                    submission.getId(), sectionId, e.getMessage(), e);
+        }
+    }
 
     private boolean isSectionLocked(FormSubmission submission, String sectionId) {
         if (submission.getSectionStatus() == null) return false;

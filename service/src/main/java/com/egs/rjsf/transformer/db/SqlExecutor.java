@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
+import java.util.UUID;
 
 @Component
 public class SqlExecutor {
@@ -104,6 +105,38 @@ public class SqlExecutor {
 
         namedJdbc.batchUpdate(sql, batchParams);
         log.debug("Inserted {} child rows into '{}'", rows.size(), childTable);
+    }
+
+    public void upsertByAwardId(String tableName, UUID awardId, Map<String, Object> columnValues) {
+        IdentifierValidator.validate(tableName);
+        columnValues.keySet().forEach(IdentifierValidator::validate);
+
+        StringJoiner colJoiner = new StringJoiner(", ");
+        StringJoiner paramJoiner = new StringJoiner(", ");
+        StringJoiner updateJoiner = new StringJoiner(", ");
+
+        colJoiner.add("award_id");
+        paramJoiner.add(":award_id");
+
+        for (String col : columnValues.keySet()) {
+            colJoiner.add(col);
+            paramJoiner.add(":" + col);
+            updateJoiner.add(col + " = EXCLUDED." + col);
+        }
+
+        // Always update updated_at on conflict
+        updateJoiner.add("updated_at = NOW()");
+
+        String sql = "INSERT INTO " + tableName
+                + " (" + colJoiner + ")"
+                + " VALUES (" + paramJoiner + ")"
+                + " ON CONFLICT (award_id) DO UPDATE SET " + updateJoiner;
+
+        log.debug("Executing upsert on '{}': {}", tableName, sql);
+
+        MapSqlParameterSource params = new MapSqlParameterSource(columnValues);
+        params.addValue("award_id", awardId);
+        namedJdbc.update(sql, params);
     }
 
     public Map<String, Object> selectById(String tableName, List<String> columns, long submissionId) {

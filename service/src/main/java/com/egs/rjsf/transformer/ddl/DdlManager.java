@@ -26,7 +26,7 @@ public class DdlManager {
     );
 
     private static final Set<String> SYSTEM_COLUMNS = Set.of(
-            "submission_id", "id"
+            "submission_id", "id", "award_id"
     );
 
     private final JdbcTemplate jdbcTemplate;
@@ -94,6 +94,7 @@ public class DdlManager {
         StringBuilder sql = new StringBuilder();
         sql.append("CREATE TABLE ").append(tableName).append(" (\n");
         sql.append("    submission_id BIGSERIAL PRIMARY KEY,\n");
+        sql.append("    award_id UUID UNIQUE,\n");
         sql.append("    ").append(schemaVersionCol).append(" ").append(schemaVersionType).append(" NOT NULL");
 
         for (FieldMapping field : fields) {

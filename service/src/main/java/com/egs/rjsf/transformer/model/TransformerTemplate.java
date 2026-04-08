@@ -41,4 +41,11 @@ public record TransformerTemplate(
         this.writeHooks = writeHooks != null ? writeHooks : new HookConfig(null, null, null, null, null);
         this.readHooks = readHooks != null ? readHooks : new HookConfig(null, null, null, null, null);
     }
+
+    public List<FieldMapping> fieldsBySection(String sectionId) {
+        if (sectionId == null) return fields;
+        return fields.stream()
+                .filter(f -> f.tags().contains(sectionId))
+                .toList();
+    }
 }

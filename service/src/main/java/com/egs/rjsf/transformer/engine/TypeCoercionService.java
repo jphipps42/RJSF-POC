@@ -6,7 +6,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import org.postgresql.util.PGobject;
+
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -84,15 +87,27 @@ public class TypeCoercionService {
     }
 
     private Object coerceToJsonb(Object value) {
-        if (value instanceof String) return value;
-        if (value instanceof Map || value instanceof List) {
+        String jsonString;
+        if (value instanceof String s) {
+            jsonString = s;
+        } else if (value instanceof Map || value instanceof List) {
             try {
-                return objectMapper.writeValueAsString(value);
+                jsonString = objectMapper.writeValueAsString(value);
             } catch (JsonProcessingException e) {
                 throw new IllegalArgumentException("Failed to serialize value to JSONB", e);
             }
+        } else {
+            jsonString = String.valueOf(value);
         }
-        return String.valueOf(value);
+
+        try {
+            PGobject pgObject = new PGobject();
+            pgObject.setType("jsonb");
+            pgObject.setValue(jsonString);
+            return pgObject;
+        } catch (SQLException e) {
+            throw new IllegalArgumentException("Failed to create PGobject for JSONB", e);
+        }
     }
 
     private UUID coerceToUuid(Object value) {
