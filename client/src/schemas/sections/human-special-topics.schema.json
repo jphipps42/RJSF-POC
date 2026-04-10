@@ -3,16 +3,18 @@
   "type": "object",
   "x-schemaVersion": 1,
   "x-sectionKey": "human_special_topics",
-  "title": "Human - Other Special Topics",
+  "title": "Other/Special Topics",
+  "description": "Does the project involve:",
   "properties": {
     "human_ost_q1": {
       "type": "string",
-      "title": "1. Are there other special topics related to human research?",
+      "title": "1. Situations requiring additional Human Research Regulatory Agency/DOD review?",
+      "description": "Special Topics may include: Planned emergency research involving Exception from Informed Consent (EFIC); Large scale genomic data from DOD-affiliated personnel; Fetal tissue research (not including embryonic cell lines); Sensitive use of human cadavers. IF YES PROMPTLY NOTIFY REGULATORY OFFICE DIRECTOR/DEPUTY DIRECTOR AND PLAN FOR ADDITIONAL TIME FOR REVIEW",
       "enum": ["yes", "no"]
     },
     "human_ost_notes": {
       "type": "string",
-      "title": "Notes"
+      "title": "Note"
     }
   }
 }

@@ -3,31 +3,32 @@
   "type": "object",
   "x-schemaVersion": 1,
   "x-sectionKey": "human_subjects",
-  "title": "Human Subjects Research",
+  "title": "Human Subjects",
+  "description": "Does the project involve:",
   "properties": {
     "human_hs_q1": {
       "type": "string",
-      "title": "1. Does the research involve human subjects?",
+      "title": "1. Interaction/intervention with human subjects?",
       "enum": ["yes", "no"]
     },
     "human_hs_q2": {
       "type": "string",
-      "title": "2. Is the research a clinical trial?",
+      "title": "2. A Clinical trial?",
       "enum": ["yes", "no"]
     },
     "ct_fda_q1": {
       "type": "string",
-      "title": "Is the clinical trial subject to FDA regulation?",
+      "title": "a. Is it FDA regulated?",
       "enum": ["yes", "no"]
     },
     "ct_nonus_q1": {
       "type": "string",
-      "title": "Does the clinical trial involve non-US sites?",
+      "title": "b. Will any clinical trial sites be located outside the US?",
       "enum": ["yes", "no"]
     },
     "human_hs_notes": {
       "type": "string",
-      "title": "Notes"
+      "title": "Note"
     }
   }
 }

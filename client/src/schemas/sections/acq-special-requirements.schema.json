@@ -7,7 +7,7 @@
   "properties": {
     "acq_special_requirements": {
       "type": "array",
-      "title": "Special Requirements",
+      "title": "Selected Requirements",
       "items": {
         "type": "string",
         "enum": [
@@ -38,7 +38,7 @@
     },
     "acq_special_notes": {
       "type": "string",
-      "title": "Special Requirements Notes"
+      "title": "Note (optional)"
     }
   }
 }

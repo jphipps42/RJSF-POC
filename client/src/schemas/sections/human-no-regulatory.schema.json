@@ -3,40 +3,46 @@
   "type": "object",
   "x-schemaVersion": 1,
   "x-sectionKey": "human_no_regulatory",
-  "title": "Human - No Regulatory Review Required",
+  "title": "Human Research NOT Requiring Regulatory Review",
+  "description": "Does the project involve any of the following?",
   "properties": {
     "no_review_default_no": {
       "type": "boolean",
-      "title": "Default No Review Required"
+      "title": "No - All responses below will be defaulted to NO"
     },
     "human_s1_q1": {
       "type": "string",
-      "title": "1. Does the research involve interaction or intervention with living individuals?",
+      "title": "1. Commercially available human cell lines, including cadaveric and HEK293 cells",
+      "description": "Exception: commercially available human embryonic cell lines other than HEK293 require review and should not be indicated here",
       "enum": ["yes", "no"]
     },
     "human_s1_q2": {
       "type": "string",
-      "title": "2. Does the research obtain identifiable private information?",
+      "title": "2. Commercially available human organoids",
+      "description": "Exception: commercially available organoids derived from human embryonic or fetal tissues require review and should not be indicated here",
       "enum": ["yes", "no"]
     },
     "human_s1_q3": {
       "type": "string",
-      "title": "3. Does the research involve biospecimens?",
+      "title": "3. Commercially available POOLED human products (e.g., serum, plasma, RBCs, urine, CSF, etc. collected from multiple donors and pooled together into one specimen)",
+      "description": "Commercially available single donor products require review and should not be indicated here",
       "enum": ["yes", "no"]
     },
     "human_s1_q4": {
       "type": "string",
-      "title": "4. Is the activity considered to be research?",
+      "title": "4. Established, existing patient-derived xenograft (PDX) models",
+      "description": "Note: Use of PDX in animals will require Animal Regulatory Agency review",
       "enum": ["yes", "no"]
     },
     "human_s1_q5": {
       "type": "string",
-      "title": "5. Is the research exempt from IRB review?",
+      "title": "5. Commercial services",
+      "description": "When a non-DOD organization receives DOD funds to perform analyses as a commercial service (i.e., fee for service) to another organization; e.g., a commercial lab providing routine diagnostic support to a DOD-funded clinical trial",
       "enum": ["yes", "no"]
     },
     "human_s1_notes": {
       "type": "string",
-      "title": "Notes"
+      "title": "Note"
     }
   }
 }

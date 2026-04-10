@@ -7,12 +7,13 @@
   "properties": {
     "human_ds_q1": {
       "type": "string",
-      "title": "1. Does the research involve secondary use of data?",
+      "title": "1. Does the project involve secondary use of human data?",
+      "description": "Examples: Data obtained from clinical trials or other research studies not performed under this DOD award; Established data repositories or publicly available datasets (e.g., TCGA, ORIEN, published clinical trial results, publicly available sequencing databases); Data obtained from medical records",
       "enum": ["yes", "no"]
     },
     "human_ds_notes": {
       "type": "string",
-      "title": "Notes"
+      "title": "Note"
     }
   }
 }

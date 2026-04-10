@@ -4,49 +4,54 @@
   "x-schemaVersion": 1,
   "x-sectionKey": "human_anatomical",
   "title": "Human Anatomical Substances",
+  "description": "Does the project involve any of the following?",
   "properties": {
     "has_default_no": {
       "type": "boolean",
-      "title": "Default No"
+      "title": "No - All responses below will be defaulted to NO"
     },
     "human_has_q1": {
       "type": "string",
-      "title": "1. Does the research involve human anatomical substances?",
+      "title": "1. Collecting human specimens prospectively for research purposes",
       "enum": ["yes", "no"]
     },
     "human_has_q2": {
       "type": "string",
-      "title": "2. Are the specimens de-identified?",
+      "title": "2. Human cell lines that cannot be purchased from a vendor",
+      "description": "This includes human cell lines that may be published or otherwise freely available, but are not commercially available",
       "enum": ["yes", "no"]
     },
     "human_has_q3": {
       "type": "string",
-      "title": "3. Are specimens obtained from a commercial source?",
+      "title": "3. Commercially available human anatomical substances (non-pooled)",
+      "description": "Example: Tissue samples, PBMCs, primary cells, blood, saliva, etc. from a single donor",
       "enum": ["yes", "no"]
     },
     "human_has_q4": {
       "type": "string",
-      "title": "4. Is an IRB-approved protocol in place for specimen collection?",
+      "title": "4. Creation of new patient-derived xenograft (PDX) models from human tissue samples",
       "enum": ["yes", "no"]
     },
     "human_has_q5": {
       "type": "string",
-      "title": "5. Are adequate biosafety measures described?",
+      "title": "5. Using human specimens obtained through clinical trials, research studies, collaborations, biobanks, or clinical departments",
+      "description": "Includes: clinical trials or research studies, including existing publicly available specimen banks; collaboration with other investigators or institutions; established institutional clinical repositories, biobanks, or tumor banks; medical facility clinical departments/services (e.g., excess or discarded surgical materials)",
       "enum": ["yes", "no"]
     },
     "human_has_q6": {
       "type": "string",
-      "title": "6. Is informed consent documentation adequate?",
+      "title": "6. Cadavers or post-mortem human specimens",
       "enum": ["yes", "no"]
     },
     "human_has_q7": {
       "type": "string",
-      "title": "7. Are specimen handling and disposal procedures adequate?",
+      "title": "7. Unique or regulated sample types, e.g., human embryonic stem cell lines",
+      "description": "Exception: Use of HEK293 cells does NOT require OHRO review",
       "enum": ["yes", "no"]
     },
     "human_has_notes": {
       "type": "string",
-      "title": "Notes"
+      "title": "Note"
     }
   }
 }

@@ -7,22 +7,23 @@
   "properties": {
     "acq_equip_included": {
       "type": "string",
-      "title": "Is equipment included in the budget?",
+      "title": "i. Are any equipment costs included in the proposed budget?",
+      "description": "If No, remaining questions will be disabled",
       "enum": ["yes", "no"]
     },
     "acq_equip_necessary": {
       "type": "string",
-      "title": "Is the equipment necessary for the project?",
+      "title": "ii. Is the equipment necessary to conduct the project?",
       "enum": ["yes", "no"]
     },
     "acq_equip_cost_appropriate": {
       "type": "string",
-      "title": "Are equipment costs appropriate?",
+      "title": "iii. In general, does the cost appear to be appropriate?",
       "enum": ["yes", "no"]
     },
     "acq_equip_notes": {
       "type": "string",
-      "title": "Equipment Notes"
+      "title": "Note"
     }
   }
 }

@@ -7,22 +7,22 @@
   "properties": {
     "acq_other_direct_included": {
       "type": "string",
-      "title": "Are other direct costs included in the budget?",
+      "title": "i. Are funds for Other Direct Costs included in the proposed budget?",
       "enum": ["yes", "no"]
     },
     "acq_other_direct_justified": {
       "type": "string",
-      "title": "Are other direct costs adequately justified?",
+      "title": "ii. Are the costs necessary and/or fully justified?",
       "enum": ["yes", "no"]
     },
     "acq_other_direct_breakdown": {
       "type": "string",
-      "title": "Is a cost breakdown provided for other direct costs?",
+      "title": "iii. Is the breakdown sufficient?",
       "enum": ["yes", "no"]
     },
     "acq_other_direct_notes": {
       "type": "string",
-      "title": "Other Direct Costs Notes"
+      "title": "Note"
     }
   }
 }

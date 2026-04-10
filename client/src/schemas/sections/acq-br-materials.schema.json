@@ -3,26 +3,26 @@
   "type": "object",
   "x-schemaVersion": 1,
   "x-sectionKey": "acq_br_materials",
-  "title": "Budget Review - Materials & Supplies",
+  "title": "Budget Review - Materials, Supplies, Consumables",
   "properties": {
     "acq_materials_included": {
       "type": "string",
-      "title": "Are materials and supplies included in the budget?",
+      "title": "i. Are funds for materials, supplies and consumables included in the proposed budget?",
       "enum": ["yes", "no"]
     },
     "acq_materials_appropriate": {
       "type": "string",
-      "title": "Are the materials and supplies appropriate for the project?",
+      "title": "ii. Are the types and quantities of proposed items appropriate/necessary to conduct the project?",
       "enum": ["yes", "no"]
     },
     "acq_materials_cost_appropriate": {
       "type": "string",
-      "title": "Are the costs for materials and supplies appropriate?",
+      "title": "iii. Do the costs appear to be appropriate?",
       "enum": ["yes", "no"]
     },
     "acq_materials_notes": {
       "type": "string",
-      "title": "Materials & Supplies Notes"
+      "title": "Note"
     }
   }
 }

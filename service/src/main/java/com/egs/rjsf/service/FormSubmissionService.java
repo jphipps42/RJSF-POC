@@ -181,28 +181,26 @@ public class FormSubmissionService {
                         "FormSubmission not found: " + id));
 
         if (sectionId != null) {
-            // Reset only one section
+            // Unlock one section — set back to in_progress so user can edit
             Map<String, Object> sectionStatus = new HashMap<>(
                     submission.getSectionStatus() != null ? submission.getSectionStatus() : Map.of());
-            sectionStatus.put(sectionId, "not_started");
+            sectionStatus.put(sectionId, "in_progress");
             submission.setSectionStatus(sectionStatus);
             submission.setStatus("in_progress");
             submission.setIsLocked(false);
         } else {
-            // Reset entire submission
-            submission.setFormData(Map.of());
-            submission.setStatus("not_started");
+            // Unlock all sections — set back to in_progress, preserve data
+            submission.setStatus("in_progress");
             submission.setIsLocked(false);
             submission.setSubmittedAt(null);
             submission.setCompletionDate(null);
-            submission.setSchemaVersionId(null);
-            submission.setSchemaVersion(null);
 
-            // Reset all section statuses
             Map<String, Object> sectionStatus = new HashMap<>(
                     submission.getSectionStatus() != null ? submission.getSectionStatus() : Map.of());
             for (String key : sectionStatus.keySet()) {
-                sectionStatus.put(key, "not_started");
+                if ("submitted".equals(sectionStatus.get(key))) {
+                    sectionStatus.put(key, "in_progress");
+                }
             }
             submission.setSectionStatus(sectionStatus);
         }

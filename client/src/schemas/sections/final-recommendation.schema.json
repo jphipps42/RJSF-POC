@@ -3,42 +3,46 @@
   "type": "object",
   "x-schemaVersion": 1,
   "x-sectionKey": "final_recommendation",
-  "title": "Final Recommendation",
+  "title": "Final Recommendation to Award",
   "properties": {
     "scientific_overlap": {
       "type": "string",
-      "title": "Is there scientific overlap with other funded projects?",
+      "title": "Was scientific overlap identified during negotiations?",
+      "description": "If yes, link any relevant files supporting the mitigation of the overlap",
       "enum": ["yes", "no"]
     },
     "foreign_involvement": {
       "type": "string",
-      "title": "Is there foreign involvement?",
+      "title": "Was this project reported to RISG for any type of foreign involvement during negotiations?",
       "enum": ["yes", "no"]
     },
     "risg_approval": {
       "type": "string",
-      "title": "Has RISG approval been obtained?",
+      "title": "Does this project have RISG approval to proceed?",
+      "description": "Disabled if foreign involvement answer is No",
       "enum": ["yes", "no"]
     },
     "so_recommendation": {
       "type": "string",
-      "title": "Scientific Officer Recommendation",
+      "title": "SO Recommendation",
       "enum": ["approval", "disapproval"],
-      "enumNames": ["Approval", "Disapproval"]
+      "enumNames": ["SO Recommend Approval to Award", "SO Recommend Disapproval"]
     },
     "so_comments": {
       "type": "string",
-      "title": "Scientific Officer Comments"
+      "title": "SO Comments",
+      "description": "RISG approval = Yes required to send to GOR/COR"
     },
     "gor_recommendation": {
       "type": "string",
-      "title": "Grants Officer Representative Recommendation",
+      "title": "GOR/COR Recommendation",
       "enum": ["approval", "disapproval"],
-      "enumNames": ["Approval", "Disapproval"]
+      "enumNames": ["GOR/COR Recommend Approval", "GOR/COR Recommend Disapproval"]
     },
     "gor_comments": {
       "type": "string",
-      "title": "Grants Officer Representative Comments"
+      "title": "GOR/COR Comments",
+      "description": "RISG approval = Yes required to submit"
     }
   }
 }

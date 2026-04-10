@@ -1,6 +1,6 @@
 {
   "animal_q1": {
-    "ui:widget": "radio"
+    "ui:widget": "animalSpecies"
   },
   "animal_q2": {
     "ui:widget": "radio"
@@ -11,16 +11,30 @@
   "animal_q4": {
     "ui:widget": "radio"
   },
+  "iacuc_protocol_number": {
+    "ui:placeholder": "Enter protocol number"
+  },
   "animal_q5": {
     "ui:widget": "radio"
   },
-  "animal_species": {
-    "ui:widget": "checkboxes"
+  "animal_start_date": {
+    "ui:placeholder": "e.g. Animal research will start right away"
   },
   "animal_notes": {
     "ui:widget": "textarea",
     "ui:options": {
       "rows": 4
-    }
-  }
+    },
+    "ui:placeholder": "If Q3 is Yes or Unknown, provide details here"
+  },
+  "ui:order": [
+    "animal_q1",
+    "animal_q2",
+    "animal_q3",
+    "animal_q4",
+    "iacuc_protocol_number",
+    "animal_q5",
+    "animal_start_date",
+    "animal_notes"
+  ]
 }

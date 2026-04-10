@@ -7,17 +7,17 @@
   "properties": {
     "acq_travel_included": {
       "type": "string",
-      "title": "Is travel included in the budget?",
+      "title": "i. Are funds for travel included in the proposed budget?",
       "enum": ["yes", "no"]
     },
     "acq_travel_appropriate": {
       "type": "string",
-      "title": "Are travel costs appropriate?",
+      "title": "ii. Are the number and type(s) of trip(s), along with personnel traveling appropriate for the project?",
       "enum": ["yes", "no"]
     },
     "acq_travel_notes": {
       "type": "string",
-      "title": "Travel Notes"
+      "title": "Note"
     }
   }
 }

@@ -7,22 +7,23 @@
   "properties": {
     "acq_dmp_received": {
       "type": "string",
-      "title": "Has the Data Management Plan been received?",
+      "title": "a. Has an acceptable Data Management Plan been received for this project?",
+      "description": "If No, please request a completed Data Management Plan with the PAIR",
       "enum": ["yes", "no"]
     },
     "acq_dmp_repository_identified": {
       "type": "string",
-      "title": "Has a data repository been identified?",
+      "title": "b. Has a designated data repository been identified?",
       "enum": ["yes", "no", "not_applicable"]
     },
     "acq_dmp_sharing_timeline": {
       "type": "string",
-      "title": "Is a data sharing timeline included?",
+      "title": "c. Is the proposed data sharing timeline consistent with DOD policy?",
       "enum": ["yes", "no"]
     },
     "acq_dmp_notes": {
       "type": "string",
-      "title": "Data Management Notes"
+      "title": "Note"
     }
   }
 }

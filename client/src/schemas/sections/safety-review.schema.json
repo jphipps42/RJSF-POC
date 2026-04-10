@@ -7,51 +7,52 @@
   "properties": {
     "safety_q1": {
       "type": "string",
-      "title": "1. Does the research involve select agents or toxins?",
+      "title": "1. Programmatic Record of Environmental Compliance (REC) available?",
       "enum": ["yes", "no"]
+    },
+    "programmatic_rec": {
+      "type": "string",
+      "title": "Selected Programmatic REC",
+      "x-internal": true
     },
     "safety_q2": {
       "type": "string",
-      "title": "2. Does the research involve recombinant or synthetic nucleic acid molecules?",
+      "title": "2. Involves Army-provided infectious agents?",
       "enum": ["yes", "no"]
     },
     "safety_q3": {
       "type": "string",
-      "title": "3. Does the research involve human blood, body fluids, tissues, or cell lines?",
+      "title": "3. Involves Biological Select Agents or Toxins (BSAT)?",
       "enum": ["yes", "no"]
     },
     "safety_q4": {
       "type": "string",
-      "title": "4. Does the research involve hazardous chemicals or materials?",
+      "title": "4. Involves specific chemical agents?",
       "enum": ["yes", "no"]
     },
     "safety_q5": {
       "type": "string",
-      "title": "5. Does the research involve lasers?",
+      "title": "5. Involves pesticides outside of established lab?",
       "enum": ["yes", "no"]
     },
     "safety_q6": {
       "type": "string",
-      "title": "6. Does the research involve radiation or radioactive materials?",
+      "title": "6. Potential likelihood of significant negative effects on public health, safety, or environment?",
       "enum": ["yes", "no"]
     },
     "safety_q7": {
       "type": "string",
-      "title": "7. Does the research involve field work or travel to hazardous locations?",
+      "title": "7. Does the project involve ionizing radiation or radioactive materials?",
       "enum": ["yes", "no"]
     },
     "safety_q8": {
       "type": "string",
-      "title": "8. Does the research involve Dual Use Research of Concern (DURC)?",
+      "title": "8. Has a NEPA compliance determination been completed?",
       "enum": ["yes", "no", "not_applicable"]
-    },
-    "programmatic_rec": {
-      "type": "string",
-      "title": "Programmatic Recommendation"
     },
     "safety_notes": {
       "type": "string",
-      "title": "Safety Notes"
+      "title": "Note"
     }
   }
 }

@@ -8,6 +8,17 @@ import {
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import StatusBadge from './StatusBadge';
+import ProgrammaticRecWidget from './widgets/ProgrammaticRecWidget';
+import BsatReferenceWidget from './widgets/BsatReferenceWidget';
+import ChemicalAgentsWidget from './widgets/ChemicalAgentsWidget';
+import AnimalSpeciesWidget from './widgets/AnimalSpeciesWidget';
+
+const customWidgets = {
+  programmaticRec: ProgrammaticRecWidget,
+  bsatReference: BsatReferenceWidget,
+  chemicalAgents: ChemicalAgentsWidget,
+  animalSpecies: AnimalSpeciesWidget,
+};
 
 const SectionPanel = forwardRef(function SectionPanel({
   sectionId,
@@ -89,6 +100,7 @@ const SectionPanel = forwardRef(function SectionPanel({
             liveValidate={false}
             noHtml5Validate
             formContext={formContext}
+            widgets={customWidgets}
           >
             <></>
           </Form>

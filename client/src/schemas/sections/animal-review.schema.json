@@ -7,61 +7,43 @@
   "properties": {
     "animal_q1": {
       "type": "string",
-      "title": "1. Does the research involve live vertebrate animals?",
+      "title": "1. Animals used?",
       "enum": ["yes", "no"]
-    },
-    "animal_species": {
-      "type": "array",
-      "title": "Animal Species",
-      "items": {
-        "type": "string",
-        "enum": [
-          "Rodents",
-          "NHP",
-          "Pigs",
-          "Rabbits",
-          "Dogs",
-          "Service animals",
-          "Cats",
-          "Marine mammals",
-          "Ferrets",
-          "Birds",
-          "Fish/Aquatic",
-          "Other"
-        ]
-      }
     },
     "animal_q2": {
       "type": "string",
-      "title": "2. Is the proposed animal use described in sufficient detail?",
+      "title": "2. Will any DOD-funded animal studies be performed at a site outside the US?",
+      "description": "If yes, please provide details in note below",
       "enum": ["yes", "no"]
     },
     "animal_q3": {
       "type": "string",
-      "title": "3. Are there alternatives to using animals?",
+      "title": "3. Will any DOD-funded animal studies be performed at a site in a foreign country of concern (FCOC)?",
+      "description": "If yes or unknown, please ensure you provide details to DHACA in the 'Other' box of your negotiation notes and alert RISG",
       "enum": ["yes", "no", "unknown"]
     },
     "animal_q4": {
       "type": "string",
-      "title": "4. IACUC approval status",
+      "title": "4. Has a valid IACUC protocol approval been obtained or submitted?",
       "enum": ["approved", "submitted", "not_yet_submitted", "not_applicable"]
     },
     "iacuc_protocol_number": {
       "type": "string",
-      "title": "IACUC Protocol Number"
+      "title": "IACUC Protocol Number (if available)"
     },
     "animal_q5": {
       "type": "string",
-      "title": "5. Are adequate veterinary care provisions described?",
+      "title": "5. Does this project involve endangered or protected species?",
       "enum": ["yes", "no"]
     },
     "animal_start_date": {
       "type": "string",
-      "title": "Animal Start Date"
+      "title": "6. Estimated Animal Research Start (if known)",
+      "description": "Example: Animal research will start right away"
     },
     "animal_notes": {
       "type": "string",
-      "title": "Animal Review Notes"
+      "title": "Notes"
     }
   }
 }

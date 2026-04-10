@@ -3,31 +3,31 @@
   "type": "object",
   "x-schemaVersion": 1,
   "x-sectionKey": "acq_br_consultant",
-  "title": "Budget Review - Consultant Costs",
+  "title": "Budget Review - Consultant/Collaborator",
   "properties": {
     "acq_consultant_included": {
       "type": "string",
-      "title": "Are consultant costs included in the budget?",
+      "title": "i. Are funds for consultant(s)/collaborator(s) included in the proposed budget?",
       "enum": ["yes", "no"]
     },
     "acq_consultant_necessary": {
       "type": "string",
-      "title": "Are the consultants necessary for the project?",
+      "title": "ii. Is the proposed consultant(s)/collaborator(s) necessary?",
       "enum": ["yes", "no"]
     },
     "acq_consultant_duties_described": {
       "type": "string",
-      "title": "Are consultant duties adequately described?",
+      "title": "iii. Are the duties sufficiently described?",
       "enum": ["yes", "no"]
     },
     "acq_consultant_costs_appropriate": {
       "type": "string",
-      "title": "Are consultant costs appropriate?",
+      "title": "iv. Do the costs/fees appear to be appropriate?",
       "enum": ["yes", "no"]
     },
     "acq_consultant_notes": {
       "type": "string",
-      "title": "Consultant Notes"
+      "title": "Note"
     }
   }
 }

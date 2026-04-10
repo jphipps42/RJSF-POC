@@ -1,15 +1,18 @@
 {
   "safety_q1": {
-    "ui:widget": "radio"
+    "ui:widget": "programmaticRec"
+  },
+  "programmatic_rec": {
+    "ui:widget": "hidden"
   },
   "safety_q2": {
     "ui:widget": "radio"
   },
   "safety_q3": {
-    "ui:widget": "radio"
+    "ui:widget": "bsatReference"
   },
   "safety_q4": {
-    "ui:widget": "radio"
+    "ui:widget": "chemicalAgents"
   },
   "safety_q5": {
     "ui:widget": "radio"
@@ -23,13 +26,22 @@
   "safety_q8": {
     "ui:widget": "radio"
   },
-  "programmatic_rec": {
-    "ui:widget": "hidden"
-  },
   "safety_notes": {
     "ui:widget": "textarea",
     "ui:options": {
       "rows": 4
     }
-  }
+  },
+  "ui:order": [
+    "safety_q1",
+    "programmatic_rec",
+    "safety_q2",
+    "safety_q3",
+    "safety_q4",
+    "safety_q5",
+    "safety_q6",
+    "safety_q7",
+    "safety_q8",
+    "safety_notes"
+  ]
 }

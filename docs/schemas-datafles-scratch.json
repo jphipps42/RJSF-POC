@@ -60,3 +60,879 @@
         "is_subcontract": false
     }
 ]
+
+
+
+{
+    "type": "object",
+    "title": "Page Layout",
+    "properties": {
+        "review_header": {
+            "type": "string",
+            "title": "Review Header"
+        },
+        "overview_header": {
+            "type": "string",
+            "title": "Overview Header"
+        }
+    }
+}
+
+
+{
+    "type": "object",
+    "title": "Pre-Award Composite Review",
+    "properties": {
+        "animal_q1": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "1. Animals used?"
+        },
+        "animal_q2": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "2. Will any DOD-funded animal studies be performed at a site outside the US?"
+        },
+        "animal_q3": {
+            "enum": [
+                "yes",
+                "no",
+                "unknown"
+            ],
+            "type": "string",
+            "title": "3. Will any DOD-funded animal studies be performed at a site in a foreign country of concern (FCOC)?"
+        },
+        "animal_q4": {
+            "enum": [
+                "approved",
+                "submitted",
+                "not_yet_submitted",
+                "not_applicable"
+            ],
+            "type": "string",
+            "title": "4. Has a valid IACUC protocol approval been obtained or submitted?"
+        },
+        "animal_q5": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "5. Does this project involve endangered or protected species?"
+        },
+        "ct_fda_q1": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "a. Is it FDA regulated?"
+        },
+        "personnel": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": [
+                    "name",
+                    "organization",
+                    "project_role"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "country": {
+                        "type": "string",
+                        "title": "Country",
+                        "default": "USA"
+                    },
+                    "organization": {
+                        "type": "string",
+                        "title": "Organization"
+                    },
+                    "project_role": {
+                        "type": "string",
+                        "title": "Project Role"
+                    },
+                    "is_subcontract": {
+                        "type": "boolean",
+                        "title": "Subcontract",
+                        "default": false
+                    },
+                    "percent_effort": {
+                        "type": "number",
+                        "title": "% Effort",
+                        "maximum": 100,
+                        "minimum": 0
+                    }
+                }
+            },
+            "title": "Project Personnel"
+        },
+        "pi_budget": {
+            "type": "number",
+            "title": "PI Budget"
+        },
+        "safety_q1": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "1. Programmatic Record of Environmental Compliance (REC) available?"
+        },
+        "safety_q2": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "2. Involves Army-provided infectious agents?"
+        },
+        "safety_q3": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "3. Involves Biological Select Agents or Toxins (BSAT)?"
+        },
+        "safety_q4": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "4. Involves specific chemical agents?"
+        },
+        "safety_q5": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "5. Involves pesticides outside of established lab?"
+        },
+        "safety_q6": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "6. Potential likelihood of significant negative effects on public health, safety, or environment?"
+        },
+        "safety_q7": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "7. Does the project involve ionizing radiation or radioactive materials?"
+        },
+        "safety_q8": {
+            "enum": [
+                "yes",
+                "no",
+                "not_applicable"
+            ],
+            "type": "string",
+            "title": "8. Has a NEPA compliance determination been completed?"
+        },
+        "ct_nonus_q1": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "b. Will any clinical trial sites be located outside the US?"
+        },
+        "human_ds_q1": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "1. Does the project involve secondary use of human data?"
+        },
+        "human_hs_q1": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "1. Interaction/intervention with human subjects?"
+        },
+        "human_hs_q2": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "2. A Clinical trial?"
+        },
+        "human_s1_q1": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "1. Commercially available human cell lines, including cadaveric and HEK293 cells"
+        },
+        "human_s1_q2": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "2. Commercially available human organoids"
+        },
+        "human_s1_q3": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "3. Commercially available POOLED human products"
+        },
+        "human_s1_q4": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "4. Established, existing patient-derived xenograft (PDX) models"
+        },
+        "human_s1_q5": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "5. Commercial services"
+        },
+        "so_comments": {
+            "type": "string",
+            "title": "SO Comments"
+        },
+        "animal_notes": {
+            "type": "string",
+            "title": "Notes"
+        },
+        "branch_chief": {
+            "type": "string",
+            "title": "Branch Chief"
+        },
+        "gor_comments": {
+            "type": "string",
+            "title": "GOR/COR Comments"
+        },
+        "human_has_q1": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "1. Collecting human specimens prospectively for research purposes"
+        },
+        "human_has_q2": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "2. Human cell lines that cannot be purchased from a vendor"
+        },
+        "human_has_q3": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "3. Commercially available human anatomical substances (non-pooled)"
+        },
+        "human_has_q4": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "4. Creation of new patient-derived xenograft (PDX) models from human tissue samples"
+        },
+        "human_has_q5": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "5. Using human specimens obtained through clinical trials, research studies, collaborations, biobanks, or clinical departments"
+        },
+        "human_has_q6": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "6. Cadavers or post-mortem human specimens"
+        },
+        "human_has_q7": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "7. Unique or regulated sample types, e.g., human embryonic stem cell lines"
+        },
+        "human_ost_q1": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "1. Situations requiring additional Human Research Regulatory Agency/DOD review?"
+        },
+        "safety_notes": {
+            "type": "string",
+            "title": "Note"
+        },
+        "acq_dmp_notes": {
+            "type": "string",
+            "title": "Note"
+        },
+        "risg_approval": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "Does this project have RISG approval to proceed?"
+        },
+        "animal_species": {
+            "type": "array",
+            "items": {
+                "enum": [
+                    "Rodents (mouse/rat/hamster)",
+                    "Non-Human Primates (NHP)",
+                    "Pigs",
+                    "Rabbits",
+                    "Dogs",
+                    "Service animals",
+                    "Cats",
+                    "Marine mammals",
+                    "Ferrets",
+                    "Birds",
+                    "Fish/Aquatic",
+                    "Other"
+                ],
+                "type": "string"
+            },
+            "title": "Selected Animal Species",
+            "uniqueItems": true
+        },
+        "funding_source": {
+            "enum": [
+                "congressional",
+                "core_program",
+                "supplemental",
+                "other"
+            ],
+            "type": "string",
+            "title": "Funding Source"
+        },
+        "has_default_no": {
+            "type": "boolean",
+            "title": "No - All responses below will be defaulted to NO"
+        },
+        "human_ds_notes": {
+            "type": "string",
+            "title": "Note"
+        },
+        "human_hs_notes": {
+            "type": "string",
+            "title": "Note"
+        },
+        "human_s1_notes": {
+            "type": "string",
+            "title": "Note"
+        },
+        "overview_notes": {
+            "type": "string",
+            "title": "Overview Notes"
+        },
+        "acq_equip_notes": {
+            "type": "string",
+            "title": "Note"
+        },
+        "acq_ier_comment": {
+            "type": "string",
+            "title": "Note (required if Unclear)"
+        },
+        "human_has_notes": {
+            "type": "string",
+            "title": "Note"
+        },
+        "human_ost_notes": {
+            "type": "string",
+            "title": "Note"
+        },
+        "program_manager": {
+            "type": "string",
+            "title": "Program Manager"
+        },
+        "acq_cps_comments": {
+            "type": "string",
+            "title": "Note (Required)"
+        },
+        "acq_cps_received": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "a. Has an updated and certified CPS document been received?"
+        },
+        "acq_dmp_received": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "a. Has an acceptable Data Management Plan been received?"
+        },
+        "acq_sow_comments": {
+            "type": "string",
+            "title": "Note (Required)"
+        },
+        "acq_travel_notes": {
+            "type": "string",
+            "title": "Note"
+        },
+        "prime_award_type": {
+            "enum": [
+                "extramural",
+                "intramural",
+                "extramural_intramural",
+                "intramural_extramural"
+            ],
+            "type": "string",
+            "title": "Prime Award (Intra/Extra)",
+            "default": "extramural"
+        },
+        "programmatic_rec": {
+            "type": "string",
+            "title": "Selected Programmatic REC"
+        },
+        "acq_peer_comments": {
+            "type": "string",
+            "title": "Note (Required)"
+        },
+        "acq_special_notes": {
+            "type": "string",
+            "title": "Note (optional)"
+        },
+        "animal_start_date": {
+            "type": "string",
+            "title": "6. Estimated Animal Research Start (if known)"
+        },
+        "so_recommendation": {
+            "enum": [
+                "approval",
+                "disapproval"
+            ],
+            "type": "string",
+            "title": "SO Recommendation"
+        },
+        "acq_equip_included": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "i. Are any equipment costs included in the proposed budget?"
+        },
+        "acq_ier_applicable": {
+            "enum": [
+                "yes",
+                "no",
+                "unclear"
+            ],
+            "type": "string",
+            "title": "a. Is the IER requirement applicable for this project?"
+        },
+        "acq_ier_plan_notes": {
+            "type": "string",
+            "title": "Note"
+        },
+        "gor_recommendation": {
+            "enum": [
+                "approval",
+                "disapproval"
+            ],
+            "type": "string",
+            "title": "GOR/COR Recommendation"
+        },
+        "negotiation_status": {
+            "enum": [
+                "not_started",
+                "initial_contact",
+                "under_negotiation",
+                "terms_agreed",
+                "pending_signatures"
+            ],
+            "type": "string",
+            "title": "Negotiation Status",
+            "default": "not_started"
+        },
+        "scientific_overlap": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "Was scientific overlap identified during negotiations?"
+        },
+        "acq_equip_necessary": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "ii. Is the equipment necessary to conduct the project?"
+        },
+        "acq_materials_notes": {
+            "type": "string",
+            "title": "Note"
+        },
+        "acq_personnel_notes": {
+            "type": "string",
+            "title": "Note"
+        },
+        "acq_travel_included": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "i. Are funds for travel included in the proposed budget?"
+        },
+        "foreign_involvement": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "Was this project reported to RISG for foreign involvement?"
+        },
+        "acq_additional_notes": {
+            "type": "string",
+            "title": "Note"
+        },
+        "acq_consultant_notes": {
+            "type": "string",
+            "title": "Note"
+        },
+        "acq_personnel_effort": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "ii. Is the level of effort of proposed personnel appropriate?"
+        },
+        "estimated_start_date": {
+            "type": "string",
+            "title": "1. Estimated Human Research Start Date (if known)"
+        },
+        "no_review_default_no": {
+            "type": "boolean",
+            "title": "No - All responses below will be defaulted to NO"
+        },
+        "pi_notification_date": {
+            "type": "string",
+            "title": "PI Notification Date",
+            "format": "date"
+        },
+        "acq_ier_plan_included": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "b. Was a Planned IER Report Included with the proposal?"
+        },
+        "acq_peer_review_score": {
+            "type": "number",
+            "title": "Overall Review Score (if applicable)",
+            "maximum": 10,
+            "minimum": 1
+        },
+        "acq_third_party_notes": {
+            "type": "string",
+            "title": "Note"
+        },
+        "iacuc_protocol_number": {
+            "type": "string",
+            "title": "IACUC Protocol Number (if available)"
+        },
+        "acq_materials_included": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "i. Are funds for materials, supplies and consumables included?"
+        },
+        "acq_other_direct_notes": {
+            "type": "string",
+            "title": "Note"
+        },
+        "acq_travel_appropriate": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "ii. Are the number and type(s) of trip(s) appropriate for the project?"
+        },
+        "acq_consultant_included": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "i. Are funds for consultant(s)/collaborator(s) included?"
+        },
+        "acq_peer_review_outcome": {
+            "enum": [
+                "fund",
+                "fund_with_modifications",
+                "defer",
+                "do_not_fund"
+            ],
+            "type": "string",
+            "title": "Review Recommendation"
+        },
+        "acq_consultant_necessary": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "ii. Is the proposed consultant(s)/collaborator(s) necessary?"
+        },
+        "acq_dmp_sharing_timeline": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "c. Is the proposed data sharing timeline consistent with DOD policy?"
+        },
+        "acq_personnel_salary_cap": {
+            "enum": [
+                "yes",
+                "no",
+                "not_applicable"
+            ],
+            "type": "string",
+            "title": "iii. Are proposed salaries within the applicable salary cap?"
+        },
+        "acq_special_requirements": {
+            "type": "array",
+            "items": {
+                "enum": [
+                    "Cooperative Agreement",
+                    "Option Years",
+                    "ClinicalTrials.gov submission",
+                    "FDA Regulatory Requirement",
+                    "Payment Restrictions for Human Use Approval",
+                    "Participation in IPR Meetings",
+                    "Participation in Milestone Meetings",
+                    "Federal TBI Registry submission (FITBIR)",
+                    "National Database for Autism Research",
+                    "National Institute of Mental Health Data Archive",
+                    "Additional Key Personnel",
+                    "Minimum Effort for the PI",
+                    "Annual Inclusion Enrollment Reporting",
+                    "Annual Quad Charts",
+                    "Award Expiration Transition Plan",
+                    "Quarterly Reports",
+                    "Quarterly Quad Chart",
+                    "Semi Annual Reports",
+                    "Semi Annual Quad Chart",
+                    "Annual Reports",
+                    "Final Report"
+                ],
+                "type": "string"
+            },
+            "title": "Selected Requirements",
+            "uniqueItems": true
+        },
+        "acq_third_party_included": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "i. Are funds for a 3rd party included in the proposed budget?"
+        },
+        "final_recommended_budget": {
+            "type": "number",
+            "title": "Final Recommended Budget"
+        },
+        "acq_cps_foreign_influence": {
+            "enum": [
+                "yes",
+                "no",
+                "in_progress"
+            ],
+            "type": "string",
+            "title": "b. Has foreign influence screening been completed?"
+        },
+        "acq_materials_appropriate": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "ii. Are the types and quantities of proposed items appropriate?"
+        },
+        "acq_other_direct_included": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "i. Are funds for Other Direct Costs included?"
+        },
+        "acq_personnel_fringe_rate": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "iv. Are the proposed fringe benefit rates reasonable?"
+        },
+        "co_principal_investigator": {
+            "type": "string",
+            "title": "Co-Principal Investigator"
+        },
+        "acq_cps_overlap_identified": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "c. Has any scientific, budgetary, or commitment overlap been identified?"
+        },
+        "acq_equip_cost_appropriate": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "iii. In general, does the cost appear to be appropriate?"
+        },
+        "acq_other_direct_breakdown": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "iii. Is the breakdown sufficient?"
+        },
+        "acq_other_direct_justified": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "ii. Are the costs necessary and/or fully justified?"
+        },
+        "contract_grants_specialist": {
+            "type": "string",
+            "title": "Contract/Grants Specialist"
+        },
+        "acq_additional_has_concerns": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "Do you have any other budget-related concerns?"
+        },
+        "acq_third_party_value_added": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "ii. Is the 3rd party providing value added to the project?"
+        },
+        "acq_personnel_qualifications": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "i. Are the type/qualifications of proposed personnel appropriate?"
+        },
+        "acq_dmp_repository_identified": {
+            "enum": [
+                "yes",
+                "no",
+                "not_applicable"
+            ],
+            "type": "string",
+            "title": "b. Has a designated data repository been identified?"
+        },
+        "acq_materials_cost_appropriate": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "iii. Do the costs appear to be appropriate?"
+        },
+        "acq_third_party_work_described": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "iii. Is the work to be performed sufficiently described?"
+        },
+        "acq_consultant_duties_described": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "iii. Are the duties sufficiently described?"
+        },
+        "acq_third_party_budget_concerns": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "iv. Are there any concerns with the associated budget?"
+        },
+        "acq_consultant_costs_appropriate": {
+            "enum": [
+                "yes",
+                "no"
+            ],
+            "type": "string",
+            "title": "iv. Do the costs/fees appear to be appropriate?"
+        }
+    }
+}
+
+

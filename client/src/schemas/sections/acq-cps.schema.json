@@ -3,26 +3,26 @@
   "type": "object",
   "x-schemaVersion": 1,
   "x-sectionKey": "acq_cps",
-  "title": "Current & Pending Support",
+  "title": "Current and Pending Support (CPS)",
   "properties": {
     "acq_cps_received": {
       "type": "string",
-      "title": "Has Current & Pending Support been received?",
+      "title": "a. Has an updated and certified CPS support document been received for all key personnel?",
       "enum": ["yes", "no"]
     },
     "acq_cps_foreign_influence": {
       "type": "string",
-      "title": "Are there foreign influence concerns?",
+      "title": "b. Has foreign influence screening been completed?",
       "enum": ["yes", "no", "in_progress"]
     },
     "acq_cps_overlap_identified": {
       "type": "string",
-      "title": "Has overlap been identified?",
+      "title": "c. Has any scientific, budgetary, or commitment overlap been identified?",
       "enum": ["yes", "no"]
     },
     "acq_cps_comments": {
       "type": "string",
-      "title": "Comments"
+      "title": "Note (Required)"
     }
   }
 }

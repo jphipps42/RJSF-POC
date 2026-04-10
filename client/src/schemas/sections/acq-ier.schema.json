@@ -3,25 +3,26 @@
   "type": "object",
   "x-schemaVersion": 1,
   "x-sectionKey": "acq_ier",
-  "title": "International Engagement Review",
+  "title": "Inclusion Enrollment Report (IER)",
   "properties": {
     "acq_ier_applicable": {
       "type": "string",
-      "title": "Is an International Engagement Review applicable?",
+      "title": "a. Is the IER requirement applicable for this project?",
       "enum": ["yes", "no", "unclear"]
     },
     "acq_ier_comment": {
       "type": "string",
-      "title": "IER Comment"
+      "title": "Note (required if Unclear)"
     },
     "acq_ier_plan_included": {
       "type": "string",
-      "title": "Is an international engagement plan included?",
+      "title": "b. Was a Planned IER Report Included with the proposal?",
+      "description": "Disabled if IER applicability answer is No",
       "enum": ["yes", "no"]
     },
     "acq_ier_plan_notes": {
       "type": "string",
-      "title": "IER Plan Notes"
+      "title": "Note"
     }
   }
 }
