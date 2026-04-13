@@ -1,0 +1,44 @@
+{
+  "formId": "pre-award-human",
+  "version": 1,
+  "tableName": "form_pre_award_human",
+  "description": "Pre-Award Human Research Review — all human subsections in one table",
+  "schemaVersion": { "column": "schema_version", "sqlType": "INTEGER" },
+  "auditColumns": { "createdAt": "created_at", "updatedAt": "updated_at", "submittedBy": "submitted_by" },
+  "fields": [
+    { "jsonPath": "no_review_default_no", "column": "no_review_default_no", "sqlType": "BOOLEAN", "nullable": true, "transform": { "toDb": "toBoolean" }, "tags": ["human_no_regulatory"] },
+    { "jsonPath": "human_s1_q1", "column": "human_s1_q1", "sqlType": "TEXT", "nullable": true, "tags": ["human_no_regulatory"] },
+    { "jsonPath": "human_s1_q2", "column": "human_s1_q2", "sqlType": "TEXT", "nullable": true, "tags": ["human_no_regulatory"] },
+    { "jsonPath": "human_s1_q3", "column": "human_s1_q3", "sqlType": "TEXT", "nullable": true, "tags": ["human_no_regulatory"] },
+    { "jsonPath": "human_s1_q4", "column": "human_s1_q4", "sqlType": "TEXT", "nullable": true, "tags": ["human_no_regulatory"] },
+    { "jsonPath": "human_s1_q5", "column": "human_s1_q5", "sqlType": "TEXT", "nullable": true, "tags": ["human_no_regulatory"] },
+    { "jsonPath": "human_s1_notes", "column": "human_s1_notes", "sqlType": "TEXT", "nullable": true, "tags": ["human_no_regulatory"] },
+
+    { "jsonPath": "has_default_no", "column": "has_default_no", "sqlType": "BOOLEAN", "nullable": true, "transform": { "toDb": "toBoolean" }, "tags": ["human_anatomical"] },
+    { "jsonPath": "human_has_q1", "column": "human_has_q1", "sqlType": "TEXT", "nullable": true, "tags": ["human_anatomical"] },
+    { "jsonPath": "human_has_q2", "column": "human_has_q2", "sqlType": "TEXT", "nullable": true, "tags": ["human_anatomical"] },
+    { "jsonPath": "human_has_q3", "column": "human_has_q3", "sqlType": "TEXT", "nullable": true, "tags": ["human_anatomical"] },
+    { "jsonPath": "human_has_q4", "column": "human_has_q4", "sqlType": "TEXT", "nullable": true, "tags": ["human_anatomical"] },
+    { "jsonPath": "human_has_q5", "column": "human_has_q5", "sqlType": "TEXT", "nullable": true, "tags": ["human_anatomical"] },
+    { "jsonPath": "human_has_q6", "column": "human_has_q6", "sqlType": "TEXT", "nullable": true, "tags": ["human_anatomical"] },
+    { "jsonPath": "human_has_q7", "column": "human_has_q7", "sqlType": "TEXT", "nullable": true, "tags": ["human_anatomical"] },
+    { "jsonPath": "human_has_notes", "column": "human_has_notes", "sqlType": "TEXT", "nullable": true, "tags": ["human_anatomical"] },
+
+    { "jsonPath": "human_ds_q1", "column": "human_ds_q1", "sqlType": "TEXT", "nullable": true, "tags": ["human_data_secondary"] },
+    { "jsonPath": "human_ds_notes", "column": "human_ds_notes", "sqlType": "TEXT", "nullable": true, "tags": ["human_data_secondary"] },
+
+    { "jsonPath": "human_hs_q1", "column": "human_hs_q1", "sqlType": "TEXT", "nullable": true, "tags": ["human_subjects"] },
+    { "jsonPath": "human_hs_q2", "column": "human_hs_q2", "sqlType": "TEXT", "nullable": true, "tags": ["human_subjects"] },
+    { "jsonPath": "ct_fda_q1", "column": "ct_fda_q1", "sqlType": "TEXT", "nullable": true, "tags": ["human_subjects"] },
+    { "jsonPath": "ct_nonus_q1", "column": "ct_nonus_q1", "sqlType": "TEXT", "nullable": true, "tags": ["human_subjects"] },
+    { "jsonPath": "human_hs_notes", "column": "human_hs_notes", "sqlType": "TEXT", "nullable": true, "tags": ["human_subjects"] },
+
+    { "jsonPath": "human_ost_q1", "column": "human_ost_q1", "sqlType": "TEXT", "nullable": true, "tags": ["human_special_topics"] },
+    { "jsonPath": "human_ost_notes", "column": "human_ost_notes", "sqlType": "TEXT", "nullable": true, "tags": ["human_special_topics"] },
+
+    { "jsonPath": "estimated_start_date", "column": "estimated_start_date", "sqlType": "TEXT", "nullable": true, "tags": ["human_estimated_start"] }
+  ],
+  "relations": [],
+  "writeHooks": {},
+  "readHooks": {}
+}

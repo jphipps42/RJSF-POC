@@ -1,0 +1,76 @@
+{
+  "formId": "pre-award-acquisition",
+  "version": 1,
+  "tableName": "form_pre_award_acquisition",
+  "description": "Pre-Award Acquisition/Contracting Review — all acquisition subsections in one table",
+  "schemaVersion": { "column": "schema_version", "sqlType": "INTEGER" },
+  "auditColumns": { "createdAt": "created_at", "updatedAt": "updated_at", "submittedBy": "submitted_by" },
+  "fields": [
+    { "jsonPath": "acq_personnel_qualifications", "column": "acq_personnel_qualifications", "sqlType": "TEXT", "nullable": true, "tags": ["acq_br_personnel"] },
+    { "jsonPath": "acq_personnel_effort", "column": "acq_personnel_effort", "sqlType": "TEXT", "nullable": true, "tags": ["acq_br_personnel"] },
+    { "jsonPath": "acq_personnel_salary_cap", "column": "acq_personnel_salary_cap", "sqlType": "TEXT", "nullable": true, "tags": ["acq_br_personnel"] },
+    { "jsonPath": "acq_personnel_fringe_rate", "column": "acq_personnel_fringe_rate", "sqlType": "TEXT", "nullable": true, "tags": ["acq_br_personnel"] },
+    { "jsonPath": "acq_personnel_notes", "column": "acq_personnel_notes", "sqlType": "TEXT", "nullable": true, "tags": ["acq_br_personnel"] },
+
+    { "jsonPath": "acq_equip_included", "column": "acq_equip_included", "sqlType": "TEXT", "nullable": true, "tags": ["acq_br_equipment"] },
+    { "jsonPath": "acq_equip_necessary", "column": "acq_equip_necessary", "sqlType": "TEXT", "nullable": true, "tags": ["acq_br_equipment"] },
+    { "jsonPath": "acq_equip_cost_appropriate", "column": "acq_equip_cost_appropriate", "sqlType": "TEXT", "nullable": true, "tags": ["acq_br_equipment"] },
+    { "jsonPath": "acq_equip_notes", "column": "acq_equip_notes", "sqlType": "TEXT", "nullable": true, "tags": ["acq_br_equipment"] },
+
+    { "jsonPath": "acq_travel_included", "column": "acq_travel_included", "sqlType": "TEXT", "nullable": true, "tags": ["acq_br_travel"] },
+    { "jsonPath": "acq_travel_appropriate", "column": "acq_travel_appropriate", "sqlType": "TEXT", "nullable": true, "tags": ["acq_br_travel"] },
+    { "jsonPath": "acq_travel_notes", "column": "acq_travel_notes", "sqlType": "TEXT", "nullable": true, "tags": ["acq_br_travel"] },
+
+    { "jsonPath": "acq_materials_included", "column": "acq_materials_included", "sqlType": "TEXT", "nullable": true, "tags": ["acq_br_materials"] },
+    { "jsonPath": "acq_materials_appropriate", "column": "acq_materials_appropriate", "sqlType": "TEXT", "nullable": true, "tags": ["acq_br_materials"] },
+    { "jsonPath": "acq_materials_cost_appropriate", "column": "acq_materials_cost_appropriate", "sqlType": "TEXT", "nullable": true, "tags": ["acq_br_materials"] },
+    { "jsonPath": "acq_materials_notes", "column": "acq_materials_notes", "sqlType": "TEXT", "nullable": true, "tags": ["acq_br_materials"] },
+
+    { "jsonPath": "acq_consultant_included", "column": "acq_consultant_included", "sqlType": "TEXT", "nullable": true, "tags": ["acq_br_consultant"] },
+    { "jsonPath": "acq_consultant_necessary", "column": "acq_consultant_necessary", "sqlType": "TEXT", "nullable": true, "tags": ["acq_br_consultant"] },
+    { "jsonPath": "acq_consultant_duties_described", "column": "acq_consultant_duties_described", "sqlType": "TEXT", "nullable": true, "tags": ["acq_br_consultant"] },
+    { "jsonPath": "acq_consultant_costs_appropriate", "column": "acq_consultant_costs_appropriate", "sqlType": "TEXT", "nullable": true, "tags": ["acq_br_consultant"] },
+    { "jsonPath": "acq_consultant_notes", "column": "acq_consultant_notes", "sqlType": "TEXT", "nullable": true, "tags": ["acq_br_consultant"] },
+
+    { "jsonPath": "acq_third_party_included", "column": "acq_third_party_included", "sqlType": "TEXT", "nullable": true, "tags": ["acq_br_third_party"] },
+    { "jsonPath": "acq_third_party_value_added", "column": "acq_third_party_value_added", "sqlType": "TEXT", "nullable": true, "tags": ["acq_br_third_party"] },
+    { "jsonPath": "acq_third_party_work_described", "column": "acq_third_party_work_described", "sqlType": "TEXT", "nullable": true, "tags": ["acq_br_third_party"] },
+    { "jsonPath": "acq_third_party_budget_concerns", "column": "acq_third_party_budget_concerns", "sqlType": "TEXT", "nullable": true, "tags": ["acq_br_third_party"] },
+    { "jsonPath": "acq_third_party_notes", "column": "acq_third_party_notes", "sqlType": "TEXT", "nullable": true, "tags": ["acq_br_third_party"] },
+
+    { "jsonPath": "acq_other_direct_included", "column": "acq_other_direct_included", "sqlType": "TEXT", "nullable": true, "tags": ["acq_br_other_direct"] },
+    { "jsonPath": "acq_other_direct_justified", "column": "acq_other_direct_justified", "sqlType": "TEXT", "nullable": true, "tags": ["acq_br_other_direct"] },
+    { "jsonPath": "acq_other_direct_breakdown", "column": "acq_other_direct_breakdown", "sqlType": "TEXT", "nullable": true, "tags": ["acq_br_other_direct"] },
+    { "jsonPath": "acq_other_direct_notes", "column": "acq_other_direct_notes", "sqlType": "TEXT", "nullable": true, "tags": ["acq_br_other_direct"] },
+
+    { "jsonPath": "acq_additional_has_concerns", "column": "acq_additional_has_concerns", "sqlType": "TEXT", "nullable": true, "tags": ["acq_br_additional"] },
+    { "jsonPath": "acq_additional_notes", "column": "acq_additional_notes", "sqlType": "TEXT", "nullable": true, "tags": ["acq_br_additional"] },
+
+    { "jsonPath": "acq_peer_review_score", "column": "acq_peer_review_score", "sqlType": "NUMERIC", "nullable": true, "transform": { "toDb": "toBigDecimal" }, "tags": ["acq_peer_review"] },
+    { "jsonPath": "acq_peer_review_outcome", "column": "acq_peer_review_outcome", "sqlType": "TEXT", "nullable": true, "tags": ["acq_peer_review"] },
+    { "jsonPath": "acq_peer_comments", "column": "acq_peer_comments", "sqlType": "TEXT", "nullable": true, "tags": ["acq_peer_review"] },
+
+    { "jsonPath": "acq_sow_comments", "column": "acq_sow_comments", "sqlType": "TEXT", "nullable": true, "tags": ["acq_sow_concerns"] },
+
+    { "jsonPath": "acq_cps_received", "column": "acq_cps_received", "sqlType": "TEXT", "nullable": true, "tags": ["acq_cps"] },
+    { "jsonPath": "acq_cps_foreign_influence", "column": "acq_cps_foreign_influence", "sqlType": "TEXT", "nullable": true, "tags": ["acq_cps"] },
+    { "jsonPath": "acq_cps_overlap_identified", "column": "acq_cps_overlap_identified", "sqlType": "TEXT", "nullable": true, "tags": ["acq_cps"] },
+    { "jsonPath": "acq_cps_comments", "column": "acq_cps_comments", "sqlType": "TEXT", "nullable": true, "tags": ["acq_cps"] },
+
+    { "jsonPath": "acq_ier_applicable", "column": "acq_ier_applicable", "sqlType": "TEXT", "nullable": true, "tags": ["acq_ier"] },
+    { "jsonPath": "acq_ier_comment", "column": "acq_ier_comment", "sqlType": "TEXT", "nullable": true, "tags": ["acq_ier"] },
+    { "jsonPath": "acq_ier_plan_included", "column": "acq_ier_plan_included", "sqlType": "TEXT", "nullable": true, "tags": ["acq_ier"] },
+    { "jsonPath": "acq_ier_plan_notes", "column": "acq_ier_plan_notes", "sqlType": "TEXT", "nullable": true, "tags": ["acq_ier"] },
+
+    { "jsonPath": "acq_dmp_received", "column": "acq_dmp_received", "sqlType": "TEXT", "nullable": true, "tags": ["acq_data_management"] },
+    { "jsonPath": "acq_dmp_repository_identified", "column": "acq_dmp_repository_identified", "sqlType": "TEXT", "nullable": true, "tags": ["acq_data_management"] },
+    { "jsonPath": "acq_dmp_sharing_timeline", "column": "acq_dmp_sharing_timeline", "sqlType": "TEXT", "nullable": true, "tags": ["acq_data_management"] },
+    { "jsonPath": "acq_dmp_notes", "column": "acq_dmp_notes", "sqlType": "TEXT", "nullable": true, "tags": ["acq_data_management"] },
+
+    { "jsonPath": "acq_special_requirements", "column": "acq_special_requirements", "sqlType": "JSONB", "nullable": true, "transform": { "toDb": "jsonStringify", "fromDb": "jsonParse" }, "tags": ["acq_special_requirements"] },
+    { "jsonPath": "acq_special_notes", "column": "acq_special_notes", "sqlType": "TEXT", "nullable": true, "tags": ["acq_special_requirements"] }
+  ],
+  "relations": [],
+  "writeHooks": {},
+  "readHooks": {}
+}

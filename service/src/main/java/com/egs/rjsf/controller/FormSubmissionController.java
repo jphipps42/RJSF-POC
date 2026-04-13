@@ -57,9 +57,7 @@ public class FormSubmissionController {
             @PathVariable UUID id,
             @RequestParam(name = "section", required = false) String section,
             @RequestBody SaveFormRequest request) {
-        FormSubmission saved = formSubmissionService.saveDraft(id, request.formData(), section);
-        try { formSubmissionService.syncToRelationalTable(saved, section); } catch (Throwable ignored) {}
-        return ResponseEntity.ok(saved);
+        return ResponseEntity.ok(formSubmissionService.saveDraft(id, request.formData(), section));
     }
 
     @PutMapping("/{id}/submit")
@@ -67,9 +65,7 @@ public class FormSubmissionController {
             @PathVariable UUID id,
             @RequestParam(name = "section", required = false) String section,
             @RequestBody SaveFormRequest request) {
-        FormSubmission saved = formSubmissionService.submit(id, request.formData(), section);
-        try { formSubmissionService.syncToRelationalTable(saved, section); } catch (Throwable ignored) {}
-        return ResponseEntity.ok(saved);
+        return ResponseEntity.ok(formSubmissionService.submit(id, request.formData(), section));
     }
 
     @PutMapping("/{id}/reset")

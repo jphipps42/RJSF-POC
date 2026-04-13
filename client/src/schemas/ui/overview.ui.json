@@ -1,33 +1,38 @@
 {
   "pi_budget": {
-    "ui:placeholder": "Enter PI budget amount"
+    "ui:readonly": true
   },
   "final_recommended_budget": {
-    "ui:placeholder": "Enter final recommended budget"
+    "ui:readonly": true
   },
   "program_manager": {
-    "ui:placeholder": "Enter program manager name"
+    "ui:readonly": true
   },
   "contract_grants_specialist": {
-    "ui:placeholder": "Enter contract/grants specialist name"
+    "ui:readonly": true
   },
   "branch_chief": {
-    "ui:placeholder": "Enter branch chief name"
+    "ui:readonly": true
   },
   "pi_notification_date": {
-    "ui:widget": "date"
+    "ui:widget": "date",
+    "ui:readonly": true
   },
   "safety_checklist_submitted": {
-    "ui:widget": "date"
+    "ui:widget": "date",
+    "ui:readonly": true
   },
   "animal_research_checklist_submitted": {
-    "ui:widget": "date"
+    "ui:widget": "date",
+    "ui:readonly": true
   },
   "human_research_checklist_submitted": {
-    "ui:widget": "date"
+    "ui:widget": "date",
+    "ui:readonly": true
   },
   "acquisition_checklist_submitted": {
-    "ui:widget": "date"
+    "ui:widget": "date",
+    "ui:readonly": true
   },
   "prime_award_type": {
     "ui:widget": "select",
@@ -42,10 +47,7 @@
     "ui:widget": "hidden"
   },
   "overview_notes": {
-    "ui:widget": "textarea",
-    "ui:options": {
-      "rows": 4
-    }
+    "ui:widget": "hidden"
   },
   "ui:order": [
     "pi_budget",

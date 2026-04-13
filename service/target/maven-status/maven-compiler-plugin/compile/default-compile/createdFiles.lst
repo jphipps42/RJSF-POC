@@ -4,6 +4,7 @@ com/egs/rjsf/transformer/ddl/DdlManager.class
 com/egs/rjsf/dto/PublishVersionRequest.class
 com/egs/rjsf/entity/SchemaMigration$SchemaMigrationBuilder.class
 com/egs/rjsf/transformer/hook/ReadHook.class
+com/egs/rjsf/config/SecurityConfig.class
 com/egs/rjsf/transformer/engine/PathResolver.class
 com/egs/rjsf/transformer/transform/BuiltInTransforms$ToBigDecimalTransform.class
 com/egs/rjsf/transformer/registry/FileSystemTemplateLoader.class
@@ -22,6 +23,7 @@ com/egs/rjsf/RjsfFormServiceApplication.class
 com/egs/rjsf/transformer/model/AuditColumnConfig.class
 com/egs/rjsf/dto/MigrationResultDto.class
 com/egs/rjsf/service/AwardService.class
+com/egs/rjsf/controller/AuthController.class
 com/egs/rjsf/transformer/transform/BuiltInTransforms$ToInstantTransform.class
 com/egs/rjsf/transformer/service/SubmissionReadService.class
 com/egs/rjsf/transformer/exception/TransformerValidationException.class
@@ -58,6 +60,7 @@ com/egs/rjsf/transformer/transform/BuiltInTransforms$JsonParseTransform$2.class
 com/egs/rjsf/transformer/hook/WriteHook.class
 com/egs/rjsf/repository/SchemaMigrationRepository.class
 com/egs/rjsf/transformer/repository/TemplateHistoryRepository.class
+com/egs/rjsf/entity/ProjectPersonnel$ProjectPersonnelBuilder.class
 com/egs/rjsf/entity/Award$AwardBuilder.class
 com/egs/rjsf/transformer/config/TransformerProperties.class
 com/egs/rjsf/transformer/transform/TransformFunction.class
@@ -67,6 +70,7 @@ com/egs/rjsf/service/SchemaVersionService.class
 com/egs/rjsf/repository/FormSubmissionRepository.class
 com/egs/rjsf/repository/AwardLinkedFileRepository.class
 com/egs/rjsf/controller/SchemaVersionController.class
+com/egs/rjsf/repository/AppUserRepository.class
 com/egs/rjsf/transformer/util/IdentifierValidator.class
 com/egs/rjsf/transformer/transform/BuiltInTransforms$JsonParseTransform.class
 com/egs/rjsf/controller/LinkedFileController.class
@@ -75,10 +79,13 @@ com/egs/rjsf/config/GlobalExceptionHandler.class
 com/egs/rjsf/transformer/transform/BuiltInTransforms$ToLocalDateTransform.class
 com/egs/rjsf/transformer/config/TransformerProperties$CacheProperties.class
 com/egs/rjsf/transformer/exception/DuplicateSubmissionException.class
+com/egs/rjsf/controller/AuthController$LoginRequest.class
 com/egs/rjsf/entity/AwardLinkedFile.class
+com/egs/rjsf/service/PersonnelService.class
 com/egs/rjsf/transformer/transform/BuiltInTransforms$TrimStringTransform.class
 com/egs/rjsf/transformer/registry/TemplateValidator.class
 com/egs/rjsf/transformer/transform/BuiltInTransforms$JsonStringifyTransform.class
+com/egs/rjsf/repository/ProjectPersonnelRepository.class
 com/egs/rjsf/transformer/transform/BuiltInTransforms$ToIsoDateStringTransform.class
 com/egs/rjsf/service/FormSubmissionService.class
 com/egs/rjsf/controller/FormConfigurationController.class
@@ -91,8 +98,10 @@ com/egs/rjsf/transformer/dto/TransformerSubmissionResponse.class
 com/egs/rjsf/transformer/transform/BuiltInTransforms$FromInstantTransform.class
 com/egs/rjsf/transformer/config/TransformerExceptionHandler.class
 com/egs/rjsf/controller/AwardController.class
+com/egs/rjsf/entity/ProjectPersonnel.class
 com/egs/rjsf/util/MigrationEngine.class
 com/egs/rjsf/entity/FormConfiguration$FormConfigurationBuilder.class
+com/egs/rjsf/controller/PersonnelController.class
 com/egs/rjsf/transformer/model/TransformerTemplate.class
 com/egs/rjsf/transformer/exception/SubmissionNotFoundException.class
 com/egs/rjsf/transformer/registry/TemplateRegistry.class

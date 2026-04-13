@@ -1,0 +1,20 @@
+{
+  "formId": "pre-award-final",
+  "version": 1,
+  "tableName": "form_pre_award_final",
+  "description": "Pre-Award Final Recommendation to Award section",
+  "schemaVersion": { "column": "schema_version", "sqlType": "INTEGER" },
+  "auditColumns": { "createdAt": "created_at", "updatedAt": "updated_at", "submittedBy": "submitted_by" },
+  "fields": [
+    { "jsonPath": "scientific_overlap", "column": "scientific_overlap", "sqlType": "TEXT", "nullable": true, "tags": ["final_recommendation"] },
+    { "jsonPath": "foreign_involvement", "column": "foreign_involvement", "sqlType": "TEXT", "nullable": true, "tags": ["final_recommendation"] },
+    { "jsonPath": "risg_approval", "column": "risg_approval", "sqlType": "TEXT", "nullable": true, "tags": ["final_recommendation"] },
+    { "jsonPath": "so_recommendation", "column": "so_recommendation", "sqlType": "TEXT", "nullable": true, "tags": ["final_recommendation"] },
+    { "jsonPath": "so_comments", "column": "so_comments", "sqlType": "TEXT", "nullable": true, "tags": ["final_recommendation"] },
+    { "jsonPath": "gor_recommendation", "column": "gor_recommendation", "sqlType": "TEXT", "nullable": true, "tags": ["final_recommendation"] },
+    { "jsonPath": "gor_comments", "column": "gor_comments", "sqlType": "TEXT", "nullable": true, "tags": ["final_recommendation"] }
+  ],
+  "relations": [],
+  "writeHooks": {},
+  "readHooks": {}
+}

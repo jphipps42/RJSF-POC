@@ -1,0 +1,22 @@
+{
+  "formId": "pre-award-animal",
+  "version": 1,
+  "tableName": "form_pre_award_animal",
+  "description": "Pre-Award Animal Research Review section",
+  "schemaVersion": { "column": "schema_version", "sqlType": "INTEGER" },
+  "auditColumns": { "createdAt": "created_at", "updatedAt": "updated_at", "submittedBy": "submitted_by" },
+  "fields": [
+    { "jsonPath": "animal_q1", "column": "animal_q1", "sqlType": "TEXT", "nullable": true, "tags": ["animal_review"] },
+    { "jsonPath": "animal_species", "column": "animal_species", "sqlType": "JSONB", "nullable": true, "transform": { "toDb": "jsonStringify", "fromDb": "jsonParse" }, "tags": ["animal_review"] },
+    { "jsonPath": "animal_q2", "column": "animal_q2", "sqlType": "TEXT", "nullable": true, "tags": ["animal_review"] },
+    { "jsonPath": "animal_q3", "column": "animal_q3", "sqlType": "TEXT", "nullable": true, "tags": ["animal_review"] },
+    { "jsonPath": "animal_q4", "column": "animal_q4", "sqlType": "TEXT", "nullable": true, "tags": ["animal_review"] },
+    { "jsonPath": "iacuc_protocol_number", "column": "iacuc_protocol_number", "sqlType": "TEXT", "nullable": true, "tags": ["animal_review"] },
+    { "jsonPath": "animal_q5", "column": "animal_q5", "sqlType": "TEXT", "nullable": true, "tags": ["animal_review"] },
+    { "jsonPath": "animal_start_date", "column": "animal_start_date", "sqlType": "TEXT", "nullable": true, "tags": ["animal_review"] },
+    { "jsonPath": "animal_notes", "column": "animal_notes", "sqlType": "TEXT", "nullable": true, "tags": ["animal_review"] }
+  ],
+  "relations": [],
+  "writeHooks": {},
+  "readHooks": {}
+}

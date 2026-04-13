@@ -1,0 +1,10 @@
+/Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/Testing/src/test/java/com/egs/rjsf/e2e/BaseE2ETest.java
+/Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/Testing/src/test/java/com/egs/rjsf/e2e/FormSaveE2ETest.java
+/Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/Testing/src/test/java/com/egs/rjsf/e2e/ReviewPageE2ETest.java
+/Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/Testing/src/test/java/com/egs/rjsf/integration/AwardApiIntegrationTest.java
+/Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/Testing/src/test/java/com/egs/rjsf/integration/FormSubmissionApiIntegrationTest.java
+/Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/Testing/src/test/java/com/egs/rjsf/integration/TransformerSyncIntegrationTest.java
+/Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/Testing/src/test/java/com/egs/rjsf/unit/service/FormSubmissionServiceTest.java
+/Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/Testing/src/test/java/com/egs/rjsf/unit/transformer/PathResolverTest.java
+/Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/Testing/src/test/java/com/egs/rjsf/unit/transformer/TransformerTemplateTest.java
+/Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/Testing/src/test/java/com/egs/rjsf/unit/transformer/TypeCoercionServiceTest.java

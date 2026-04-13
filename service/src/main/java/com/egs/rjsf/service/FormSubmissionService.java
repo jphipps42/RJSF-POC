@@ -119,7 +119,9 @@ public class FormSubmissionService {
         }
 
         submission.setStatus("in_progress");
-        return formSubmissionRepository.save(submission);
+        FormSubmission saved = formSubmissionRepository.save(submission);
+        syncToRelationalTable(saved, sectionId);
+        return saved;
     }
 
     @Transactional
@@ -171,7 +173,9 @@ public class FormSubmissionService {
             submission.setStatus("in_progress");
         }
 
-        return formSubmissionRepository.save(submission);
+        FormSubmission saved = formSubmissionRepository.save(submission);
+        syncToRelationalTable(saved, sectionId);
+        return saved;
     }
 
     @Transactional
@@ -210,13 +214,46 @@ public class FormSubmissionService {
 
     // ---- Helper methods ----
 
-    public void syncToRelationalTable(FormSubmission submission, String sectionId) {
+    // Maps each leaf section ID to its transformer template formId
+    private static final Map<String, String> SECTION_TO_TEMPLATE = Map.ofEntries(
+            Map.entry("overview", "pre-award-overview"),
+            Map.entry("safety_review", "pre-award-safety"),
+            Map.entry("animal_review", "pre-award-animal"),
+            Map.entry("human_no_regulatory", "pre-award-human"),
+            Map.entry("human_anatomical", "pre-award-human"),
+            Map.entry("human_data_secondary", "pre-award-human"),
+            Map.entry("human_subjects", "pre-award-human"),
+            Map.entry("human_special_topics", "pre-award-human"),
+            Map.entry("human_estimated_start", "pre-award-human"),
+            Map.entry("acq_br_personnel", "pre-award-acquisition"),
+            Map.entry("acq_br_equipment", "pre-award-acquisition"),
+            Map.entry("acq_br_travel", "pre-award-acquisition"),
+            Map.entry("acq_br_materials", "pre-award-acquisition"),
+            Map.entry("acq_br_consultant", "pre-award-acquisition"),
+            Map.entry("acq_br_third_party", "pre-award-acquisition"),
+            Map.entry("acq_br_other_direct", "pre-award-acquisition"),
+            Map.entry("acq_br_additional", "pre-award-acquisition"),
+            Map.entry("acq_peer_review", "pre-award-acquisition"),
+            Map.entry("acq_sow_concerns", "pre-award-acquisition"),
+            Map.entry("acq_cps", "pre-award-acquisition"),
+            Map.entry("acq_ier", "pre-award-acquisition"),
+            Map.entry("acq_data_management", "pre-award-acquisition"),
+            Map.entry("acq_special_requirements", "pre-award-acquisition"),
+            Map.entry("final_recommendation", "pre-award-final")
+    );
+
+    private void syncToRelationalTable(FormSubmission submission, String sectionId) {
         try {
             if (!"pre_award_composite".equals(submission.getFormKey())) {
                 return;
             }
+            String formId = sectionId != null ? SECTION_TO_TEMPLATE.get(sectionId) : null;
+            if (formId == null) {
+                log.debug("No transformer template mapped for section '{}', skipping", sectionId);
+                return;
+            }
             transformerWriteService.writeSection(
-                    "pre-award-composite",
+                    formId,
                     submission.getAwardId(),
                     submission.getFormData(),
                     sectionId,

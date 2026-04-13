@@ -1,0 +1,25 @@
+{
+  "formId": "pre-award-overview",
+  "version": 1,
+  "tableName": "form_pre_award_overview",
+  "description": "Pre-Award Overview section",
+  "schemaVersion": { "column": "schema_version", "sqlType": "INTEGER" },
+  "auditColumns": { "createdAt": "created_at", "updatedAt": "updated_at", "submittedBy": "submitted_by" },
+  "fields": [
+    { "jsonPath": "pi_budget", "column": "pi_budget", "sqlType": "NUMERIC", "nullable": true, "transform": { "toDb": "toBigDecimal" }, "tags": ["overview"] },
+    { "jsonPath": "final_recommended_budget", "column": "final_recommended_budget", "sqlType": "NUMERIC", "nullable": true, "transform": { "toDb": "toBigDecimal" }, "tags": ["overview"] },
+    { "jsonPath": "funding_source", "column": "funding_source", "sqlType": "TEXT", "nullable": true, "tags": ["overview"] },
+    { "jsonPath": "negotiation_status", "column": "negotiation_status", "sqlType": "TEXT", "nullable": true, "tags": ["overview"] },
+    { "jsonPath": "program_manager", "column": "program_manager", "sqlType": "TEXT", "nullable": true, "transform": { "toDb": "trimString" }, "tags": ["overview"] },
+    { "jsonPath": "co_principal_investigator", "column": "co_principal_investigator", "sqlType": "TEXT", "nullable": true, "transform": { "toDb": "trimString" }, "tags": ["overview"] },
+    { "jsonPath": "contract_grants_specialist", "column": "contract_grants_specialist", "sqlType": "TEXT", "nullable": true, "transform": { "toDb": "trimString" }, "tags": ["overview"] },
+    { "jsonPath": "branch_chief", "column": "branch_chief", "sqlType": "TEXT", "nullable": true, "transform": { "toDb": "trimString" }, "tags": ["overview"] },
+    { "jsonPath": "prime_award_type", "column": "prime_award_type", "sqlType": "TEXT", "nullable": true, "tags": ["overview"] },
+    { "jsonPath": "pi_notification_date", "column": "pi_notification_date", "sqlType": "DATE", "nullable": true, "transform": { "toDb": "toLocalDate", "fromDb": "toIsoDateString" }, "tags": ["overview"] },
+    { "jsonPath": "personnel", "column": "personnel", "sqlType": "JSONB", "nullable": true, "transform": { "toDb": "jsonStringify", "fromDb": "jsonParse" }, "tags": ["overview"] },
+    { "jsonPath": "overview_notes", "column": "overview_notes", "sqlType": "TEXT", "nullable": true, "tags": ["overview"] }
+  ],
+  "relations": [],
+  "writeHooks": {},
+  "readHooks": {}
+}

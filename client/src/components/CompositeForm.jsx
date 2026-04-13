@@ -43,8 +43,17 @@ export default function CompositeForm({
   const { user } = useAuth();
   const userRole = user?.role?.toUpperCase() || '';
 
+  // Award fields that are always read from the awards table (read-only in the form)
+  const awardOverlay = award ? {
+    pi_budget: award.pi_budget,
+    final_recommended_budget: award.final_recommended_budget,
+    program_manager: award.program_manager,
+    contract_grants_specialist: award.contract_grants_specialist,
+    branch_chief: award.branch_chief,
+  } : {};
+
   const [formData, setFormData] = useState(() => {
-    const data = submission?.form_data || {};
+    const data = { ...(submission?.form_data || {}), ...awardOverlay };
     if (initialPersonnel && initialPersonnel.length > 0) {
       return { ...data, personnel: initialPersonnel };
     }
@@ -68,8 +77,13 @@ export default function CompositeForm({
         setSectionStatus(submission.section_status);
       }
       if (submission.form_data) {
-        const data = { ...submission.form_data };
-        if (initialPersonnel && initialPersonnel.length > 0) {
+        const data = { ...submission.form_data, ...awardOverlay };
+        // Preserve the current personnel array (managed by the DataGrid)
+        // rather than reverting to the stale initialPersonnel from page load
+        const currentPersonnel = formDataRef.current?.personnel;
+        if (currentPersonnel && currentPersonnel.length > 0) {
+          data.personnel = currentPersonnel;
+        } else if (initialPersonnel && initialPersonnel.length > 0) {
           data.personnel = initialPersonnel;
         }
         setFormData(data);
@@ -175,42 +189,42 @@ export default function CompositeForm({
     await saveToBackend(formDataRef.current, sectionId);
   }, [saveToBackend]);
 
-  // Map section IDs to their submission date field in formData
+  // Map section IDs to their submission date field in formData (matches overview schema field names)
   const SECTION_DATE_MAP = {
-    safety_review: 'safety_submitted_at',
-    animal_review: 'animal_submitted_at',
+    safety_review: 'safety_checklist_submitted',
+    animal_review: 'animal_research_checklist_submitted',
     // Human subsections all stamp the same field
-    human_no_regulatory: 'human_submitted_at',
-    human_anatomical: 'human_submitted_at',
-    human_data_secondary: 'human_submitted_at',
-    human_subjects: 'human_submitted_at',
-    human_special_topics: 'human_submitted_at',
-    human_estimated_start: 'human_submitted_at',
+    human_no_regulatory: 'human_research_checklist_submitted',
+    human_anatomical: 'human_research_checklist_submitted',
+    human_data_secondary: 'human_research_checklist_submitted',
+    human_subjects: 'human_research_checklist_submitted',
+    human_special_topics: 'human_research_checklist_submitted',
+    human_estimated_start: 'human_research_checklist_submitted',
     // Acquisition subsections all stamp the same field
-    acq_br_personnel: 'acquisition_submitted_at',
-    acq_br_equipment: 'acquisition_submitted_at',
-    acq_br_travel: 'acquisition_submitted_at',
-    acq_br_materials: 'acquisition_submitted_at',
-    acq_br_consultant: 'acquisition_submitted_at',
-    acq_br_third_party: 'acquisition_submitted_at',
-    acq_br_other_direct: 'acquisition_submitted_at',
-    acq_br_additional: 'acquisition_submitted_at',
-    acq_peer_review: 'acquisition_submitted_at',
-    acq_sow_concerns: 'acquisition_submitted_at',
-    acq_cps: 'acquisition_submitted_at',
-    acq_ier: 'acquisition_submitted_at',
-    acq_data_management: 'acquisition_submitted_at',
-    acq_special_requirements: 'acquisition_submitted_at',
+    acq_br_personnel: 'acquisition_checklist_submitted',
+    acq_br_equipment: 'acquisition_checklist_submitted',
+    acq_br_travel: 'acquisition_checklist_submitted',
+    acq_br_materials: 'acquisition_checklist_submitted',
+    acq_br_consultant: 'acquisition_checklist_submitted',
+    acq_br_third_party: 'acquisition_checklist_submitted',
+    acq_br_other_direct: 'acquisition_checklist_submitted',
+    acq_br_additional: 'acquisition_checklist_submitted',
+    acq_peer_review: 'acquisition_checklist_submitted',
+    acq_sow_concerns: 'acquisition_checklist_submitted',
+    acq_cps: 'acquisition_checklist_submitted',
+    acq_ier: 'acquisition_checklist_submitted',
+    acq_data_management: 'acquisition_checklist_submitted',
+    acq_special_requirements: 'acquisition_checklist_submitted',
   };
 
   const handleSectionSubmit = useCallback(async (sectionId) => {
     const ref = formRefs.current[sectionId];
     if (ref && !ref.validateForm()) return;
 
-    // Stamp submission date into formData for checklist tracking
+    // Stamp submission date into formData for checklist tracking (YYYY-MM-DD for date fields)
     const dateField = SECTION_DATE_MAP[sectionId];
     if (dateField) {
-      const now = new Date().toISOString();
+      const now = new Date().toISOString().split('T')[0];
       const updated = { ...formDataRef.current, [dateField]: now };
       setFormData(updated);
       formDataRef.current = updated;
@@ -326,28 +340,6 @@ export default function CompositeForm({
             undefined
           }
         >
-          {/* Checklist submission dates in overview header */}
-          {section.id === 'overview' && (
-            <Box sx={{ mb: 2 }}>
-              <Divider sx={{ my: 1.5 }} />
-              <Typography sx={{ fontWeight: 700, fontSize: 13, mb: 1 }}>Checklist Submission Dates</Typography>
-              {[
-                { label: 'PI Notification Date', value: formData.pi_notification_date },
-                { label: 'Safety Checklist Submitted', value: formData.safety_submitted_at },
-                { label: 'Animal Research Checklist Submitted', value: formData.animal_submitted_at },
-                { label: 'Human Research Checklist Submitted', value: formData.human_submitted_at },
-                { label: 'Acquisition Checklist Submitted to Finance', value: formData.acquisition_submitted_at },
-              ].map(({ label, value }) => (
-                <Box key={label} sx={{ display: 'flex', mb: 0.5 }}>
-                  <Typography sx={{ fontWeight: 700, fontSize: 11, width: 280, flexShrink: 0 }}>{label}:</Typography>
-                  <Typography sx={{ fontSize: 11, color: '#333' }}>
-                    {value ? new Date(value).toLocaleDateString() : ''}
-                  </Typography>
-                </Box>
-              ))}
-              <Divider sx={{ my: 1.5 }} />
-            </Box>
-          )}
           {/* Render PersonnelDataGrid directly below overview form fields */}
           {section.id === 'overview' && (
             <PersonnelDataGrid

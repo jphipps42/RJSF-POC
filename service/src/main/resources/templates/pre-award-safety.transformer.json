@@ -1,0 +1,23 @@
+{
+  "formId": "pre-award-safety",
+  "version": 1,
+  "tableName": "form_pre_award_safety",
+  "description": "Pre-Award Safety Requirements Review section",
+  "schemaVersion": { "column": "schema_version", "sqlType": "INTEGER" },
+  "auditColumns": { "createdAt": "created_at", "updatedAt": "updated_at", "submittedBy": "submitted_by" },
+  "fields": [
+    { "jsonPath": "safety_q1", "column": "safety_q1", "sqlType": "TEXT", "nullable": true, "tags": ["safety_review"] },
+    { "jsonPath": "programmatic_rec", "column": "programmatic_rec", "sqlType": "TEXT", "nullable": true, "tags": ["safety_review"] },
+    { "jsonPath": "safety_q2", "column": "safety_q2", "sqlType": "TEXT", "nullable": true, "tags": ["safety_review"] },
+    { "jsonPath": "safety_q3", "column": "safety_q3", "sqlType": "TEXT", "nullable": true, "tags": ["safety_review"] },
+    { "jsonPath": "safety_q4", "column": "safety_q4", "sqlType": "TEXT", "nullable": true, "tags": ["safety_review"] },
+    { "jsonPath": "safety_q5", "column": "safety_q5", "sqlType": "TEXT", "nullable": true, "tags": ["safety_review"] },
+    { "jsonPath": "safety_q6", "column": "safety_q6", "sqlType": "TEXT", "nullable": true, "tags": ["safety_review"] },
+    { "jsonPath": "safety_q7", "column": "safety_q7", "sqlType": "TEXT", "nullable": true, "tags": ["safety_review"] },
+    { "jsonPath": "safety_q8", "column": "safety_q8", "sqlType": "TEXT", "nullable": true, "tags": ["safety_review"] },
+    { "jsonPath": "safety_notes", "column": "safety_notes", "sqlType": "TEXT", "nullable": true, "tags": ["safety_review"] }
+  ],
+  "relations": [],
+  "writeHooks": {},
+  "readHooks": {}
+}

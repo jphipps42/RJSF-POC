@@ -86,7 +86,19 @@ const SectionPanel = forwardRef(function SectionPanel({
             <StatusBadge status={sectionStatus || 'not_started'} />
           </Box>
         </AccordionSummary>
-        <AccordionDetails sx={{ bgcolor: '#fff', p: 2 }}>
+        <AccordionDetails sx={{
+          bgcolor: '#fff', p: 2,
+          // Constrain form field widths so they aren't full-width
+          '& .MuiFormControl-root': { maxWidth: 360 },
+          '& .MuiFormControl-root:has(input[type="number"])': { maxWidth: 200 },
+          '& .MuiFormControl-root:has(input[type="date"])': { maxWidth: 200 },
+          '& .MuiFormControl-root:has(select)': { maxWidth: 320 },
+          '& .MuiFormControl-root:has(.MuiSelect-select)': { maxWidth: 320 },
+          // Textareas should stay wider
+          '& .MuiFormControl-root:has(textarea)': { maxWidth: '100%' },
+          // Radio groups stay full width for horizontal layout
+          '& .MuiFormGroup-root': { maxWidth: '100%' },
+        }}>
           <Form
             ref={ref}
             tagName="div"
