@@ -4,6 +4,7 @@
 /Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/service/src/main/java/com/egs/rjsf/config/WebConfig.java
 /Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/service/src/main/java/com/egs/rjsf/controller/AuthController.java
 /Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/service/src/main/java/com/egs/rjsf/controller/AwardController.java
+/Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/service/src/main/java/com/egs/rjsf/controller/DocumentCatalogController.java
 /Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/service/src/main/java/com/egs/rjsf/controller/FormConfigurationController.java
 /Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/service/src/main/java/com/egs/rjsf/controller/FormSubmissionController.java
 /Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/service/src/main/java/com/egs/rjsf/controller/HealthController.java
@@ -17,6 +18,7 @@
 /Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/service/src/main/java/com/egs/rjsf/entity/AppUser.java
 /Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/service/src/main/java/com/egs/rjsf/entity/Award.java
 /Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/service/src/main/java/com/egs/rjsf/entity/AwardLinkedFile.java
+/Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/service/src/main/java/com/egs/rjsf/entity/DocumentCatalog.java
 /Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/service/src/main/java/com/egs/rjsf/entity/FormConfiguration.java
 /Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/service/src/main/java/com/egs/rjsf/entity/FormSchemaVersion.java
 /Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/service/src/main/java/com/egs/rjsf/entity/FormSubmission.java
@@ -25,6 +27,7 @@
 /Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/service/src/main/java/com/egs/rjsf/repository/AppUserRepository.java
 /Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/service/src/main/java/com/egs/rjsf/repository/AwardLinkedFileRepository.java
 /Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/service/src/main/java/com/egs/rjsf/repository/AwardRepository.java
+/Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/service/src/main/java/com/egs/rjsf/repository/DocumentCatalogRepository.java
 /Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/service/src/main/java/com/egs/rjsf/repository/FormConfigurationRepository.java
 /Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/service/src/main/java/com/egs/rjsf/repository/FormSchemaVersionRepository.java
 /Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/service/src/main/java/com/egs/rjsf/repository/FormSubmissionRepository.java

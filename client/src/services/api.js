@@ -58,6 +58,13 @@ export const addLinkedFile = (data) => api.post('/linked-files', data);
 export const updateLinkedFile = (id, data) => api.put(`/linked-files/${id}`, data);
 export const deleteLinkedFile = (id) => api.delete(`/linked-files/${id}`);
 
+// Document Catalog (lookup table for file name dropdowns)
+export const getDocumentCatalog = (category) => {
+  let url = '/document-catalog';
+  if (category) url += `?category=${encodeURIComponent(category)}`;
+  return api.get(url);
+};
+
 // Schema Versions
 export const getSchemaVersions = (formId) => api.get(`/schema-versions/${formId}`);
 export const getCurrentSchemaVersion = (formId) => api.get(`/schema-versions/${formId}/current`);

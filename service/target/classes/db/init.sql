@@ -153,6 +153,38 @@ CREATE INDEX idx_app_users_username ON app_users(username);
 CREATE INDEX IF NOT EXISTS idx_tth_form_id ON transformer_template_history(form_id);
 CREATE INDEX IF NOT EXISTS idx_tth_form_version ON transformer_template_history(form_id, version);
 
+-- Document catalog (lookup table for file linking dropdowns)
+CREATE TABLE IF NOT EXISTS document_catalog (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  file_name VARCHAR(255) NOT NULL,
+  description TEXT,
+  category VARCHAR(100) NOT NULL,
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_document_catalog_category ON document_catalog(category);
+
+-- Seed document catalog
+INSERT INTO document_catalog (file_name, description, category) VALUES
+  ('Budget_Final.xlsx', 'Final negotiated budget spreadsheet', 'Budget'),
+  ('Budget_Justification.pdf', 'Budget justification narrative', 'Budget'),
+  ('Statement_of_Work.pdf', 'Final statement of work', 'SOW'),
+  ('Data_Management_Plan.pdf', 'Approved data management plan', 'Data Management'),
+  ('Current_Pending_Support.pdf', 'Updated current and pending support document', 'CPS'),
+  ('Inclusion_Enrollment_Report.pdf', 'Planned inclusion enrollment report', 'IER'),
+  ('Overlap_Mitigation.pdf', 'Scientific overlap mitigation documentation', 'Overlap'),
+  ('RISG_Approval.pdf', 'RISG approval documentation', 'RISG'),
+  ('Negotiation_Memo.pdf', 'Negotiation memorandum', 'Negotiation'),
+  ('Award_Package.pdf', 'Complete award package', 'Award'),
+  ('IACUC_Protocol.pdf', 'IACUC protocol approval documentation', 'Regulatory'),
+  ('IRB_Approval.pdf', 'IRB approval letter', 'Regulatory'),
+  ('FDA_Documentation.pdf', 'FDA regulatory documentation', 'Regulatory'),
+  ('NEPA_Compliance.pdf', 'NEPA environmental compliance determination', 'Safety'),
+  ('Biosafety_Protocol.pdf', 'Biosafety protocol documentation', 'Safety'),
+  ('Other', 'Other document type', 'Other')
+ON CONFLICT DO NOTHING;
+
 -- ============================================
 -- Composite form configuration
 -- All section properties in one flat namespace

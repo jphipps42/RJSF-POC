@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
-  Typography, Box, Button, TextField, Select, MenuItem,
+  Typography, Box, Button, TextField, Select, MenuItem, ListSubheader,
   Table, TableHead, TableBody, TableRow, TableCell, IconButton,
   Dialog, DialogTitle, DialogContent, DialogActions,
   Snackbar, Alert, Paper,
@@ -9,14 +9,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { addLinkedFile, updateLinkedFile, deleteLinkedFile } from '../services/api';
-
-const FILE_NAME_OPTIONS = [
-  'Budget_Final.xlsx', 'Budget_Justification.pdf', 'Statement_of_Work.pdf',
-  'Data_Management_Plan.pdf', 'Current_Pending_Support.pdf',
-  'Inclusion_Enrollment_Report.pdf', 'Overlap_Mitigation.pdf',
-  'RISG_Approval.pdf', 'Negotiation_Memo.pdf', 'Award_Package.pdf', 'Other',
-];
+import { addLinkedFile, updateLinkedFile, deleteLinkedFile, getDocumentCatalog } from '../services/api';
 
 const FILE_SECTIONS = [
   { key: 'final_budget', label: 'Final Budget' },
@@ -29,7 +22,7 @@ const FILE_SECTIONS = [
 const cellSx = { border: '1px solid #c7ddf8', p: '4px 6px', fontSize: 11 };
 const inputSx = { '& .MuiInputBase-input': { fontSize: 11, p: '3px 6px' } };
 
-function FileGrid({ files, sectionKey, onUpdate, onDelete }) {
+function FileGrid({ files, sectionKey, onUpdate, onDelete, catalogItems }) {
   const [editingId, setEditingId] = useState(null);
   const [editData, setEditData] = useState({});
   const [saving, setSaving] = useState(false);
@@ -66,9 +59,11 @@ function FileGrid({ files, sectionKey, onUpdate, onDelete }) {
         {sectionFiles.map((f) => (
           <TableRow key={f.id}>
             <TableCell>{editingId === f.id ? (
-              <Select size="small" value={editData.file_name} onChange={(e) => setEditData((prev) => ({ ...prev, file_name: e.target.value }))} fullWidth sx={{ fontSize: 11 }}>
-                {FILE_NAME_OPTIONS.map((opt) => <MenuItem key={opt} value={opt} sx={{ fontSize: 11 }}>{opt}</MenuItem>)}
-              </Select>
+              <CatalogSelect
+                value={editData.file_name}
+                onChange={(val) => setEditData((prev) => ({ ...prev, file_name: val }))}
+                catalogItems={catalogItems}
+              />
             ) : f.file_name}</TableCell>
             <TableCell>{editingId === f.id ? (
               <TextField size="small" value={editData.description} onChange={(e) => setEditData((prev) => ({ ...prev, description: e.target.value }))} fullWidth sx={inputSx} />
@@ -92,12 +87,54 @@ function FileGrid({ files, sectionKey, onUpdate, onDelete }) {
   );
 }
 
+/** Renders a Select dropdown grouped by category from the document catalog */
+function CatalogSelect({ value, onChange, catalogItems }) {
+  // Group items by category
+  const grouped = {};
+  for (const item of catalogItems) {
+    if (!grouped[item.category]) grouped[item.category] = [];
+    grouped[item.category].push(item);
+  }
+  const categories = Object.keys(grouped).sort();
+
+  return (
+    <Select
+      size="small"
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      fullWidth
+      displayEmpty
+      sx={{ fontSize: 11 }}
+    >
+      <MenuItem value="" disabled sx={{ fontSize: 11 }}>Select a file...</MenuItem>
+      {categories.map((cat) => [
+        <ListSubheader key={`header-${cat}`} sx={{ fontSize: 11, fontWeight: 700, bgcolor: '#f0f7ff', lineHeight: '28px' }}>
+          {cat}
+        </ListSubheader>,
+        ...grouped[cat].map((item) => (
+          <MenuItem key={item.id} value={item.file_name} sx={{ fontSize: 11, pl: 3 }}>
+            {item.file_name}
+          </MenuItem>
+        )),
+      ])}
+    </Select>
+  );
+}
+
 export default function LinkedFilesPanel({ awardId, linkedFiles, onLinkedFilesChange }) {
   const [addOpen, setAddOpen] = useState(false);
   const [addSection, setAddSection] = useState('');
   const [newFile, setNewFile] = useState({ file_name: '', description: '' });
   const [saving, setSaving] = useState(false);
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
+  const [catalogItems, setCatalogItems] = useState([]);
+
+  // Fetch document catalog from the API on mount
+  useEffect(() => {
+    getDocumentCatalog()
+      .then((res) => setCatalogItems(res.data))
+      .catch((err) => console.error('Failed to load document catalog:', err));
+  }, []);
 
   const files = linkedFiles || [];
 
@@ -130,7 +167,7 @@ export default function LinkedFilesPanel({ awardId, linkedFiles, onLinkedFilesCh
           <Box key={key} sx={{ mb: 1.5, p: 1.5, border: '1px solid #c7ddf8', borderRadius: 2, bgcolor: '#f9fbff' }}>
             <Typography sx={{ fontWeight: 600, fontSize: 14, mb: 0.5 }}>{label}</Typography>
             <Button variant="contained" size="small" onClick={() => openAddModal(key)} sx={{ bgcolor: '#007bff', fontSize: 11 }}>Link File(s)</Button>
-            <FileGrid files={files} sectionKey={key} onUpdate={handleFileUpdate} onDelete={handleFileDelete} />
+            <FileGrid files={files} sectionKey={key} onUpdate={handleFileUpdate} onDelete={handleFileDelete} catalogItems={catalogItems} />
           </Box>
         ))}
       </Paper>
@@ -140,10 +177,11 @@ export default function LinkedFilesPanel({ awardId, linkedFiles, onLinkedFilesCh
         <DialogContent sx={{ pt: 3, display: 'flex', flexDirection: 'column', gap: 2, mt: 1 }}>
           <Box>
             <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600 }}>File Name *</Typography>
-            <Select fullWidth size="small" value={newFile.file_name} onChange={(e) => setNewFile((prev) => ({ ...prev, file_name: e.target.value }))} displayEmpty>
-              <MenuItem value="" disabled>Select a file...</MenuItem>
-              {FILE_NAME_OPTIONS.map((opt) => <MenuItem key={opt} value={opt}>{opt}</MenuItem>)}
-            </Select>
+            <CatalogSelect
+              value={newFile.file_name}
+              onChange={(val) => setNewFile((prev) => ({ ...prev, file_name: val }))}
+              catalogItems={catalogItems}
+            />
           </Box>
           <TextField label="Description" value={newFile.description} onChange={(e) => setNewFile((prev) => ({ ...prev, description: e.target.value }))} fullWidth size="small" multiline rows={2} />
           <TextField label="Last Updated" value={new Date().toLocaleDateString()} fullWidth size="small" disabled helperText="Auto-set to current date on save" />
