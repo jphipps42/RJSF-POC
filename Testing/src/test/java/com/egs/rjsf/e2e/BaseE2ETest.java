@@ -106,18 +106,32 @@ public abstract class BaseE2ETest {
     }
 
     /**
-     * Clicks an MUI accordion header to expand it, scrolling into view first.
-     * Waits for the accordion content (AccordionDetails) to appear.
+     * Ensures an MUI accordion section is expanded. If it's already expanded
+     * (aria-expanded="true"), does nothing. Otherwise clicks to expand it.
      */
     protected void expandAccordion(String headerText) {
-        WebElement header = wait.until(ExpectedConditions.presenceOfElementLocated(
-                By.xpath("//*[contains(text(), '" + headerText + "')]/ancestor::div[contains(@class, 'MuiAccordionSummary')]"
-                        + " | //*[contains(text(), '" + headerText + "')]")));
-        scrollTo(header);
+        // Find the element containing the section title text
+        WebElement titleEl = wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.xpath("//*[contains(text(), '" + headerText + "')]")));
+
+        // Walk up to find the clickable accordion summary (has aria-expanded attribute)
+        WebElement summary = null;
+        try {
+            summary = titleEl.findElement(By.xpath("./ancestor::*[@aria-expanded]"));
+        } catch (Exception e) {
+            // Fallback: just click the title element itself
+            summary = titleEl;
+        }
+
+        scrollTo(summary);
         sleep(300);
-        jsClick(header);
-        // Wait for the accordion body to appear
-        sleep(500);
+
+        // Check if already expanded
+        String expanded = summary.getAttribute("aria-expanded");
+        if (!"true".equals(expanded)) {
+            jsClick(summary);
+            sleep(800);
+        }
     }
 
     /**

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-failsafe-plugin/xsd/failsafe-test-report.xsd" version="3.0.2" name="com.egs.rjsf.e2e.ReviewPageE2ETest" time="33.436" tests="8" errors="0" skipped="0" failures="2">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-failsafe-plugin/xsd/failsafe-test-report.xsd" version="3.0.2" name="com.egs.rjsf.e2e.ReviewPageE2ETest" time="30.663" tests="8" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="24"/>
     <property name="webdriver.chrome.driver" value="/Users/jphipps42/.cache/selenium/chromedriver/mac-arm64/146.0.7680.165/chromedriver"/>
@@ -15,9 +15,9 @@
     <property name="APPLICATION_NAME" value="rjsf-form-service"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
-    <property name="e2e.headless" value="false"/>
+    <property name="e2e.headless" value="true"/>
     <property name="sun.boot.library.path" value="/Users/jphipps42/Library/Java/JavaVirtualMachines/openjdk-24.0.1/Contents/Home/lib"/>
-    <property name="sun.java.command" value="/Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/Testing/target/surefire/surefirebooter-20260412142007094_3.jar /Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/Testing/target/surefire 2026-04-12T14-20-07_080-jvmRun1 surefire-20260412142007094_1tmp surefire_0-20260412142007094_2tmp"/>
+    <property name="sun.java.command" value="/Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/Testing/target/surefire/surefirebooter-20260413134951809_3.jar /Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/Testing/target/surefire 2026-04-13T13-49-51_789-jvmRun1 surefire-20260413134951809_1tmp surefire_0-20260413134951809_2tmp"/>
     <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/Testing/target/test-classes:/Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/Testing/target/classes:/Users/jphipps42/.m2/repository/com/egs/rjsf-form-service/1.0.0/rjsf-form-service-1.0.0.jar:/Users/jphipps42/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.4.4/spring-boot-starter-web-3.4.4.jar:/Users/jphipps42/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.4.4/spring-boot-starter-json-3.4.4.jar:/Users/jphipps42/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.18.3/jackson-datatype-jdk8-2.18.3.jar:/Users/jphipps42/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.18.3/jackson-datatype-jsr310-2.18.3.jar:/Users/jphipps42/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.18.3/jackson-module-parameter-names-2.18.3.jar:/Users/jphipps42/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.4.4/spring-boot-starter-tomcat-3.4.4.jar:/Users/jphipps42/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.39/tomcat-embed-core-10.1.39.jar:/Users/jphipps42/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.39/tomcat-embed-websocket-10.1.39.jar:/Users/jphipps42/.m2/repository/org/springframework/spring-web/6.2.5/spring-web-6.2.5.jar:/Users/jphipps42/.m2/repository/org/springframework/spring-beans/6.2.5/spring-beans-6.2.5.jar:/Users/jphipps42/.m2/repository/org/springframework/spring-webmvc/6.2.5/spring-webmvc-6.2.5.jar:/Users/jphipps42/.m2/repository/org/springframework/spring-context/6.2.5/spring-context-6.2.5.jar:/Users/jphipps42/.m2/repository/org/springframework/spring-expression/6.2.5/spring-expression-6.2.5.jar:/Users/jphipps42/.m2/repository/org/springframework/boot/spring-boot-starter-security/3.4.4/spring-boot-starter-security-3.4.4.jar:/Users/jphipps42/.m2/repository/org/springframework/spring-aop/6.2.5/spring-aop-6.2.5.jar:/Users/jphipps42/.m2/repository/org/springframework/security/spring-security-config/6.4.4/spring-security-config-6.4.4.jar:/Users/jphipps42/.m2/repository/org/springframework/security/spring-security-core/6.4.4/spring-security-core-6.4.4.jar:/Users/jphipps42/.m2/repository/org/springframework/security/spring-security-crypto/6.4.4/spring-security-crypto-6.4.4.jar:/Users/jphipps42/.m2/repository/org/springframework/security/spring-security-web/6.4.4/spring-security-web-6.4.4.jar:/Users/jphipps42/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/3.4.4/spring-boot-starter-data-jpa-3.4.4.jar:/Users/jphipps42/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.4.4/spring-boot-starter-jdbc-3.4.4.jar:/Users/jphipps42/.m2/repository/com/zaxxer/HikariCP/5.1.0/HikariCP-5.1.0.jar:/Users/jphipps42/.m2/repository/org/springframework/spring-jdbc/6.2.5/spring-jdbc-6.2.5.jar:/Users/jphipps42/.m2/repository/org/hibernate/orm/hibernate-core/6.6.11.Final/hibernate-core-6.6.11.Final.jar:/Users/jphipps42/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar:/Users/jphipps42/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar:/Users/jphipps42/.m2/repository/org/jboss/logging/jboss-logging/3.6.1.Final/jboss-logging-3.6.1.Final.jar:/Users/jphipps42/.m2/repository/org/hibernate/common/hibernate-commons-annotations/7.0.3.Final/hibernate-commons-annotations-7.0.3.Final.jar:/Users/jphipps42/.m2/repository/io/smallrye/jandex/3.2.0/jandex-3.2.0.jar:/Users/jphipps42/.m2/repository/com/fasterxml/classmate/1.7.0/classmate-1.7.0.jar:/Users/jphipps42/.m2/repository/org/glassfish/jaxb/jaxb-runtime/4.0.5/jaxb-runtime-4.0.5.jar:/Users/jphipps42/.m2/repository/org/glassfish/jaxb/jaxb-core/4.0.5/jaxb-core-4.0.5.jar:/Users/jphipps42/.m2/repository/org/eclipse/angus/angus-activation/2.0.2/angus-activation-2.0.2.jar:/Users/jphipps42/.m2/repository/org/glassfish/jaxb/txw2/4.0.5/txw2-4.0.5.jar:/Users/jphipps42/.m2/repository/com/sun/istack/istack-commons-runtime/4.1.2/istack-commons-runtime-4.1.2.jar:/Users/jphipps42/.m2/repository/jakarta/inject/jakarta.inject-api/2.0.1/jakarta.inject-api-2.0.1.jar:/Users/jphipps42/.m2/repository/org/antlr/antlr4-runtime/4.13.0/antlr4-runtime-4.13.0.jar:/Users/jphipps42/.m2/repository/org/springframework/data/spring-data-jpa/3.4.4/spring-data-jpa-3.4.4.jar:/Users/jphipps42/.m2/repository/org/springframework/data/spring-data-commons/3.4.4/spring-data-commons-3.4.4.jar:/Users/jphipps42/.m2/repository/org/springframework/spring-orm/6.2.5/spring-orm-6.2.5.jar:/Users/jphipps42/.m2/repository/org/springframework/spring-tx/6.2.5/spring-tx-6.2.5.jar:/Users/jphipps42/.m2/repository/org/springframework/spring-aspects/6.2.5/spring-aspects-6.2.5.jar:/Users/jphipps42/.m2/repository/org/aspectj/aspectjweaver/1.9.23/aspectjweaver-1.9.23.jar:/Users/jphipps42/.m2/repository/io/hypersistence/hypersistence-utils-hibernate-63/3.9.0/hypersistence-utils-hibernate-63-3.9.0.jar:/Users/jphipps42/.m2/repository/io/hypersistence/hypersistence-tsid/2.1.1/hypersistence-tsid-2.1.1.jar:/Users/jphipps42/.m2/repository/org/springframework/boot/spring-boot-starter-actuator/3.4.4/spring-boot-starter-actuator-3.4.4.jar:/Users/jphipps42/.m2/repository/org/springframework/boot/spring-boot-actuator-autoconfigure/3.4.4/spring-boot-actuator-autoconfigure-3.4.4.jar:/Users/jphipps42/.m2/repository/org/springframework/boot/spring-boot-actuator/3.4.4/spring-boot-actuator-3.4.4.jar:/Users/jphipps42/.m2/repository/io/micrometer/micrometer-observation/1.14.5/micrometer-observation-1.14.5.jar:/Users/jphipps42/.m2/repository/io/micrometer/micrometer-commons/1.14.5/micrometer-commons-1.14.5.jar:/Users/jphipps42/.m2/repository/io/micrometer/micrometer-jakarta9/1.14.5/micrometer-jakarta9-1.14.5.jar:/Users/jphipps42/.m2/repository/io/micrometer/micrometer-core/1.14.5/micrometer-core-1.14.5.jar:/Users/jphipps42/.m2/repository/org/hdrhistogram/HdrHistogram/2.2.2/HdrHistogram-2.2.2.jar:/Users/jphipps42/.m2/repository/org/latencyutils/LatencyUtils/2.0.3/LatencyUtils-2.0.3.jar:/Users/jphipps42/.m2/repository/org/springdoc/springdoc-openapi-starter-webmvc-ui/2.8.4/springdoc-openapi-starter-webmvc-ui-2.8.4.jar:/Users/jphipps42/.m2/repository/org/springdoc/springdoc-openapi-starter-webmvc-api/2.8.4/springdoc-openapi-starter-webmvc-api-2.8.4.jar:/Users/jphipps42/.m2/repository/org/springdoc/springdoc-openapi-starter-common/2.8.4/springdoc-openapi-starter-common-2.8.4.jar:/Users/jphipps42/.m2/repository/io/swagger/core/v3/swagger-core-jakarta/2.2.28/swagger-core-jakarta-2.2.28.jar:/Users/jphipps42/.m2/repository/io/swagger/core/v3/swagger-annotations-jakarta/2.2.28/swagger-annotations-jakarta-2.2.28.jar:/Users/jphipps42/.m2/repository/io/swagger/core/v3/swagger-models-jakarta/2.2.28/swagger-models-jakarta-2.2.28.jar:/Users/jphipps42/.m2/repository/org/webjars/swagger-ui/5.18.2/swagger-ui-5.18.2.jar:/Users/jphipps42/.m2/repository/org/webjars/webjars-locator-lite/1.0.1/webjars-locator-lite-1.0.1.jar:/Users/jphipps42/.m2/repository/org/springframework/boot/spring-boot-starter-validation/3.4.4/spring-boot-starter-validation-3.4.4.jar:/Users/jphipps42/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.39/tomcat-embed-el-10.1.39.jar:/Users/jphipps42/.m2/repository/org/hibernate/validator/hibernate-validator/8.0.2.Final/hibernate-validator-8.0.2.Final.jar:/Users/jphipps42/.m2/repository/jakarta/validation/jakarta.validation-api/3.0.2/jakarta.validation-api-3.0.2.jar:/Users/jphipps42/.m2/repository/com/github/ben-manes/caffeine/caffeine/3.1.8/caffeine-3.1.8.jar:/Users/jphipps42/.m2/repository/com/google/errorprone/error_prone_annotations/2.21.1/error_prone_annotations-2.21.1.jar:/Users/jphipps42/.m2/repository/org/springframework/boot/spring-boot-starter-cache/3.4.4/spring-boot-starter-cache-3.4.4.jar:/Users/jphipps42/.m2/repository/org/springframework/spring-context-support/6.2.5/spring-context-support-6.2.5.jar:/Users/jphipps42/.m2/repository/com/networknt/json-schema-validator/1.4.0/json-schema-validator-1.4.0.jar:/Users/jphipps42/.m2/repository/com/ethlo/time/itu/1.8.0/itu-1.8.0.jar:/Users/jphipps42/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.18.3/jackson-databind-2.18.3.jar:/Users/jphipps42/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.18.3/jackson-annotations-2.18.3.jar:/Users/jphipps42/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.18.3/jackson-core-2.18.3.jar:/Users/jphipps42/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.18.3/jackson-dataformat-yaml-2.18.3.jar:/Users/jphipps42/.m2/repository/org/springframework/boot/spring-boot-starter-test/3.4.4/spring-boot-starter-test-3.4.4.jar:/Users/jphipps42/.m2/repository/org/springframework/boot/spring-boot-starter/3.4.4/spring-boot-starter-3.4.4.jar:/Users/jphipps42/.m2/repository/org/springframework/boot/spring-boot/3.4.4/spring-boot-3.4.4.jar:/Users/jphipps42/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.4.4/spring-boot-autoconfigure-3.4.4.jar:/Users/jphipps42/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.4.4/spring-boot-starter-logging-3.4.4.jar:/Users/jphipps42/.m2/repository/ch/qos/logback/logback-classic/1.5.18/logback-classic-1.5.18.jar:/Users/jphipps42/.m2/repository/ch/qos/logback/logback-core/1.5.18/logback-core-1.5.18.jar:/Users/jphipps42/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.24.3/log4j-to-slf4j-2.24.3.jar:/Users/jphipps42/.m2/repository/org/apache/logging/log4j/log4j-api/2.24.3/log4j-api-2.24.3.jar:/Users/jphipps42/.m2/repository/org/slf4j/jul-to-slf4j/2.0.17/jul-to-slf4j-2.0.17.jar:/Users/jphipps42/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar:/Users/jphipps42/.m2/repository/org/yaml/snakeyaml/2.3/snakeyaml-2.3.jar:/Users/jphipps42/.m2/repository/org/springframework/boot/spring-boot-test/3.4.4/spring-boot-test-3.4.4.jar:/Users/jphipps42/.m2/repository/org/springframework/boot/spring-boot-test-autoconfigure/3.4.4/spring-boot-test-autoconfigure-3.4.4.jar:/Users/jphipps42/.m2/repository/com/jayway/jsonpath/json-path/2.9.0/json-path-2.9.0.jar:/Users/jphipps42/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.2/jakarta.xml.bind-api-4.0.2.jar:/Users/jphipps42/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.3/jakarta.activation-api-2.1.3.jar:/Users/jphipps42/.m2/repository/net/minidev/json-smart/2.5.2/json-smart-2.5.2.jar:/Users/jphipps42/.m2/repository/net/minidev/accessors-smart/2.5.2/accessors-smart-2.5.2.jar:/Users/jphipps42/.m2/repository/org/ow2/asm/asm/9.7.1/asm-9.7.1.jar:/Users/jphipps42/.m2/repository/org/assertj/assertj-core/3.26.3/assertj-core-3.26.3.jar:/Users/jphipps42/.m2/repository/net/bytebuddy/byte-buddy/1.15.11/byte-buddy-1.15.11.jar:/Users/jphipps42/.m2/repository/org/awaitility/awaitility/4.2.2/awaitility-4.2.2.jar:/Users/jphipps42/.m2/repository/org/hamcrest/hamcrest/2.2/hamcrest-2.2.jar:/Users/jphipps42/.m2/repository/org/junit/jupiter/junit-jupiter/5.11.4/junit-jupiter-5.11.4.jar:/Users/jphipps42/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.11.4/junit-jupiter-api-5.11.4.jar:/Users/jphipps42/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/jphipps42/.m2/repository/org/junit/platform/junit-platform-commons/1.11.4/junit-platform-commons-1.11.4.jar:/Users/jphipps42/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/jphipps42/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.11.4/junit-jupiter-params-5.11.4.jar:/Users/jphipps42/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.11.4/junit-jupiter-engine-5.11.4.jar:/Users/jphipps42/.m2/repository/org/junit/platform/junit-platform-engine/1.11.4/junit-platform-engine-1.11.4.jar:/Users/jphipps42/.m2/repository/org/mockito/mockito-core/5.14.2/mockito-core-5.14.2.jar:/Users/jphipps42/.m2/repository/net/bytebuddy/byte-buddy-agent/1.15.11/byte-buddy-agent-1.15.11.jar:/Users/jphipps42/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/Users/jphipps42/.m2/repository/org/mockito/mockito-junit-jupiter/5.14.2/mockito-junit-jupiter-5.14.2.jar:/Users/jphipps42/.m2/repository/org/skyscreamer/jsonassert/1.5.3/jsonassert-1.5.3.jar:/Users/jphipps42/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar:/Users/jphipps42/.m2/repository/org/springframework/spring-core/6.2.5/spring-core-6.2.5.jar:/Users/jphipps42/.m2/repository/org/springframework/spring-jcl/6.2.5/spring-jcl-6.2.5.jar:/Users/jphipps42/.m2/repository/org/springframework/spring-test/6.2.5/spring-test-6.2.5.jar:/Users/jphipps42/.m2/repository/org/xmlunit/xmlunit-core/2.10.0/xmlunit-core-2.10.0.jar:/Users/jphipps42/.m2/repository/org/seleniumhq/selenium/selenium-java/4.27.0/selenium-java-4.27.0.jar:/Users/jphipps42/.m2/repository/org/seleniumhq/selenium/selenium-api/4.27.0/selenium-api-4.27.0.jar:/Users/jphipps42/.m2/repository/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.jar:/Users/jphipps42/.m2/repository/org/seleniumhq/selenium/selenium-chrome-driver/4.27.0/selenium-chrome-driver-4.27.0.jar:/Users/jphipps42/.m2/repository/com/google/auto/service/auto-service-annotations/1.1.1/auto-service-annotations-1.1.1.jar:/Users/jphipps42/.m2/repository/org/seleniumhq/selenium/selenium-chromium-driver/4.27.0/selenium-chromium-driver-4.27.0.jar:/Users/jphipps42/.m2/repository/org/seleniumhq/selenium/selenium-json/4.27.0/selenium-json-4.27.0.jar:/Users/jphipps42/.m2/repository/org/seleniumhq/selenium/selenium-manager/4.27.0/selenium-manager-4.27.0.jar:/Users/jphipps42/.m2/repository/org/seleniumhq/selenium/selenium-devtools-v129/4.27.0/selenium-devtools-v129-4.27.0.jar:/Users/jphipps42/.m2/repository/org/seleniumhq/selenium/selenium-devtools-v130/4.27.0/selenium-devtools-v130-4.27.0.jar:/Users/jphipps42/.m2/repository/org/seleniumhq/selenium/selenium-devtools-v131/4.27.0/selenium-devtools-v131-4.27.0.jar:/Users/jphipps42/.m2/repository/org/seleniumhq/selenium/selenium-devtools-v85/4.27.0/selenium-devtools-v85-4.27.0.jar:/Users/jphipps42/.m2/repository/org/seleniumhq/selenium/selenium-edge-driver/4.27.0/selenium-edge-driver-4.27.0.jar:/Users/jphipps42/.m2/repository/org/seleniumhq/selenium/selenium-firefox-driver/4.27.0/selenium-firefox-driver-4.27.0.jar:/Users/jphipps42/.m2/repository/org/seleniumhq/selenium/selenium-http/4.27.0/selenium-http-4.27.0.jar:/Users/jphipps42/.m2/repository/dev/failsafe/failsafe/3.3.2/failsafe-3.3.2.jar:/Users/jphipps42/.m2/repository/org/seleniumhq/selenium/selenium-ie-driver/4.27.0/selenium-ie-driver-4.27.0.jar:/Users/jphipps42/.m2/repository/org/seleniumhq/selenium/selenium-remote-driver/4.27.0/selenium-remote-driver-4.27.0.jar:/Users/jphipps42/.m2/repository/com/google/guava/guava/33.3.1-jre/guava-33.3.1-jre.jar:/Users/jphipps42/.m2/repository/com/google/guava/failureaccess/1.0.2/failureaccess-1.0.2.jar:/Users/jphipps42/.m2/repository/com/google/guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar:/Users/jphipps42/.m2/repository/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar:/Users/jphipps42/.m2/repository/com/google/j2objc/j2objc-annotations/3.0.0/j2objc-annotations-3.0.0.jar:/Users/jphipps42/.m2/repository/io/opentelemetry/semconv/opentelemetry-semconv/1.25.0-alpha/opentelemetry-semconv-1.25.0-alpha.jar:/Users/jphipps42/.m2/repository/io/opentelemetry/opentelemetry-api/1.43.0/opentelemetry-api-1.43.0.jar:/Users/jphipps42/.m2/repository/io/opentelemetry/opentelemetry-context/1.43.0/opentelemetry-context-1.43.0.jar:/Users/jphipps42/.m2/repository/io/opentelemetry/opentelemetry-exporter-logging/1.43.0/opentelemetry-exporter-logging-1.43.0.jar:/Users/jphipps42/.m2/repository/io/opentelemetry/opentelemetry-sdk-common/1.43.0/opentelemetry-sdk-common-1.43.0.jar:/Users/jphipps42/.m2/repository/io/opentelemetry/opentelemetry-sdk-extension-autoconfigure-spi/1.43.0/opentelemetry-sdk-extension-autoconfigure-spi-1.43.0.jar:/Users/jphipps42/.m2/repository/io/opentelemetry/opentelemetry-sdk-extension-autoconfigure/1.43.0/opentelemetry-sdk-extension-autoconfigure-1.43.0.jar:/Users/jphipps42/.m2/repository/io/opentelemetry/opentelemetry-api-incubator/1.43.0-alpha/opentelemetry-api-incubator-1.43.0-alpha.jar:/Users/jphipps42/.m2/repository/io/opentelemetry/opentelemetry-sdk-trace/1.43.0/opentelemetry-sdk-trace-1.43.0.jar:/Users/jphipps42/.m2/repository/io/opentelemetry/opentelemetry-sdk/1.43.0/opentelemetry-sdk-1.43.0.jar:/Users/jphipps42/.m2/repository/io/opentelemetry/opentelemetry-sdk-metrics/1.43.0/opentelemetry-sdk-metrics-1.43.0.jar:/Users/jphipps42/.m2/repository/io/opentelemetry/opentelemetry-sdk-logs/1.43.0/opentelemetry-sdk-logs-1.43.0.jar:/Users/jphipps42/.m2/repository/org/seleniumhq/selenium/selenium-os/4.27.0/selenium-os-4.27.0.jar:/Users/jphipps42/.m2/repository/org/apache/commons/commons-exec/1.4.0/commons-exec-1.4.0.jar:/Users/jphipps42/.m2/repository/org/seleniumhq/selenium/selenium-safari-driver/4.27.0/selenium-safari-driver-4.27.0.jar:/Users/jphipps42/.m2/repository/org/seleniumhq/selenium/selenium-support/4.27.0/selenium-support-4.27.0.jar:/Users/jphipps42/.m2/repository/io/github/bonigarcia/webdrivermanager/5.9.2/webdrivermanager-5.9.2.jar:/Users/jphipps42/.m2/repository/org/slf4j/slf4j-api/2.0.17/slf4j-api-2.0.17.jar:/Users/jphipps42/.m2/repository/com/google/code/gson/gson/2.11.0/gson-2.11.0.jar:/Users/jphipps42/.m2/repository/com/github/docker-java/docker-java/3.4.0/docker-java-3.4.0.jar:/Users/jphipps42/.m2/repository/com/github/docker-java/docker-java-core/3.4.0/docker-java-core-3.4.0.jar:/Users/jphipps42/.m2/repository/com/github/docker-java/docker-java-api/3.4.0/docker-java-api-3.4.0.jar:/Users/jphipps42/.m2/repository/org/slf4j/jcl-over-slf4j/2.0.17/jcl-over-slf4j-2.0.17.jar:/Users/jphipps42/.m2/repository/com/github/docker-java/docker-java-transport-httpclient5/3.4.0/docker-java-transport-httpclient5-3.4.0.jar:/Users/jphipps42/.m2/repository/com/github/docker-java/docker-java-transport/3.4.0/docker-java-transport-3.4.0.jar:/Users/jphipps42/.m2/repository/net/java/dev/jna/jna/5.13.0/jna-5.13.0.jar:/Users/jphipps42/.m2/repository/org/brotli/dec/0.1.2/dec-0.1.2.jar:/Users/jphipps42/.m2/repository/org/apache/commons/commons-lang3/3.17.0/commons-lang3-3.17.0.jar:/Users/jphipps42/.m2/repository/org/apache/commons/commons-compress/1.26.2/commons-compress-1.26.2.jar:/Users/jphipps42/.m2/repository/commons-codec/commons-codec/1.17.2/commons-codec-1.17.2.jar:/Users/jphipps42/.m2/repository/commons-io/commons-io/2.16.1/commons-io-2.16.1.jar:/Users/jphipps42/.m2/repository/org/apache/httpcomponents/client5/httpclient5/5.4.2/httpclient5-5.4.2.jar:/Users/jphipps42/.m2/repository/org/apache/httpcomponents/core5/httpcore5/5.3.3/httpcore5-5.3.3.jar:/Users/jphipps42/.m2/repository/org/apache/httpcomponents/core5/httpcore5-h2/5.3.3/httpcore5-h2-5.3.3.jar:/Users/jphipps42/.m2/repository/org/postgresql/postgresql/42.7.5/postgresql-42.7.5.jar:/Users/jphipps42/.m2/repository/org/checkerframework/checker-qual/3.48.3/checker-qual-3.48.3.jar:/Users/jphipps42/.m2/repository/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar:"/>
@@ -36,7 +36,7 @@
     <property name="FILE_LOG_CHARSET" value="UTF-8"/>
     <property name="java.awt.headless" value="true"/>
     <property name="apple.awt.application.name" value="ForkedBooter"/>
-    <property name="surefire.real.class.path" value="/Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/Testing/target/surefire/surefirebooter-20260412142007094_3.jar"/>
+    <property name="surefire.real.class.path" value="/Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/Testing/target/surefire/surefirebooter-20260413134951809_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.runtime.version" value="24.0.1+9-30"/>
@@ -55,7 +55,7 @@
     <property name="user.dir" value="/Users/jphipps42/Desktop/devProjects/RJSF_POC/RJSF-POC/Testing"/>
     <property name="os.arch" value="aarch64"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
-    <property name="PID" value="99860"/>
+    <property name="PID" value="36901"/>
     <property name="CONSOLE_LOG_CHARSET" value="UTF-8"/>
     <property name="native.encoding" value="UTF-8"/>
     <property name="java.library.path" value="/Users/jphipps42/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
@@ -68,159 +68,46 @@
     <property name="java.class.version" value="68.0"/>
     <property name="LOGGED_APPLICATION_NAME" value="[rjsf-form-service] "/>
   </properties>
-  <testcase name="pageLoadsWithAwardSummary" classname="com.egs.rjsf.e2e.ReviewPageE2ETest" time="4.032">
-    <system-out><![CDATA[2026-04-12T14:20:11.665-04:00  INFO 99860 --- [rjsf-form-service] [           main] i.g.bonigarcia.wdm.WebDriverManager      : Using chromedriver 146.0.7680.165 (resolved driver for Chrome 146)
-2026-04-12T14:20:11.670-04:00  INFO 99860 --- [rjsf-form-service] [           main] i.g.bonigarcia.wdm.WebDriverManager      : Exporting webdriver.chrome.driver as /Users/jphipps42/.cache/selenium/chromedriver/mac-arm64/146.0.7680.165/chromedriver
-2026-04-12T14:20:13.118-04:00  WARN 99860 --- [rjsf-form-service] [           main] o.o.selenium.devtools.CdpVersionFinder   : Unable to find CDP implementation matching 146
-2026-04-12T14:20:13.119-04:00  WARN 99860 --- [rjsf-form-service] [           main] o.o.selenium.chromium.ChromiumDriver     : Unable to find version of CDP to use for 146.0.7680.180. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.27.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  <testcase name="pageLoadsWithAwardSummary" classname="com.egs.rjsf.e2e.ReviewPageE2ETest" time="3.139">
+    <system-out><![CDATA[2026-04-13T13:49:55.819-04:00  INFO 36901 --- [rjsf-form-service] [           main] i.g.bonigarcia.wdm.WebDriverManager      : Using chromedriver 146.0.7680.165 (resolved driver for Chrome 146)
+2026-04-13T13:49:55.825-04:00  INFO 36901 --- [rjsf-form-service] [           main] i.g.bonigarcia.wdm.WebDriverManager      : Exporting webdriver.chrome.driver as /Users/jphipps42/.cache/selenium/chromedriver/mac-arm64/146.0.7680.165/chromedriver
+2026-04-13T13:49:56.459-04:00  WARN 36901 --- [rjsf-form-service] [           main] o.o.selenium.devtools.CdpVersionFinder   : Unable to find CDP implementation matching 146
+2026-04-13T13:49:56.460-04:00  WARN 36901 --- [rjsf-form-service] [           main] o.o.selenium.chromium.ChromiumDriver     : Unable to find version of CDP to use for 146.0.7680.180. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.27.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
 ]]></system-out>
   </testcase>
-  <testcase name="overviewSectionVisible" classname="com.egs.rjsf.e2e.ReviewPageE2ETest" time="4.3">
-    <failure message="&#10;Expecting actual:&#10;  &quot;Joshua Phipps — SO, CDMRP&#10;Logout&#10;Summary&#10;Details&#10;Tools&#10;Research Classifications&#10;PreAward Review&#10;Agreement Details&#10;Regulatory Details&#10;Deliverables and Progress Reports&#10;Closeout&#10;Document Management&#10;Award Management → Negotiation&#10;Return to Search&#10;Under Negotiation/Pre-Award Review&#10;Quick Search&#10;Award Summary&#10;Pre-Award Compliance &amp; Negotiations Review&#10;Pre-Award Overview&#10;In Progress&#10;A. Safety Requirements Review&#10;In Progress&#10;B. Animal Research Review Requirements&#10;In Progress&#10;C. Human Research Review Requirements&#10;In Progress&#10;D. Acquisition/Contracting Review&#10;In Progress&#10;Final Recommendation to Award&#10;In Progress&#10;SO/GOR Notes&#10;Change Log&#10;Reset Checklist (Admin Only)&#10;Form Version: v2&#10;v2 (current)&#10;Document and File Management&#10;Add File&#10;Add Note&#10;Uploaded files and notes will appear here.&quot;&#10;to contain:&#10;  &quot;PI Budget&quot; " type="java.lang.AssertionError"><![CDATA[java.lang.AssertionError: 
-
-Expecting actual:
-  "Joshua Phipps — SO, CDMRP
-Logout
-Summary
-Details
-Tools
-Research Classifications
-PreAward Review
-Agreement Details
-Regulatory Details
-Deliverables and Progress Reports
-Closeout
-Document Management
-Award Management → Negotiation
-Return to Search
-Under Negotiation/Pre-Award Review
-Quick Search
-Award Summary
-Pre-Award Compliance & Negotiations Review
-Pre-Award Overview
-In Progress
-A. Safety Requirements Review
-In Progress
-B. Animal Research Review Requirements
-In Progress
-C. Human Research Review Requirements
-In Progress
-D. Acquisition/Contracting Review
-In Progress
-Final Recommendation to Award
-In Progress
-SO/GOR Notes
-Change Log
-Reset Checklist (Admin Only)
-Form Version: v2
-v2 (current)
-Document and File Management
-Add File
-Add Note
-Uploaded files and notes will appear here."
-to contain:
-  "PI Budget" 
-	at com.egs.rjsf.e2e.ReviewPageE2ETest.overviewSectionVisible(ReviewPageE2ETest.java:33)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
-]]></failure>
-    <system-out><![CDATA[2026-04-12T14:20:16.175-04:00  WARN 99860 --- [rjsf-form-service] [           main] o.o.selenium.devtools.CdpVersionFinder   : Unable to find CDP implementation matching 146
-2026-04-12T14:20:16.175-04:00  WARN 99860 --- [rjsf-form-service] [           main] o.o.selenium.chromium.ChromiumDriver     : Unable to find version of CDP to use for 146.0.7680.180. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.27.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  <testcase name="overviewSectionVisible" classname="com.egs.rjsf.e2e.ReviewPageE2ETest" time="3.066">
+    <system-out><![CDATA[2026-04-13T13:49:59.353-04:00  WARN 36901 --- [rjsf-form-service] [           main] o.o.selenium.devtools.CdpVersionFinder   : Unable to find CDP implementation matching 146
+2026-04-13T13:49:59.353-04:00  WARN 36901 --- [rjsf-form-service] [           main] o.o.selenium.chromium.ChromiumDriver     : Unable to find version of CDP to use for 146.0.7680.180. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.27.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
 ]]></system-out>
   </testcase>
-  <testcase name="safetySectionQuestionsCorrect" classname="com.egs.rjsf.e2e.ReviewPageE2ETest" time="4.383">
-    <system-out><![CDATA[2026-04-12T14:20:20.524-04:00  WARN 99860 --- [rjsf-form-service] [           main] o.o.selenium.devtools.CdpVersionFinder   : Unable to find CDP implementation matching 146
-2026-04-12T14:20:20.524-04:00  WARN 99860 --- [rjsf-form-service] [           main] o.o.selenium.chromium.ChromiumDriver     : Unable to find version of CDP to use for 146.0.7680.180. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.27.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  <testcase name="safetySectionQuestionsCorrect" classname="com.egs.rjsf.e2e.ReviewPageE2ETest" time="4.32">
+    <system-out><![CDATA[2026-04-13T13:50:02.420-04:00  WARN 36901 --- [rjsf-form-service] [           main] o.o.selenium.devtools.CdpVersionFinder   : Unable to find CDP implementation matching 146
+2026-04-13T13:50:02.420-04:00  WARN 36901 --- [rjsf-form-service] [           main] o.o.selenium.chromium.ChromiumDriver     : Unable to find version of CDP to use for 146.0.7680.180. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.27.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
 ]]></system-out>
   </testcase>
-  <testcase name="animalSectionQuestionsCorrect" classname="com.egs.rjsf.e2e.ReviewPageE2ETest" time="4.352">
-    <system-out><![CDATA[2026-04-12T14:20:24.869-04:00  WARN 99860 --- [rjsf-form-service] [           main] o.o.selenium.devtools.CdpVersionFinder   : Unable to find CDP implementation matching 146
-2026-04-12T14:20:24.869-04:00  WARN 99860 --- [rjsf-form-service] [           main] o.o.selenium.chromium.ChromiumDriver     : Unable to find version of CDP to use for 146.0.7680.180. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.27.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  <testcase name="animalSectionQuestionsCorrect" classname="com.egs.rjsf.e2e.ReviewPageE2ETest" time="4.309">
+    <system-out><![CDATA[2026-04-13T13:50:06.739-04:00  WARN 36901 --- [rjsf-form-service] [           main] o.o.selenium.devtools.CdpVersionFinder   : Unable to find CDP implementation matching 146
+2026-04-13T13:50:06.739-04:00  WARN 36901 --- [rjsf-form-service] [           main] o.o.selenium.chromium.ChromiumDriver     : Unable to find version of CDP to use for 146.0.7680.180. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.27.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
 ]]></system-out>
   </testcase>
-  <testcase name="humanReviewSubsectionsPresent" classname="com.egs.rjsf.e2e.ReviewPageE2ETest" time="4.303">
-    <system-out><![CDATA[2026-04-12T14:20:29.220-04:00  WARN 99860 --- [rjsf-form-service] [           main] o.o.selenium.devtools.CdpVersionFinder   : Unable to find CDP implementation matching 146
-2026-04-12T14:20:29.220-04:00  WARN 99860 --- [rjsf-form-service] [           main] o.o.selenium.chromium.ChromiumDriver     : Unable to find version of CDP to use for 146.0.7680.180. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.27.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  <testcase name="humanReviewGroupPresent" classname="com.egs.rjsf.e2e.ReviewPageE2ETest" time="4.273">
+    <system-out><![CDATA[2026-04-13T13:50:11.022-04:00  WARN 36901 --- [rjsf-form-service] [           main] o.o.selenium.devtools.CdpVersionFinder   : Unable to find CDP implementation matching 146
+2026-04-13T13:50:11.022-04:00  WARN 36901 --- [rjsf-form-service] [           main] o.o.selenium.chromium.ChromiumDriver     : Unable to find version of CDP to use for 146.0.7680.180. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.27.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
 ]]></system-out>
   </testcase>
-  <testcase name="acquisitionSubsectionsPresent" classname="com.egs.rjsf.e2e.ReviewPageE2ETest" time="4.305">
-    <failure message="&#10;Expecting actual:&#10;  &quot;Joshua Phipps — SO, CDMRP&#10;Logout&#10;Summary&#10;Details&#10;Tools&#10;Research Classifications&#10;PreAward Review&#10;Agreement Details&#10;Regulatory Details&#10;Deliverables and Progress Reports&#10;Closeout&#10;Document Management&#10;Award Management → Negotiation&#10;Return to Search&#10;Under Negotiation/Pre-Award Review&#10;Quick Search&#10;Award Summary&#10;Pre-Award Compliance &amp; Negotiations Review&#10;Pre-Award Overview&#10;In Progress&#10;A. Safety Requirements Review&#10;In Progress&#10;B. Animal Research Review Requirements&#10;In Progress&#10;C. Human Research Review Requirements&#10;In Progress&#10;D. Acquisition/Contracting Review&#10;In Progress&#10;1. Budget Review&#10;In Progress&#10;2. Peer and Programmatic Review Recommendations&#10;Not Started&#10;3. Statement of Work Related Concerns&#10;Not Started&#10;4. Current and Pending Support (CPS)&#10;Not Started&#10;5. Inclusion Enrollment Report (IER)&#10;Not Started&#10;6. Data Management Plan&#10;Not Started&#10;7. Special Requirements&#10;Not Started&#10;Final Recommendation to Award&#10;In Progress&#10;SO/GOR Notes&#10;Change Log&#10;Reset Checklist (Admin Only)&#10;Form Version: v2&#10;v2 (current)&#10;Document and File Management&#10;Add File&#10;Add Note&#10;Uploaded files and notes will appear here.&quot;&#10;to contain at least one of the following elements:&#10;  [&quot;Personnel&quot;, &quot;Equipment&quot;, &quot;Travel&quot;, &quot;Materials&quot;]&#10;but none were found " type="java.lang.AssertionError"><![CDATA[java.lang.AssertionError: 
-
-Expecting actual:
-  "Joshua Phipps — SO, CDMRP
-Logout
-Summary
-Details
-Tools
-Research Classifications
-PreAward Review
-Agreement Details
-Regulatory Details
-Deliverables and Progress Reports
-Closeout
-Document Management
-Award Management → Negotiation
-Return to Search
-Under Negotiation/Pre-Award Review
-Quick Search
-Award Summary
-Pre-Award Compliance & Negotiations Review
-Pre-Award Overview
-In Progress
-A. Safety Requirements Review
-In Progress
-B. Animal Research Review Requirements
-In Progress
-C. Human Research Review Requirements
-In Progress
-D. Acquisition/Contracting Review
-In Progress
-1. Budget Review
-In Progress
-2. Peer and Programmatic Review Recommendations
-Not Started
-3. Statement of Work Related Concerns
-Not Started
-4. Current and Pending Support (CPS)
-Not Started
-5. Inclusion Enrollment Report (IER)
-Not Started
-6. Data Management Plan
-Not Started
-7. Special Requirements
-Not Started
-Final Recommendation to Award
-In Progress
-SO/GOR Notes
-Change Log
-Reset Checklist (Admin Only)
-Form Version: v2
-v2 (current)
-Document and File Management
-Add File
-Add Note
-Uploaded files and notes will appear here."
-to contain at least one of the following elements:
-  ["Personnel", "Equipment", "Travel", "Materials"]
-but none were found 
-	at com.egs.rjsf.e2e.ReviewPageE2ETest.acquisitionSubsectionsPresent(ReviewPageE2ETest.java:90)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
-]]></failure>
-    <system-out><![CDATA[2026-04-12T14:20:33.502-04:00  WARN 99860 --- [rjsf-form-service] [           main] o.o.selenium.devtools.CdpVersionFinder   : Unable to find CDP implementation matching 146
-2026-04-12T14:20:33.502-04:00  WARN 99860 --- [rjsf-form-service] [           main] o.o.selenium.chromium.ChromiumDriver     : Unable to find version of CDP to use for 146.0.7680.180. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.27.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  <testcase name="acquisitionGroupPresent" classname="com.egs.rjsf.e2e.ReviewPageE2ETest" time="4.443">
+    <system-out><![CDATA[2026-04-13T13:50:15.318-04:00  WARN 36901 --- [rjsf-form-service] [           main] o.o.selenium.devtools.CdpVersionFinder   : Unable to find CDP implementation matching 146
+2026-04-13T13:50:15.318-04:00  WARN 36901 --- [rjsf-form-service] [           main] o.o.selenium.chromium.ChromiumDriver     : Unable to find version of CDP to use for 146.0.7680.180. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.27.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
 ]]></system-out>
   </testcase>
-  <testcase name="finalRecommendationQuestionsCorrect" classname="com.egs.rjsf.e2e.ReviewPageE2ETest" time="4.166">
-    <system-out><![CDATA[2026-04-12T14:20:37.832-04:00  WARN 99860 --- [rjsf-form-service] [           main] o.o.selenium.devtools.CdpVersionFinder   : Unable to find CDP implementation matching 146
-2026-04-12T14:20:37.832-04:00  WARN 99860 --- [rjsf-form-service] [           main] o.o.selenium.chromium.ChromiumDriver     : Unable to find version of CDP to use for 146.0.7680.180. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.27.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  <testcase name="finalRecommendationQuestionsCorrect" classname="com.egs.rjsf.e2e.ReviewPageE2ETest" time="4.31">
+    <system-out><![CDATA[2026-04-13T13:50:19.769-04:00  WARN 36901 --- [rjsf-form-service] [           main] o.o.selenium.devtools.CdpVersionFinder   : Unable to find CDP implementation matching 146
+2026-04-13T13:50:19.769-04:00  WARN 36901 --- [rjsf-form-service] [           main] o.o.selenium.chromium.ChromiumDriver     : Unable to find version of CDP to use for 146.0.7680.180. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.27.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
 ]]></system-out>
   </testcase>
-  <testcase name="userDisplayNameVisible" classname="com.egs.rjsf.e2e.ReviewPageE2ETest" time="2.784">
-    <system-out><![CDATA[2026-04-12T14:20:41.957-04:00  WARN 99860 --- [rjsf-form-service] [           main] o.o.selenium.devtools.CdpVersionFinder   : Unable to find CDP implementation matching 146
-2026-04-12T14:20:41.957-04:00  WARN 99860 --- [rjsf-form-service] [           main] o.o.selenium.chromium.ChromiumDriver     : Unable to find version of CDP to use for 146.0.7680.180. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.27.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  <testcase name="userDisplayNameVisible" classname="com.egs.rjsf.e2e.ReviewPageE2ETest" time="2.695">
+    <system-out><![CDATA[2026-04-13T13:50:24.096-04:00  WARN 36901 --- [rjsf-form-service] [           main] o.o.selenium.devtools.CdpVersionFinder   : Unable to find CDP implementation matching 146
+2026-04-13T13:50:24.096-04:00  WARN 36901 --- [rjsf-form-service] [           main] o.o.selenium.chromium.ChromiumDriver     : Unable to find version of CDP to use for 146.0.7680.180. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.27.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
 ]]></system-out>
   </testcase>
 </testsuite>

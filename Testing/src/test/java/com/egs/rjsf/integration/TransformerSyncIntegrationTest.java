@@ -90,6 +90,10 @@ class TransformerSyncIntegrationTest {
     @Order(3)
     @DisplayName("Safety save writes to form_pre_award_safety table")
     void safetySyncToRelational() throws Exception {
+        // Reset safety section in case a prior test run submitted it
+        mvc.perform(put("/api/form-submissions/{id}/reset", submissionId)
+                .param("section", "safety_review"));
+
         String body = """
                 {
                     "form_data": {

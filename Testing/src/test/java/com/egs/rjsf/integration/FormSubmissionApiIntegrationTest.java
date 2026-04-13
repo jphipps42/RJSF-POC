@@ -77,8 +77,12 @@ class FormSubmissionApiIntegrationTest {
 
     @Test
     @Order(3)
-    @DisplayName("PUT /save?section=safety_review saves safety data")
+    @DisplayName("PUT /save?section=safety_review saves safety data (resets if locked)")
     void saveDraftSafety() throws Exception {
+        // Reset safety section in case a prior test run submitted it
+        mvc.perform(put("/api/form-submissions/{id}/reset", submissionId)
+                .param("section", "safety_review"));
+
         String body = """
                 {
                     "form_data": {
