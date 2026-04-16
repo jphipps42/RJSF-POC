@@ -82,6 +82,15 @@ export const getPageLayoutVersion = (formId, version) =>
 export const getSubmissionForEdit = (id) => api.get(`/form-submissions/${id}/for-edit`);
 export const getSubmissionAudit = (id) => api.get(`/form-submissions/${id}/audit`);
 
+// Export (PDF / HTML)
+export const generateExport = (awardId) => api.post(`/export/generate/${awardId}`);
+export const getExportPdfUrl = (awardNumber) => `${API_BASE}/export/pdf/${encodeURIComponent(awardNumber)}`;
+export const getExportHtmlUrl = (awardNumber) => `${API_BASE}/export/html/${encodeURIComponent(awardNumber)}`;
+
+// Sync Mode
+export const getSyncMode = () => api.get('/sync-mode');
+export const setSyncMode = (mode) => api.put('/sync-mode', { mode });
+
 // Auth
 export const login = (username, password) => api.post('/auth/login', { username, password });
 export const getMe = (userId) => api.get('/auth/me', { headers: { 'X-User-Id': userId } });

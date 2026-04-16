@@ -8,7 +8,7 @@ import com.egs.rjsf.entity.FormSubmission;
 import com.egs.rjsf.repository.FormConfigurationRepository;
 import com.egs.rjsf.repository.FormSchemaVersionRepository;
 import com.egs.rjsf.repository.FormSubmissionRepository;
-import com.egs.rjsf.transformer.service.SubmissionWriteService;
+import com.egs.rjsf.service.sync.RelationalSyncStrategyManager;
 import com.egs.rjsf.util.MigrationEngine;
 import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
@@ -28,18 +28,18 @@ public class FormSubmissionService {
     private final FormSchemaVersionRepository formSchemaVersionRepository;
     private final FormConfigurationRepository formConfigurationRepository;
     private final MigrationEngine migrationEngine;
-    private final SubmissionWriteService transformerWriteService;
+    private final RelationalSyncStrategyManager syncStrategyManager;
 
     public FormSubmissionService(FormSubmissionRepository formSubmissionRepository,
                                  FormSchemaVersionRepository formSchemaVersionRepository,
                                  FormConfigurationRepository formConfigurationRepository,
                                  MigrationEngine migrationEngine,
-                                 SubmissionWriteService transformerWriteService) {
+                                 RelationalSyncStrategyManager syncStrategyManager) {
         this.formSubmissionRepository = formSubmissionRepository;
         this.formSchemaVersionRepository = formSchemaVersionRepository;
         this.formConfigurationRepository = formConfigurationRepository;
         this.migrationEngine = migrationEngine;
-        this.transformerWriteService = transformerWriteService;
+        this.syncStrategyManager = syncStrategyManager;
     }
 
     public List<SubmissionWithSchemaDto> findByAwardId(UUID awardId) {
@@ -252,7 +252,7 @@ public class FormSubmissionService {
                 log.debug("No transformer template mapped for section '{}', skipping", sectionId);
                 return;
             }
-            transformerWriteService.writeSection(
+            syncStrategyManager.getActiveStrategy().writeSection(
                     formId,
                     submission.getAwardId(),
                     submission.getFormData(),
@@ -260,8 +260,8 @@ public class FormSubmissionService {
                     null
             );
         } catch (Exception e) {
-            log.warn("Transformer sync failed for submission {} section '{}': {}",
-                    submission.getId(), sectionId, e.getMessage(), e);
+            log.warn("Relational sync ({}) failed for submission {} section '{}': {}",
+                    syncStrategyManager.getActiveMode(), submission.getId(), sectionId, e.getMessage(), e);
         }
     }
 
