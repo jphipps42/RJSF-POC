@@ -1,11 +1,11 @@
 import { useRef, useState, useCallback, useEffect } from 'react';
-import { Box, Typography, Divider, Snackbar, Alert } from '@mui/material';
+import { Box, Typography, Button, Divider, Snackbar, Alert } from '@mui/material';
 import SectionPanel from './SectionPanel';
 import SectionGroup from './SectionGroup';
 import LinkedFilesPanel from './LinkedFilesPanel';
 import PersonnelDataGrid from './PersonnelDataGrid';
 import manifest from '../schemas/section-manifest.json';
-import { saveFormDraft, submitForm } from '../services/api';
+import { saveFormDraft, submitForm, generateExport } from '../services/api';
 import { useAuth } from '../contexts/AuthContext';
 
 // Dynamically import all section schemas and uiSchemas
@@ -95,6 +95,19 @@ export default function CompositeForm({
   // Use a ref to always have the latest formData for async save operations (avoids stale closures)
   const formDataRef = useRef(formData);
   useEffect(() => { formDataRef.current = formData; }, [formData]);
+
+  // Warn user about unsaved data when navigating away or closing the tab
+  useEffect(() => {
+    const hasUnsaved = Object.values(dirtyFlags).some(Boolean);
+    const handler = (e) => {
+      if (hasUnsaved) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    };
+    window.addEventListener('beforeunload', handler);
+    return () => window.removeEventListener('beforeunload', handler);
+  }, [dirtyFlags]);
 
   // Track previous personnel state for auto-save on any mutation (add, edit, delete)
   const prevPersonnelRef = useRef(JSON.stringify(formData?.personnel || []));
@@ -337,7 +350,31 @@ export default function CompositeForm({
                 saveToBackend(updated, 'animal_review');
               },
             } :
+            section.id === 'final_recommendation' ? {
+              onSendToGor: () => {
+                handleSectionSave('final_recommendation');
+                setSnackbar({ open: true, message: 'Recommendation sent to GOR/COR.', severity: 'success' });
+              },
+              onSubmitToDhaca: async () => {
+                try {
+                  await handleSectionSave('final_recommendation');
+                  await generateExport(award?.id);
+                  setSnackbar({ open: true, message: 'Recommendation submitted to DHACA R&D. PDF and HTML generated.', severity: 'success' });
+                } catch (err) {
+                  setSnackbar({ open: true, message: err.response?.data?.error || 'Export generation failed.', severity: 'error' });
+                }
+              },
+            } :
             undefined
+          }
+          headerContent={
+            section.id === 'final_recommendation' ? (
+              <LinkedFilesPanel
+                awardId={award?.id}
+                linkedFiles={linkedFiles}
+                onLinkedFilesChange={onLinkedFilesChange}
+              />
+            ) : undefined
           }
         >
           {/* Render PersonnelDataGrid directly below overview form fields */}
@@ -349,14 +386,6 @@ export default function CompositeForm({
               disabled={sectionStatus[section.id] === 'submitted'}
               schema={{ title: 'Project Personnel' }}
               formContext={{ primeAwardType: formData?.prime_award_type, awardId: award?.id }}
-            />
-          )}
-          {/* Render LinkedFilesPanel inside the Final Recommendation accordion */}
-          {section.id === 'final_recommendation' && (
-            <LinkedFilesPanel
-              awardId={award?.id}
-              linkedFiles={linkedFiles}
-              onLinkedFilesChange={onLinkedFilesChange}
             />
           )}
         </SectionPanel>

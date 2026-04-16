@@ -6,7 +6,8 @@ import com.egs.rjsf.repository.FormConfigurationRepository;
 import com.egs.rjsf.repository.FormSchemaVersionRepository;
 import com.egs.rjsf.repository.FormSubmissionRepository;
 import com.egs.rjsf.service.FormSubmissionService;
-import com.egs.rjsf.transformer.service.SubmissionWriteService;
+import com.egs.rjsf.service.sync.RelationalSyncStrategy;
+import com.egs.rjsf.service.sync.RelationalSyncStrategyManager;
 import com.egs.rjsf.util.MigrationEngine;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,8 +15,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -33,9 +32,10 @@ class FormSubmissionServiceTest {
     @Mock private FormSchemaVersionRepository schemaVersionRepo;
     @Mock private FormConfigurationRepository formConfigRepo;
     @Mock private MigrationEngine migrationEngine;
-    @Mock private SubmissionWriteService transformerWriteService;
+    @Mock private RelationalSyncStrategyManager syncStrategyManager;
+    @Mock private RelationalSyncStrategy activeStrategy;
 
-    @InjectMocks private FormSubmissionService service;
+    private FormSubmissionService service;
 
     private UUID submissionId;
     private UUID awardId;
@@ -46,6 +46,10 @@ class FormSubmissionServiceTest {
 
     @BeforeEach
     void setUp() {
+        service = new FormSubmissionService(
+                submissionRepo, schemaVersionRepo, formConfigRepo,
+                migrationEngine, syncStrategyManager);
+
         submissionId = UUID.randomUUID();
         awardId = UUID.randomUUID();
         formConfigId = UUID.randomUUID();
@@ -125,16 +129,17 @@ class FormSubmissionServiceTest {
         }
 
         @Test
-        @DisplayName("calls transformer sync after save")
-        void callsTransformerSync() {
+        @DisplayName("calls relational sync strategy after save")
+        void callsRelationalSync() {
             when(submissionRepo.findById(submissionId)).thenReturn(Optional.of(submission));
             when(schemaVersionRepo.findByFormIdAndIsCurrentTrue(formConfigId))
                     .thenReturn(Optional.of(schemaVersion));
             when(submissionRepo.save(any())).thenAnswer(inv -> inv.getArgument(0));
+            when(syncStrategyManager.getActiveStrategy()).thenReturn(activeStrategy);
 
             service.saveDraft(submissionId, Map.of("pi_budget", 500), "overview");
 
-            verify(transformerWriteService).writeSection(
+            verify(activeStrategy).writeSection(
                     eq("pre-award-overview"),
                     eq(awardId),
                     any(),
@@ -144,14 +149,16 @@ class FormSubmissionServiceTest {
         }
 
         @Test
-        @DisplayName("transformer failure does not prevent JSONB save")
-        void transformerFailureDoesNotBreakSave() {
+        @DisplayName("relational sync failure does not prevent JSONB save")
+        void syncFailureDoesNotBreakSave() {
             when(submissionRepo.findById(submissionId)).thenReturn(Optional.of(submission));
             when(schemaVersionRepo.findByFormIdAndIsCurrentTrue(formConfigId))
                     .thenReturn(Optional.of(schemaVersion));
             when(submissionRepo.save(any())).thenAnswer(inv -> inv.getArgument(0));
+            when(syncStrategyManager.getActiveStrategy()).thenReturn(activeStrategy);
+            when(syncStrategyManager.getActiveMode()).thenReturn("MAPPER");
             doThrow(new RuntimeException("DB connection failed"))
-                    .when(transformerWriteService).writeSection(any(), any(), any(), any(), any());
+                    .when(activeStrategy).writeSection(any(), any(), any(), any(), any());
 
             FormSubmission result = service.saveDraft(submissionId, Map.of("pi_budget", 500), "overview");
 

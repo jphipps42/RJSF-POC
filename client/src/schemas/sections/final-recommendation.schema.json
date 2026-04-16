@@ -33,6 +33,10 @@
       "title": "SO Comments",
       "description": "RISG approval = Yes required to send to GOR/COR"
     },
+    "send_to_gor_action": {
+      "type": "boolean",
+      "title": " "
+    },
     "gor_recommendation": {
       "type": "string",
       "title": "GOR/COR Recommendation",
@@ -43,6 +47,10 @@
       "type": "string",
       "title": "GOR/COR Comments",
       "description": "RISG approval = Yes required to submit"
+    },
+    "submit_to_dhaca_action": {
+      "type": "boolean",
+      "title": " "
     }
   }
 }

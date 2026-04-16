@@ -12,12 +12,16 @@ import ProgrammaticRecWidget from './widgets/ProgrammaticRecWidget';
 import BsatReferenceWidget from './widgets/BsatReferenceWidget';
 import ChemicalAgentsWidget from './widgets/ChemicalAgentsWidget';
 import AnimalSpeciesWidget from './widgets/AnimalSpeciesWidget';
+import SendToGorButtonWidget from './widgets/SendToGorButtonWidget';
+import SubmitToDhacaButtonWidget from './widgets/SubmitToDhacaButtonWidget';
 
 const customWidgets = {
   programmaticRec: ProgrammaticRecWidget,
   bsatReference: BsatReferenceWidget,
   chemicalAgents: ChemicalAgentsWidget,
   animalSpecies: AnimalSpeciesWidget,
+  sendToGorButton: SendToGorButtonWidget,
+  submitToDhacaButton: SubmitToDhacaButtonWidget,
 };
 
 const SectionPanel = forwardRef(function SectionPanel({
@@ -36,6 +40,7 @@ const SectionPanel = forwardRef(function SectionPanel({
   expanded,
   onAccordionChange,
   formContext,
+  headerContent,
   children,
 }, ref) {
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -99,6 +104,7 @@ const SectionPanel = forwardRef(function SectionPanel({
           // Radio groups stay full width for horizontal layout
           '& .MuiFormGroup-root': { maxWidth: '100%' },
         }}>
+          {headerContent}
           <Form
             ref={ref}
             tagName="div"

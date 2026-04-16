@@ -11,9 +11,11 @@ import CompositeForm from '../components/CompositeForm';
 import NotesPanel from '../components/NotesPanel';
 import RightPanel from '../components/RightPanel';
 import ResetModal from '../components/ResetModal';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import CodeIcon from '@mui/icons-material/Code';
 import {
   getAwardByLog, getFormConfiguration, getSchemaVersions,
-  getSyncMode, setSyncMode,
+  getSyncMode, setSyncMode, getExportPdfUrl, getExportHtmlUrl,
 } from '../services/api';
 
 export default function ReviewPage() {
@@ -24,7 +26,8 @@ export default function ReviewPage() {
   const [linkedFiles, setLinkedFiles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [rightPanelCollapsed, setRightPanelCollapsed] = useState(false);
+  // 3-state panel layout: 'both' | 'hide-right' | 'hide-left'
+  const [panelMode, setPanelMode] = useState('both');
   const [resetModalOpen, setResetModalOpen] = useState(false);
 
   // Page layout versioning
@@ -141,7 +144,7 @@ export default function ReviewPage() {
       {/* Main Content */}
       <Box sx={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
         {/* Left Panel */}
-        <Box sx={{ flex: 1, minWidth: 0, bgcolor: '#f8fafc', borderRight: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        <Box sx={{ flex: panelMode === 'hide-left' ? '0 0 0' : 1, minWidth: 0, bgcolor: '#f8fafc', borderRight: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', overflow: panelMode === 'hide-left' ? 'hidden' : 'hidden', transition: 'all 0.3s ease' }}>
           <Box sx={{ flex: 1, overflowY: 'auto', p: 2 }}>
             <Typography variant="h6" sx={{ fontWeight: 700, fontSize: 14, mb: 1 }}>
               {reviewHeader}
@@ -162,11 +165,37 @@ export default function ReviewPage() {
             <NotesPanel title="Change Log" />
           </Box>
 
-          {/* Footer: Reset + Version */}
+          {/* Footer: Reset + Export + Version */}
           <Box sx={{ p: 2, borderTop: '1px solid #ddd', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Button variant="contained" color="error" size="small" onClick={() => setResetModalOpen(true)} sx={{ fontSize: 12, fontWeight: 700 }}>
-              Reset Checklist (Admin Only)
-            </Button>
+            <Box sx={{ display: 'flex', gap: 1 }}>
+              <Button variant="contained" color="error" size="small" onClick={() => setResetModalOpen(true)} sx={{ fontSize: 12, fontWeight: 700 }}>
+                Reset Checklist (Admin Only)
+              </Button>
+              <Button
+                variant="outlined"
+                size="small"
+                startIcon={<PictureAsPdfIcon sx={{ fontSize: 14 }} />}
+                onClick={() => {
+                  const num = award?.award_number || award?.log_number;
+                  if (num) window.open(getExportPdfUrl(num), '_blank');
+                }}
+                sx={{ fontSize: 11, fontWeight: 600, color: '#dc2626', borderColor: '#dc2626' }}
+              >
+                View PDF
+              </Button>
+              <Button
+                variant="outlined"
+                size="small"
+                startIcon={<CodeIcon sx={{ fontSize: 14 }} />}
+                onClick={() => {
+                  const num = award?.award_number || award?.log_number;
+                  if (num) window.open(getExportHtmlUrl(num), '_blank');
+                }}
+                sx={{ fontSize: 11, fontWeight: 600, color: '#428bca', borderColor: '#428bca' }}
+              >
+                View HTML
+              </Button>
+            </Box>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                 <Typography sx={{ fontSize: 11, color: '#a6a6a8' }}>Sync:</Typography>
@@ -199,7 +228,7 @@ export default function ReviewPage() {
         </Box>
 
         {/* Right Panel */}
-        <RightPanel collapsed={rightPanelCollapsed} onToggle={() => setRightPanelCollapsed(!rightPanelCollapsed)} />
+        <RightPanel panelMode={panelMode} onPanelModeChange={setPanelMode} />
       </Box>
 
       <ResetModal

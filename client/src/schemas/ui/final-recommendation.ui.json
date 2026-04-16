@@ -21,6 +21,9 @@
       "rows": 3
     }
   },
+  "send_to_gor_action": {
+    "ui:widget": "sendToGorButton"
+  },
   "gor_recommendation": {
     "ui:widget": "select",
     "ui:enumNames": [
@@ -33,5 +36,19 @@
     "ui:options": {
       "rows": 3
     }
-  }
+  },
+  "submit_to_dhaca_action": {
+    "ui:widget": "submitToDhacaButton"
+  },
+  "ui:order": [
+    "scientific_overlap",
+    "foreign_involvement",
+    "risg_approval",
+    "so_recommendation",
+    "so_comments",
+    "send_to_gor_action",
+    "gor_recommendation",
+    "gor_comments",
+    "submit_to_dhaca_action"
+  ]
 }

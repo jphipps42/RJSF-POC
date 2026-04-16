@@ -1,13 +1,13 @@
-com/egs/rjsf/unit/transformer/TransformerTemplateTest.class
 com/egs/rjsf/unit/service/FormSubmissionServiceTest.class
-com/egs/rjsf/unit/transformer/TypeCoercionServiceTest.class
 com/egs/rjsf/unit/service/FormSubmissionServiceTest$Submit.class
 com/egs/rjsf/integration/AwardApiIntegrationTest.class
 com/egs/rjsf/unit/transformer/PathResolverTest.class
 com/egs/rjsf/e2e/FormSaveE2ETest.class
+com/egs/rjsf/e2e/ReviewPageE2ETest.class
+com/egs/rjsf/unit/transformer/TransformerTemplateTest.class
+com/egs/rjsf/unit/transformer/TypeCoercionServiceTest.class
 com/egs/rjsf/integration/TransformerSyncIntegrationTest.class
 com/egs/rjsf/unit/service/FormSubmissionServiceTest$SaveDraft.class
 com/egs/rjsf/e2e/BaseE2ETest.class
 com/egs/rjsf/integration/FormSubmissionApiIntegrationTest.class
-com/egs/rjsf/e2e/ReviewPageE2ETest.class
 com/egs/rjsf/unit/service/FormSubmissionServiceTest$Reset.class
