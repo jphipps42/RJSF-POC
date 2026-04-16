@@ -76,7 +76,7 @@ function FileGrid({ files, sectionKey, onUpdate, onDelete, catalogItems }) {
               </>
             ) : (
               <>
-                <IconButton size="small" onClick={() => startEdit(f)} sx={{ color: '#1d4ed8' }}><EditIcon fontSize="small" /></IconButton>
+                <IconButton size="small" onClick={() => startEdit(f)} sx={{ color: '#2158c6' }}><EditIcon fontSize="small" /></IconButton>
                 <IconButton size="small" onClick={() => handleDelete(f.id)} disabled={saving} sx={{ color: '#dc2626' }}><DeleteIcon fontSize="small" /></IconButton>
               </>
             )}</TableCell>
@@ -166,14 +166,14 @@ export default function LinkedFilesPanel({ awardId, linkedFiles, onLinkedFilesCh
         {FILE_SECTIONS.map(({ key, label }) => (
           <Box key={key} sx={{ mb: 1.5, p: 1.5, border: '1px solid #c7ddf8', borderRadius: 2, bgcolor: '#f9fbff' }}>
             <Typography sx={{ fontWeight: 600, fontSize: 14, mb: 0.5 }}>{label}</Typography>
-            <Button variant="contained" size="small" onClick={() => openAddModal(key)} sx={{ bgcolor: '#007bff', fontSize: 11 }}>Link File(s)</Button>
+            <Button variant="contained" size="small" onClick={() => openAddModal(key)} sx={{ bgcolor: '#428bca', fontSize: 11 }}>Link File(s)</Button>
             <FileGrid files={files} sectionKey={key} onUpdate={handleFileUpdate} onDelete={handleFileDelete} catalogItems={catalogItems} />
           </Box>
         ))}
       </Paper>
 
       <Dialog open={addOpen} onClose={() => setAddOpen(false)} maxWidth="sm" fullWidth>
-        <DialogTitle sx={{ bgcolor: '#2563eb', color: '#fff' }}>Link File &mdash; {sectionLabel(addSection)}</DialogTitle>
+        <DialogTitle sx={{ bgcolor: '#428bca', color: '#fff' }}>Link File &mdash; {sectionLabel(addSection)}</DialogTitle>
         <DialogContent sx={{ pt: 3, display: 'flex', flexDirection: 'column', gap: 2, mt: 1 }}>
           <Box>
             <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600 }}>File Name *</Typography>
@@ -188,7 +188,7 @@ export default function LinkedFilesPanel({ awardId, linkedFiles, onLinkedFilesCh
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2 }}>
           <Button onClick={() => setAddOpen(false)}>Cancel</Button>
-          <Button variant="contained" onClick={handleAddFile} disabled={saving} sx={{ bgcolor: '#2563eb' }}>{saving ? 'Saving...' : 'Link File'}</Button>
+          <Button variant="contained" onClick={handleAddFile} disabled={saving} sx={{ bgcolor: '#428bca' }}>{saving ? 'Saving...' : 'Link File'}</Button>
         </DialogActions>
       </Dialog>
 

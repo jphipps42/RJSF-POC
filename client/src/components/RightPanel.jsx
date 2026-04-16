@@ -12,12 +12,12 @@ export default function RightPanel({ collapsed, onToggle }) {
           top: '50%',
           right: collapsed ? 10 : 610,
           transform: 'translateY(-50%)',
-          bgcolor: '#2563eb',
+          bgcolor: '#428bca',
           color: 'white',
           borderRadius: '6px 0 0 6px',
           zIndex: 1000,
           transition: 'right 0.3s ease',
-          '&:hover': { bgcolor: '#1d4ed8' },
+          '&:hover': { bgcolor: '#2158c6' },
         }}
       >
         {collapsed ? <ChevronLeftIcon /> : <ChevronRightIcon />}
@@ -37,11 +37,11 @@ export default function RightPanel({ collapsed, onToggle }) {
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1.5 }}>
               <Typography variant="h6">Document and File Management</Typography>
               <Box sx={{ display: 'flex', gap: 1 }}>
-                <Button variant="contained" size="small" sx={{ bgcolor: '#2563eb' }}>Add File</Button>
-                <Button variant="outlined" size="small" sx={{ bgcolor: '#bfdbfe', color: '#0a2540', borderColor: '#bfdbfe' }}>Add Note</Button>
+                <Button variant="contained" size="small" sx={{ bgcolor: '#428bca' }}>Add File</Button>
+                <Button variant="outlined" size="small" sx={{ bgcolor: '#c5daea', color: '#2C3E50', borderColor: '#c5daea' }}>Add Note</Button>
               </Box>
             </Box>
-            <Typography sx={{ color: '#64748b', fontStyle: 'italic' }}>
+            <Typography sx={{ color: '#a6a6a8', fontStyle: 'italic' }}>
               Uploaded files and notes will appear here.
             </Typography>
           </>

@@ -12,7 +12,7 @@ export default function GlobalHeader() {
   };
 
   return (
-    <AppBar position="static" sx={{ bgcolor: '#1E4489', height: 40, justifyContent: 'center' }}>
+    <AppBar position="static" sx={{ bgcolor: '#2C3E50', height: 40, justifyContent: 'center' }}>
       <Toolbar variant="dense" sx={{ minHeight: 40, px: 2, justifyContent: 'space-between' }}>
         <Box component="img" src="/egs-banner.png" alt="EGS Platform" sx={{ height: 40, mr: 2 }} />
         {user && (
@@ -23,7 +23,7 @@ export default function GlobalHeader() {
             <Button
               size="small"
               onClick={handleLogout}
-              sx={{ color: '#93c5fd', fontSize: 11, minWidth: 0, '&:hover': { color: '#fff' } }}
+              sx={{ color: '#a6a6a8', fontSize: 11, minWidth: 0, '&:hover': { color: '#fff' } }}
             >
               Logout
             </Button>

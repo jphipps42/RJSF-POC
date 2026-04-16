@@ -60,7 +60,7 @@ export default function ChemicalAgentsWidget(props) {
       </Button>
 
       <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth>
-        <DialogTitle sx={{ bgcolor: '#2563eb', color: '#fff' }}>Chemical Agents</DialogTitle>
+        <DialogTitle sx={{ bgcolor: '#428bca', color: '#fff' }}>Chemical Agents</DialogTitle>
         <DialogContent sx={{ pt: 2 }}>
           <Typography sx={{ fontSize: 13, mb: 1 }}>
             The following are examples of chemical agents that may require additional review or approval.

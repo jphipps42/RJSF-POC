@@ -61,16 +61,16 @@ const SectionPanel = forwardRef(function SectionPanel({
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           sx={{
-            bgcolor: '#e7f1ff', '&:hover': { bgcolor: '#dbeafe' },
+            bgcolor: '#e8f0f8', '&:hover': { bgcolor: '#d6e6f5' },
             '&.Mui-expanded': {
-              bgcolor: '#bfdbfe', border: '2px solid #2563eb',
-              boxShadow: '0 0 0 3px rgba(37,99,235,0.1)',
+              bgcolor: '#c5daea', border: '2px solid #428bca',
+              boxShadow: '0 0 0 3px rgba(66,139,202,0.1)',
             },
           }}
         >
           <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center', pr: 1 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <Typography sx={{ fontWeight: 700, color: '#0a2540', fontSize: '0.85rem' }}>
+              <Typography sx={{ fontWeight: 700, color: '#2C3E50', fontSize: '0.85rem' }}>
                 {title}
               </Typography>
               {dirty && saveStatus === 'idle' && (
@@ -126,7 +126,7 @@ const SectionPanel = forwardRef(function SectionPanel({
                 onClick={onSave}
                 disabled={!dirty || saving}
                 size="small"
-                sx={{ bgcolor: '#60a5fa', '&:hover': { bgcolor: '#3b82f6' } }}
+                sx={{ bgcolor: '#428bca', '&:hover': { bgcolor: '#2158c6' } }}
               >
                 {saving ? 'Saving...' : 'Save Draft'}
               </Button>
@@ -136,7 +136,7 @@ const SectionPanel = forwardRef(function SectionPanel({
                   onClick={() => setConfirmOpen(true)}
                   disabled={saving}
                   size="small"
-                  sx={{ bgcolor: '#2563eb', '&:hover': { bgcolor: '#1d4ed8' } }}
+                  sx={{ bgcolor: '#428bca', '&:hover': { bgcolor: '#2158c6' } }}
                 >
                   {submitLabel}
                 </Button>
@@ -153,7 +153,7 @@ const SectionPanel = forwardRef(function SectionPanel({
       </Accordion>
 
       <Dialog open={confirmOpen} onClose={() => setConfirmOpen(false)}>
-        <DialogTitle sx={{ bgcolor: '#2563eb', color: '#fff' }}>Confirm Submission</DialogTitle>
+        <DialogTitle sx={{ bgcolor: '#428bca', color: '#fff' }}>Confirm Submission</DialogTitle>
         <DialogContent sx={{ pt: 3 }}>
           <Typography>Submit this section? This will lock the section.</Typography>
           <Typography variant="body2" sx={{ mt: 1, color: '#666' }}>
@@ -162,7 +162,7 @@ const SectionPanel = forwardRef(function SectionPanel({
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setConfirmOpen(false)}>Cancel</Button>
-          <Button variant="contained" onClick={() => { setConfirmOpen(false); onSubmit?.(); }} sx={{ bgcolor: '#2563eb' }}>
+          <Button variant="contained" onClick={() => { setConfirmOpen(false); onSubmit?.(); }} sx={{ bgcolor: '#428bca' }}>
             Yes, Submit
           </Button>
         </DialogActions>

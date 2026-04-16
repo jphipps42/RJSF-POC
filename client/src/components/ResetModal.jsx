@@ -86,7 +86,7 @@ export default function ResetModal({ open, onClose, submissions, onReset }) {
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle sx={{ bgcolor: '#2563eb', color: '#fff' }}>Reset Checklist (Admin Only)</DialogTitle>
+      <DialogTitle sx={{ bgcolor: '#428bca', color: '#fff' }}>Reset Checklist (Admin Only)</DialogTitle>
       <DialogContent sx={{ pt: 3 }}>
         <Typography sx={{ mb: 1, fontSize: 13 }}>
           Unlock submitted sections so users can make updates. Data is preserved.
@@ -154,7 +154,7 @@ export default function ResetModal({ open, onClose, submissions, onReset }) {
         </Alert>
       </DialogContent>
       <DialogActions>
-        <Button variant="contained" onClick={onClose} sx={{ bgcolor: '#2563eb' }}>Close</Button>
+        <Button variant="contained" onClick={onClose} sx={{ bgcolor: '#428bca' }}>Close</Button>
       </DialogActions>
     </Dialog>
   );

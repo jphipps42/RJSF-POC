@@ -8,12 +8,12 @@ const NAV_ITEMS = [
 
 export default function TopNav() {
   return (
-    <Box sx={{ bgcolor: '#1d4ed8', px: 2, py: 1, display: 'flex', gap: 2, overflowX: 'auto' }}>
+    <Box sx={{ bgcolor: '#428bca', px: 2, py: 1, display: 'flex', gap: 2, overflowX: 'auto' }}>
       {NAV_ITEMS.map((item) => (
         <Typography
           key={item}
           sx={{
-            color: item === 'PreAward Review' ? '#fff' : '#e0ecff',
+            color: item === 'PreAward Review' ? '#fff' : 'rgba(255,255,255,0.75)',
             fontSize: 14,
             whiteSpace: 'nowrap',
             fontWeight: item === 'PreAward Review' ? 600 : 400,

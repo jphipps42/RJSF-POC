@@ -109,12 +109,12 @@ export default function ReviewPage() {
         <Typography sx={{ fontSize: '0.85em', color: '#475569' }}>
           Award Management &rarr; Negotiation
         </Typography>
-        <Button variant="text" sx={{ color: '#2563eb', fontWeight: 600, p: 0, minWidth: 0, '&:hover': { bgcolor: 'transparent', textDecoration: 'underline' } }}>Return to Search</Button>
+        <Button variant="text" sx={{ color: '#428bca', fontWeight: 600, p: 0, minWidth: 0, '&:hover': { bgcolor: 'transparent', textDecoration: 'underline' } }}>Return to Search</Button>
       </Box>
 
       {/* Status Bar */}
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', px: 2, py: 0.5, bgcolor: '#f9f9f9' }}>
-        <Chip label="Under Negotiation/Pre-Award Review" sx={{ bgcolor: '#FFD700', fontWeight: 700, fontSize: 12 }} />
+        <Chip label="Under Negotiation/Pre-Award Review" sx={{ bgcolor: '#FF9800', fontWeight: 700, fontSize: 12 }} />
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <Typography sx={{ fontWeight: 700, fontSize: 14 }}>Quick Search</Typography>
           <input type="text" placeholder="Enter Log Number or Award" style={{ padding: 5, border: '1px solid #ccc', borderRadius: 3, fontSize: 13 }} />
@@ -154,7 +154,7 @@ export default function ReviewPage() {
             </Button>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
               {selectedVersion && (
-                <Typography sx={{ fontSize: 12, color: '#64748b' }}>Form Version: v{selectedVersion}</Typography>
+                <Typography sx={{ fontSize: 12, color: '#a6a6a8' }}>Form Version: v{selectedVersion}</Typography>
               )}
               {layoutVersions.length > 1 && (
                 <FormControl size="small" sx={{ minWidth: 140 }}>

@@ -10,9 +10,9 @@ export default function NotesPanel({ title = 'SO/GOR Notes', expanded, onAccordi
       <AccordionDetails sx={{ pt: 0 }}>
         <TextField fullWidth multiline rows={3} placeholder="Enter comment..." size="small" />
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1, mt: 1 }}>
-          <Button variant="contained" size="small" sx={{ bgcolor: '#60a5fa' }}>Save</Button>
+          <Button variant="contained" size="small" sx={{ bgcolor: '#428bca' }}>Save</Button>
           {title === 'Change Log' && (
-            <Button variant="contained" size="small" sx={{ bgcolor: '#60a5fa' }}>Submit</Button>
+            <Button variant="contained" size="small" sx={{ bgcolor: '#428bca' }}>Submit</Button>
           )}
         </Box>
       </AccordionDetails>

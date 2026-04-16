@@ -7,14 +7,19 @@ import LoginPage from './pages/LoginPage';
 
 const theme = createTheme({
   typography: {
-    fontFamily: '"Segoe UI", Arial, sans-serif',
+    fontFamily: '"Ubuntu", Arial, sans-serif',
     fontSize: 12,
     body1: { fontSize: '0.82rem' },
     body2: { fontSize: '0.75rem' },
+    h1: { fontSize: '24px', fontWeight: 700 },
+    h2: { fontSize: '21px', fontWeight: 700 },
+    h3: { fontSize: '16px', fontWeight: 400, textTransform: 'uppercase' },
     h6: { fontSize: '1rem' },
   },
   palette: {
+    primary: { main: '#428bca', dark: '#2158c6' },
     background: { default: '#f4f8fc' },
+    text: { primary: '#2C3E50', secondary: '#a6a6a8' },
   },
   components: {
     MuiButton: {
@@ -23,7 +28,7 @@ const theme = createTheme({
         root: {
           textTransform: 'none',
           borderRadius: '4px',
-          fontFamily: '"Segoe UI", Arial, sans-serif',
+          fontFamily: '"Ubuntu", Arial, sans-serif',
         },
         sizeSmall: {
           padding: '3px 8px',

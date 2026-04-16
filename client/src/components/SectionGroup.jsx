@@ -42,15 +42,15 @@ export default function SectionGroup({
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
         sx={{
-          bgcolor: '#e7f1ff', '&:hover': { bgcolor: '#dbeafe' },
+          bgcolor: '#e8f0f8', '&:hover': { bgcolor: '#d6e6f5' },
           '&.Mui-expanded': {
-            bgcolor: '#bfdbfe', border: '2px solid #2563eb',
-            boxShadow: '0 0 0 3px rgba(37,99,235,0.1)',
+            bgcolor: '#c5daea', border: '2px solid #428bca',
+            boxShadow: '0 0 0 3px rgba(66,139,202,0.1)',
           },
         }}
       >
         <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center', pr: 1 }}>
-          <Typography sx={{ fontWeight: 700, color: '#0a2540', fontSize: '0.85rem' }}>
+          <Typography sx={{ fontWeight: 700, color: '#2C3E50', fontSize: '0.85rem' }}>
             {section.title}
           </Typography>
           <StatusBadge status={groupStatus} />

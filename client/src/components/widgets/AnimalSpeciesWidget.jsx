@@ -94,7 +94,7 @@ export default function AnimalSpeciesWidget(props) {
       </Box>
 
       <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth>
-        <DialogTitle sx={{ bgcolor: '#2563eb', color: '#fff' }}>Select Animal Species</DialogTitle>
+        <DialogTitle sx={{ bgcolor: '#428bca', color: '#fff' }}>Select Animal Species</DialogTitle>
         <DialogContent sx={{ pt: 2 }}>
           <FormGroup>
             {SPECIES_OPTIONS.map((species) => (
@@ -117,7 +117,7 @@ export default function AnimalSpeciesWidget(props) {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpen(false)} size="small">Cancel</Button>
-          <Button variant="contained" onClick={handleSave} size="small" sx={{ bgcolor: '#2563eb' }}>
+          <Button variant="contained" onClick={handleSave} size="small" sx={{ bgcolor: '#428bca' }}>
             Save
           </Button>
         </DialogActions>

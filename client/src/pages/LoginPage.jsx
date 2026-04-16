@@ -36,16 +36,16 @@ export default function LoginPage() {
       {/* Header bar */}
       <Box sx={{
         position: 'absolute', top: 0, left: 0, right: 0, height: 40,
-        bgcolor: '#1E4489', display: 'flex', alignItems: 'center', px: 2,
+        bgcolor: '#2C3E50', display: 'flex', alignItems: 'center', px: 2,
       }}>
         <Box component="img" src="/egs-banner.png" alt="EGS Platform" sx={{ height: 40 }} />
       </Box>
 
       <Paper elevation={3} sx={{ p: 4, width: 380, mt: 4, borderRadius: 2 }}>
-        <Typography variant="h5" sx={{ fontWeight: 700, mb: 0.5, color: '#1E4489', textAlign: 'center' }}>
+        <Typography variant="h5" sx={{ fontWeight: 700, mb: 0.5, color: '#2C3E50', textAlign: 'center' }}>
           Award Management System
         </Typography>
-        <Typography sx={{ mb: 3, color: '#64748b', textAlign: 'center', fontSize: 13 }}>
+        <Typography sx={{ mb: 3, color: '#a6a6a8', textAlign: 'center', fontSize: 13 }}>
           Sign in to continue
         </Typography>
 
@@ -76,8 +76,8 @@ export default function LoginPage() {
             fullWidth
             disabled={loading}
             sx={{
-              bgcolor: '#2563eb', fontWeight: 700, py: 1.2,
-              '&:hover': { bgcolor: '#1d4ed8' },
+              bgcolor: '#428bca', fontWeight: 700, py: 1.2,
+              '&:hover': { bgcolor: '#2158c6' },
             }}
           >
             {loading ? 'Signing in...' : 'Sign In'}

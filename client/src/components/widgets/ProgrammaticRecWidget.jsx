@@ -71,7 +71,7 @@ export default function ProgrammaticRecWidget(props) {
       </Button>
 
       <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth>
-        <DialogTitle sx={{ bgcolor: '#2563eb', color: '#fff' }}>Programmatic REC Documents</DialogTitle>
+        <DialogTitle sx={{ bgcolor: '#428bca', color: '#fff' }}>Programmatic REC Documents</DialogTitle>
         <DialogContent sx={{ pt: 3 }}>
           <FormControl size="small" sx={{ mb: 2, minWidth: 160 }}>
             <InputLabel>Filter by Year</InputLabel>
@@ -101,7 +101,7 @@ export default function ProgrammaticRecWidget(props) {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpen(false)} size="small">Cancel</Button>
-          <Button variant="contained" onClick={handleSelect} disabled={!selectedRec} size="small" sx={{ bgcolor: '#2563eb' }}>
+          <Button variant="contained" onClick={handleSelect} disabled={!selectedRec} size="small" sx={{ bgcolor: '#428bca' }}>
             Select
           </Button>
         </DialogActions>

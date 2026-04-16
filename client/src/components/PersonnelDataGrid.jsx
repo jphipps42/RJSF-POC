@@ -16,7 +16,7 @@ import { addPersonnel, updatePersonnel, deletePersonnel } from '../services/api'
 
 const EMPTY_PERSON = { name: '', organization: '', country: 'USA', project_role: '', is_subcontract: false };
 
-const cellSx = { border: '1px solid #93c5fd', p: '4px 6px', fontSize: 11 };
+const cellSx = { border: '1px solid #428bca', p: '4px 6px', fontSize: 11 };
 const headerCellSx = { ...cellSx, fontWeight: 700 };
 const inputSx = { '& .MuiInputBase-input': { fontSize: 11, p: '3px 6px' } };
 
@@ -178,7 +178,7 @@ export default function PersonnelDataGrid({ formData, onChange, readonly, disabl
       </Typography>
 
       <Table size="small" sx={{ '& th, & td': cellSx, mb: 1 }}>
-        <TableHead sx={{ bgcolor: '#c8ddf3' }}>
+        <TableHead sx={{ bgcolor: '#d6e6f5' }}>
           <TableRow>
             <TableCell sx={headerCellSx}>Organization</TableCell>
             <TableCell sx={headerCellSx}>Country</TableCell>
@@ -216,7 +216,7 @@ export default function PersonnelDataGrid({ formData, onChange, readonly, disabl
                     </>
                   ) : (
                     <>
-                      <IconButton size="small" onClick={() => startEdit(idx)} disabled={saving} sx={{ color: '#1d4ed8', p: 0.25 }}>
+                      <IconButton size="small" onClick={() => startEdit(idx)} disabled={saving} sx={{ color: '#2158c6', p: 0.25 }}>
                         <EditIcon sx={{ fontSize: 16 }} />
                       </IconButton>
                       <IconButton size="small" onClick={() => setDeleteConfirmIdx(idx)} disabled={saving} sx={{ color: '#dc2626', p: 0.25 }}>
@@ -229,8 +229,8 @@ export default function PersonnelDataGrid({ formData, onChange, readonly, disabl
                           startIcon={<DescriptionIcon sx={{ fontSize: 12 }} />}
                           sx={{
                             fontSize: 9, py: 0, px: 0.75, ml: 0.5, minWidth: 0,
-                            lineHeight: 1.8, bgcolor: '#e0ecff', color: '#1d4ed8',
-                            borderColor: '#93c5fd', textTransform: 'none',
+                            lineHeight: 1.8, bgcolor: '#e8f0f8', color: '#2158c6',
+                            borderColor: '#428bca', textTransform: 'none',
                           }}
                         >
                           Create Record
@@ -260,7 +260,7 @@ export default function PersonnelDataGrid({ formData, onChange, readonly, disabl
 
       {/* Add Personnel Modal */}
       <Dialog open={addOpen} onClose={() => setAddOpen(false)} maxWidth="sm" fullWidth>
-        <DialogTitle sx={{ bgcolor: '#2563eb', color: '#fff' }}>Add Personnel</DialogTitle>
+        <DialogTitle sx={{ bgcolor: '#428bca', color: '#fff' }}>Add Personnel</DialogTitle>
         <DialogContent sx={{ pt: 3, display: 'flex', flexDirection: 'column', gap: 2, mt: 1 }}>
           <TextField
             label="Name" value={newPerson.name} required fullWidth size="small"
@@ -294,7 +294,7 @@ export default function PersonnelDataGrid({ formData, onChange, readonly, disabl
             variant="contained"
             onClick={saveNewPerson}
             disabled={saving || !newPerson.name || !newPerson.organization || !newPerson.project_role}
-            sx={{ bgcolor: '#2563eb' }}
+            sx={{ bgcolor: '#428bca' }}
           >
             {saving ? 'Adding...' : 'Add Personnel'}
           </Button>
