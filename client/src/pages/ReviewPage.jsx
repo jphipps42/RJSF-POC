@@ -13,6 +13,7 @@ import RightPanel from '../components/RightPanel';
 import ResetModal from '../components/ResetModal';
 import {
   getAwardByLog, getFormConfiguration, getSchemaVersions,
+  getSyncMode, setSyncMode,
 } from '../services/api';
 
 export default function ReviewPage() {
@@ -30,6 +31,9 @@ export default function ReviewPage() {
   const [layoutVersions, setLayoutVersions] = useState([]);
   const [selectedVersion, setSelectedVersion] = useState(null);
   const [layoutConfig, setLayoutConfig] = useState(null);
+
+  // Sync mode toggle (MAPPER vs POJO)
+  const [syncMode, setSyncModeState] = useState('MAPPER');
 
   const fetchData = useCallback(async () => {
     try {
@@ -65,6 +69,7 @@ export default function ReviewPage() {
       }
     }
     loadLayoutVersions();
+    getSyncMode().then((res) => setSyncModeState(res.data.mode)).catch(() => {});
   }, []);
 
   useEffect(() => { fetchData(); }, [fetchData]);
@@ -80,6 +85,16 @@ export default function ReviewPage() {
   };
 
   const handleReset = () => { fetchData(); };
+
+  const handleSyncModeToggle = async () => {
+    const newMode = syncMode === 'MAPPER' ? 'POJO' : 'MAPPER';
+    try {
+      await setSyncMode(newMode);
+      setSyncModeState(newMode);
+    } catch (err) {
+      console.error('Failed to toggle sync mode:', err);
+    }
+  };
 
   const reviewHeader = layoutConfig?.review_header || 'Pre-Award / Negotiations Review';
 
@@ -153,6 +168,20 @@ export default function ReviewPage() {
               Reset Checklist (Admin Only)
             </Button>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                <Typography sx={{ fontSize: 11, color: '#a6a6a8' }}>Sync:</Typography>
+                <Chip
+                  label={syncMode}
+                  onClick={handleSyncModeToggle}
+                  size="small"
+                  sx={{
+                    fontSize: 11, fontWeight: 700, cursor: 'pointer',
+                    bgcolor: syncMode === 'MAPPER' ? '#428bca' : '#FF9800',
+                    color: '#fff',
+                    '&:hover': { opacity: 0.85 },
+                  }}
+                />
+              </Box>
               {selectedVersion && (
                 <Typography sx={{ fontSize: 12, color: '#a6a6a8' }}>Form Version: v{selectedVersion}</Typography>
               )}
