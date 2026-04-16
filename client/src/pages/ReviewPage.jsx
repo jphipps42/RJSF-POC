@@ -67,7 +67,7 @@ export default function ReviewPage() {
     loadLayoutVersions();
   }, []);
 
-  useEffect(() => { fetchData(); }, [fetchData]);
+  useEffect(() => { setLoading(true); setError(null); fetchData(); }, [fetchData]);
 
   const handleVersionChange = (newVersion) => {
     setSelectedVersion(newVersion);

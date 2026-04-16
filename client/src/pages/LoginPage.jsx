@@ -21,7 +21,7 @@ export default function LoginPage() {
     try {
       const res = await login(username, password);
       loginUser(res.data);
-      navigate('/review/TE020005');
+      navigate('/');
     } catch (err) {
       setError(err.response?.data?.error || 'Login failed. Please try again.');
     }

@@ -90,7 +90,7 @@ export default function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path="*" element={<Navigate to="/review/TE020005" />} />
+            <Route path="*" element={<Navigate to="/review/TE020005" replace />} />
           </Routes>
         </BrowserRouter>
       </AuthProvider>
